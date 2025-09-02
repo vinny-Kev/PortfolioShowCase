@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kevin Maglaqui</title>
+  <link rel="stylesheet" href="style/style.css"/>
+  <script>
+    function togglePanel() {
+    const panel = document.getElementById("project-panel");
+    const wrapper = document.getElementById("page-wrapper");
+
+    if (panel.style.width === "250px") {
+        panel.style.width = "0";
+        wrapper.style.marginLeft = "0";
+    } else {
+        panel.style.width = "250px";
+        wrapper.style.marginLeft = "250px";
+    }
+}
+
+
+</script>
+
+</head>
+<body>
+    <div id ="page-wrapper">
+      <div class="banner">
+            <div class="banner-left">
+                <img src="assets/kevin-pfp.png" class="profile-picture">
+                <div class="banner-info">
+                        <h1>Kevin Roy V. Maglaqui</h1>
+                        <p>Backend Developer | ML Engineer | Learner | Builder</p>
+                </div>   
+            </div>
+            
+            <!--TODO: Insert GitHub and LinkedIn links-->
+            <div class="banner-right">
+                <div class="banner-socials">
+                    <a href="https://github.com/YOUR_GITHUB" target="_blank">
+                    <img src="assets/githublogo.webp" alt="GitHub">
+                    </a>
+                    <a href="https://linkedin.com/in/YOUR_LINKEDIN" target="_blank">
+                    <img src="assets/linkedinlogo.webp" alt="LinkedIn">
+                    </a>
+                    <a href="mailto:kevinroymaglaqui29@gmail.com">
+                    <img src="assets/gmaillogo.webp" alt="Email">
+                    </a>
+                </div>
+            </div>
+        </div>
+
+<div id="content">
+  <div class="main">
+    
+    <!-- Intro Card -->
+    <div class="card">
+      <p>
+        Hello! I'm Kevin, I have a strong passion for software engineering with a strong backend
+        experience from academic and independent projects. I love dabbling in Fintech, Cyber Security
+        and Network Administration!
+      </p>
+    </div>
+
+    <!-- Programming Languages -->
+    <!-- Programming Languages -->
+<div class="card">
+  <h4>Programming Languages I Use:</h4>
+  <div class="badge-container">
+    <span class="badge">Java</span>
+    <span class="badge">Python</span>
+    <span class="badge">Erlang</span>
+    <span class="badge">GDScript</span>
+    <span class="badge">Rust</span>
+    <span class="badge">HTML/CSS/JS</span>
+    <span class="badge">PHP</span>
+    <span class="badge">NodeJS</span>
+  </div>
+
+  <!-- Certificates inside mini-card -->
+  <div class="mini-card">
+    <h5>Certificates</h5>
+    <div class="cert-gallery">
+      <div class="cert-wrapper" data-desc="Java Certificate">
+        <img src="assets/cert placeholder.png" alt="Java Cert" onclick="openCert('assets/java-cert.png')">
+      </div>
+      <div class="cert-wrapper" data-desc="Python Certificate">
+        <img src="assets/cert placeholder.png" alt="Python Cert" onclick="openCert('assets/python-cert.png')">
+      </div>
+        <div class="cert-wrapper" data-desc="Python Certificate">
+            <img src="assets/cert placeholder.png" alt="Python Cert" onclick="openCert('assets/python-cert.png')">
+        </div>
+        <div class="cert-wrapper" data-desc="Python Certificate">
+                    <img src="assets/cert placeholder.png" alt="Python Cert" onclick="openCert('assets/python-cert.png')">
+                </div>
+      <!-- Add more certs -->
+    </div>
+  </div>
+</div>
+
+
+    <!-- Tools -->
+    <div class="card">
+      <h4>Tools I Use:</h4>
+      <div class="badge-container">
+        <span class="badge">MySQL</span>
+        <span class="badge">Excel</span>
+        <span class="badge">Git</span>
+        <span class="badge">Docker</span>
+        <span class="badge">Cisco Packet Tracer</span>
+      </div>
+        <!-- Certificates inside mini-card -->
+  <div class="mini-card">
+    <h5>Certificates</h5>
+    <div class="cert-gallery">
+      <div class="cert-wrapper" data-desc="Java Certificate">
+        <img src="assets/cert placeholder.png" alt="Java Cert" onclick="openCert('assets/java-cert.png')">
+      </div>
+      <div class="cert-wrapper" data-desc="Python Certificate">
+        <img src="assets/cert placeholder.png" alt="Python Cert" onclick="openCert('assets/python-cert.png')">
+      </div>
+        <div class="cert-wrapper" data-desc="Python Certificate">
+            <img src="assets/cert placeholder.png" alt="Python Cert" onclick="openCert('assets/python-cert.png')">
+        </div>
+      <!-- Add more certs -->
+    </div>
+  </div>
+</div>
+
+    <!-- Other Skills -->
+    <div class="card">
+      <h4>Other Skills:</h4>
+        <div class="badge-container">
+            <span class="badge">Analytics</span>
+            <span class="badge">Project Management</span>
+            <span class="badge">Communication</span>
+            <span class="badge">Software Engineering</span>
+        </div>
+        <!-- Certificates inside mini-card -->
+        <div class="mini-card">
+                <h5>Certificates</h5>
+            <div class="cert-gallery">
+                <div class="cert-wrapper" data-desc="Software Engineering">
+                    <img src="assets/Accenture Certificate-1.png" alt="SoftEngCert" onclick="openCert('assets/java-cert.png')">
+                </div>
+                <div class="cert-wrapper" data-desc="Python Certificate">
+                    <img src="assets/cert placeholder.png" alt="Python Cert" onclick="openCert('assets/python-cert.png')">
+                </div>
+                <div class="cert-wrapper" data-desc="Python Certificate">
+                    <img src="assets/cert placeholder.png" alt="Python Cert" onclick="openCert('assets/python-cert.png')">
+                </div>
+                <!-- Add more certs -->
+                </div>
+            </div>
+        </div>
+  </div>
+</div>
+
+                <button class="toggle-btn" onclick="togglePanel()">☰ Projects</button>
+                <div id="project-panel" class="sidepanel">
+                    <h2>Skills & Projects</h2>
+                    <a href="https://github.com/YOUR_USERNAME/backend_project" target="_blank" data-desc="Node.js + MySQL API">Backend</a>
+                    <a href="https://github.com/YOUR_USERNAME/cybersec_project" target="_blank" data-desc="Pen-testing & Security Tools">Cybersecurity</a>
+                    <a href="https://github.com/YOUR_USERNAME/fintech_project" target="_blank" data-desc="Fintech App / Dashboard">Fintech</a>
+                </div>
+
+
+            </div>    
+        </div>
+    </div>
+    </div>
+    <div id="cli-launcher" title="Click me"><</div>
+        <div id="cli-window">
+            <div id="cli-header">
+                <span>Terminal</span>
+                <button id="cli-close">✖</button>
+            </div>
+            <div id="cli-content"></div>
+            <div id="cli-line">   
+            <span class="cli-prompt">></span>
+            <input type="text" id="cli-input" placeholder="(y/n)" autocomplete="off" />
+        </div>
+    </div>
+
+    </div>  
+<script>
+const launcher = document.getElementById('cli-launcher');
+const cliWindow = document.getElementById('cli-window');
+const cliClose = document.getElementById('cli-close');
+const cliContent = document.getElementById('cli-content');
+const cliInput = document.getElementById('cli-input');
+
+function typeMessage(message, index = 0, callback) {
+  const line = document.createElement('div');
+  line.className = 'typed-line';
+  cliContent.appendChild(line);
+
+  function typeChar() {
+    if (index < message.length) {
+      line.textContent += message.charAt(index);
+      index++;
+      setTimeout(typeChar, 30);
+    } else if (callback) {
+      callback();
+    }
+  }
+  typeChar();
+}
+
+launcher.addEventListener('click', () => {
+  cliWindow.style.display = 'flex';
+  cliInput.focus();
+  typeMessage("If you're looking at this I probably sent you my resume... please hire me :(");
+});
+
+cliClose.addEventListener('click', () => {
+  cliWindow.style.display = 'none';
+  cliContent.innerHTML = '';
+});
+
+// Handle input
+cliInput.addEventListener('keypress', (e) => {
+  if (e.key === 'Enter') {
+    let input = cliInput.value.trim();       // raw input
+    const displayInput = input;              // keep original for unknown command
+    input = input.toLowerCase();             // lowercase for checking
+    cliInput.value = '';
+
+    // Show user input
+    const userLine = document.createElement('div');
+    userLine.textContent = '> ' + displayInput;
+    cliContent.appendChild(userLine);
+
+    // Check for yes / no / y / n
+    if (input === 'yes' || input === 'y') {
+      typeMessage('Yippie!! :)))');
+    } else if (input === 'no' || input === 'n') {
+      typeMessage('Oh no! pretty please(˃̣̣̥ᯅ˂̣̣̥)...');
+    } else {
+      typeMessage(`'${displayInput}' is not recognized as an internal or external command, operable program or batch file`);
+    }
+
+    cliContent.scrollTop = cliContent.scrollHeight; // auto-scroll
+  }
+});
+
+
+
+</script>
+  <script>
+document.querySelectorAll('.cert-gallery').forEach(gallery => {
+  const wrappers = gallery.querySelectorAll('.cert-wrapper');
+  let activeIndex = 0;
+
+  function updateCarousel() {
+    wrappers.forEach((wrap, i) => {
+      wrap.classList.remove('active', 'prev', 'next', 'hidden');
+
+      if (i === activeIndex) wrap.classList.add('active');
+      else if (i === (activeIndex - 1 + wrappers.length) % wrappers.length) wrap.classList.add('prev');
+      else if (i === (activeIndex + 1) % wrappers.length) wrap.classList.add('next');
+      else wrap.classList.add('hidden'); // hide all other cards
+    });
+  }
+
+  wrappers.forEach((wrap, index) => {
+    wrap.addEventListener('click', () => {
+      activeIndex = index;
+      updateCarousel();
+    });
+  });
+
+  updateCarousel();
+});
+
+  </script>
+</body>
+</html>

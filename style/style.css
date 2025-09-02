@@ -1,0 +1,487 @@
+body {
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    color: white;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    background-image: url("../assets/opoy7.jpg");
+    background-size: cover;
+    background-position: center;
+    
+}
+
+.main{
+    max-width: 900px;
+    margin: 10px auto;
+    padding: 20px;
+    background: rgba(0,0,0,0.6);
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.8);
+    box-sizing: border-box;
+    
+}
+#page-wrapper{
+    transition: margin-left 0.4s;
+}
+.banner {
+    width: 100%;
+    height: 200px;
+    margin: 0 auto;
+    background-color: black;
+    color: white;
+    padding: 20px 40px;
+    box-shadow: 0 0 10px white;
+    display: flex;              
+    align-items: center;        
+    gap: 20px;                  
+    justify-content: space-between;
+    text-align: left;
+    position: relative;
+         
+}
+.banner-left{
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+.banner-right{
+    position: absolute;
+    bottom: 10px;
+    right: 100px;
+    gap: 15px;
+    display: flex;
+    align-items: center;
+}
+.banner h1 {
+    margin: 15px 0 5px;                  
+    font-size: 2rem;
+}
+
+.banner p{
+    margin: 0;
+    font-size: 1rem;
+    opacity: 0.8;
+}
+.banner-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-left: 20px;
+}
+.banner-info h1{
+    margin:0;
+    font-size: 1.8rem;
+}
+.banner-info p{
+    margin: 5px 0 0;
+    font-size: 1rem;
+    opacity: 0.8;
+}
+.banner-socials{
+    display: flex;
+    gap: 15px;
+}
+.banner-socials img{
+    width: 30px;
+    height:30px;
+    object-fit: cover;
+    filter: invert(1);
+    transition: transform 0.3s ease, filter 0.3s ease;
+
+}
+.banner-socials img:hover {
+    transform: scale(1.2);
+    filter: invert(64%) sepia(93%) saturate(500%) hue-rotate(180deg);
+}
+
+.profile-picture {
+    border-radius: 50%;
+    width: 150px;
+    height: 150px;
+    border: 3px solid white;
+    box-shadow: 0 0 15px white;
+    
+}
+#content{
+    transition: margin-left 0.4s;
+    padding: 20px;
+    border: 3px solid white;
+    box-shadow: 0 0 15px white;
+    max-width:95%;
+    margin: 40px auto;
+    
+    background: rgba(0,0,0,0.6);
+    border-radius: 10px;
+    
+}
+.cert-gallery {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    perspective: 1000px;
+    gap: 20px;
+    position: relative; /* add this */
+    height: 160px; /* fixed height to contain carousel */
+    overflow: visible; /* hide overflowing cards */
+}
+
+
+.cert-gallery img {
+    position:relative;
+    width: 220px;
+    height: 140px;
+    border: 2px solid white;
+    border-radius: 12px;
+    /* box-shadow: 0 0 20px rgba(255,255,255,0.5); */
+    transform: rotate(-2deg); 
+    transition: transform 0.3s, box-shadow 0.3s;
+    cursor: pointer;
+}
+.cert-gallery img::after {
+    content: attr(data-desc);
+    position: absolute;
+    bottom: 120%; /* above the image */
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0,0,0,0.85);
+    color: white;
+    padding: 8px 12px;
+    border-radius: 5px;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    font-size: 0.85rem;
+}
+
+.cert-gallery img:hover::after {
+    opacity: 1;
+    transform: translateX(-50%) translateY(-10px);
+}   
+.cert-gallery img:nth-child(even) {
+    transform: rotate(3deg); /* alternate tilt */
+}
+
+.cert-gallery img:hover {
+    transform: scale(1.2) rotate(0deg);
+    box-shadow: 0 0 25px #ffff;
+    z-index: 10;
+}
+.cert-wrapper {
+    transition: transform 0.5s, opacity 0.5s;
+    position: absolute; /* allow stacking for carousel */
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%) scale(0.8) rotateY(20deg);
+    opacity: 0;
+    z-index: 0;
+    cursor: pointer;
+}
+
+.cert-wrapper.active {
+    transform: translateX(-50%) scale(1) rotateY(0deg);
+    opacity: 1;
+    z-index: 10;
+}
+
+.cert-wrapper.prev {
+    transform: translateX(-150%) scale(0.8) rotateY(-20deg);
+    opacity: 0.7;
+    z-index: 5;
+}
+
+.cert-wrapper.next {
+    transform: translateX(50%) scale(0.8) rotateY(20deg);
+    opacity: 0.7;
+    z-index: 5;
+}
+
+.cert-wrapper img {
+    width: 220px;
+    height: 140px;
+    border: 2px solid white;
+    border-radius: 12px;
+    transform: rotate(-2deg);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.cert-wrapper:nth-child(even) img {
+    transform: rotate(3deg);
+}
+
+.cert-wrapper:hover img {
+    transform: scale(1.2) rotate(0deg);
+    box-shadow: 0 0 25px #ffff;
+    z-index: 10;
+}
+
+.cert-wrapper::after {
+    content: attr(data-desc);
+    position: absolute;
+    bottom: 120%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0,0,0,0.85);
+    color: white;
+    padding: 8px 12px;
+    border-radius: 5px;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    font-size: 0.85rem;
+}
+
+.cert-wrapper:hover::after {
+    opacity: 1;
+    transform: translateX(-50%) translateY(-10px);
+}
+
+
+
+.toggle-btn {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: rgba(255,255,255,0.1);
+    color: white;
+    border: 2px solid white;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    z-index: 1001;
+    transition: all 0.3s ease;
+}
+
+.toggle-btn:hover {
+    background: white;
+    color: black;
+    transform: scale(1,1);
+}
+
+/* Side Panel */
+.sidepanel {
+    height: 100%;
+    width: 0; /* hidden by default */
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: grey;
+    overflow-x: hidden;
+    transition: 0.4s;
+    padding-top: 60px;
+    z-index: 1000;
+}
+
+.sidepanel h2 {
+    color: white;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.sidepanel a {
+    padding: 10px 20px;
+    text-decoration: none;
+    font-size: 18px;
+    color: aliceblue;
+    display: block;
+    transition: 0.2s;
+}
+
+.sidepanel a:hover {
+    background: white;
+    color: black;
+}
+
+.projects-btn-container {
+    position: fixed;
+    top: 50%;
+    right: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    z-index: 1000;
+}
+
+.project-btn {
+    background: rgba(255,255,255,0.1);
+    color: white;
+    padding: 10px 15px;
+    border-radius: 10px;
+    text-decoration: none;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.project-btn:hover {
+    background: white;
+    color: black;
+}
+
+/* Tooltip */
+.project-btn::after {
+    content: attr(data-desc);
+    position: absolute;
+    left: -220px; /* adjust width */
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0,0,0,0.8);
+    color: white;
+    padding: 8px;
+    border-radius: 5px;
+    opacity: 0;
+    pointer-events: none;
+    width: 200px;
+    transition: opacity 0.3s ease;
+}
+
+.project-btn:hover::after {
+    opacity: 1;
+}
+/* Card styling for sections */
+.card {
+    background: rgba(255,255,255,0.05);
+    border: 2px solid rgba(255,255,255,0.3);
+    border-radius: 10px;
+    padding: 20px;
+    margin: 20px 0;
+    box-shadow: 0 0 15px rgba(0,0,0,0.5);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    padding-bottom:60px;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0 25px rgba(255,255,255,0.6);
+}
+
+#cli-launcher {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 40px;
+  height: 40px;
+  background: #111;
+  color: #0f0;
+  font-family: monospace;
+  font-size: 1.2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 0 0 10px #0f0;
+  z-index: 1000;
+}
+.mini-card {
+    position: relative; /* ensure absolute children are positioned relative to this */
+    overflow: visible;  /* allow the carousel to pop out */
+    padding-bottom: 40px; /* optional: give space for hovered card */
+}
+
+
+#cli-launcher:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 15px #0f0;
+}
+
+/* CLI Window */
+#cli-window {
+  position: fixed;
+  bottom: 80px;
+  right: 20px;
+  width: 350px;
+  height: 200px;
+  background: #111;
+  border: 2px solid #0f0;
+  border-radius: 5px;
+  display: none;
+  flex-direction: column;
+  font-family: monospace;
+  color: #0f0;
+  z-index: 1001;
+  box-shadow: 0 0 10px #0f0;
+}
+
+#cli-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #222;
+  padding: 5px 10px;
+  font-weight: bold;
+  border-bottom: 1px solid #0f0;
+}
+
+#cli-header button {
+  background: transparent;
+  border: none;
+  color: #0f0;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+#cli-content {
+  flex: 1;
+  padding: 10px;
+  overflow-y: auto;
+  white-space: pre-wrap;
+  scrollbar-width: thin;
+  scrollbar-color: #0f0 #111;
+}
+#cli-line {
+  display: flex;
+  align-items: center;
+  padding: 5px 10px;
+  font-family: monospace;
+}
+
+.cli-prompt {
+  margin-right: 5px; /* spacing between > and input */
+  color: #0f0;
+}
+
+#cli-input {
+  border: none;
+  outline: none;
+  background: transparent;
+  color: #0f0;
+  font-family: monospace;
+  flex: 1; /* take up remaining space */
+  font-size: 0.9rem;
+}
+#cli-content::-webkit-scrollbar {
+  width: 6px;                      /* scrollbar width */
+}
+
+#cli-content::-webkit-scrollbar-track {
+  background: #111;                /* track color */
+  border-radius: 3px;
+}
+
+#cli-content::-webkit-scrollbar-thumb {
+  background-color: #0f0;          /* scrollbar thumb color */
+  border-radius: 3px;
+  border: 1px solid #111;          /* optional: small border to separate thumb from track */
+}
+
+.badge-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.badge {
+  background: rgba(0,255,0,0.1);
+  color: #0f0;
+  padding: 5px 10px;
+  border-radius: 12px;
+  font-size: 0.9rem;
+  transition: transform 0.2s, background 0.2s;
+  cursor: default;
+}
+
+.badge:hover {
+  transform: scale(1.1);
+  background: rgba(0,255,0,0.3);
+}
