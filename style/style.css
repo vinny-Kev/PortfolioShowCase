@@ -485,3 +485,100 @@ body {
   transform: scale(1.1);
   background: rgba(0,255,0,0.3);
 }
+/* -------------------- */
+/* MOBILE RESPONSIVE    */
+@media screen and (max-width: 768px) {
+
+    /* Banner layout stacked */
+    .banner {
+        flex-direction: column;
+        height: auto;
+        padding: 15px 20px;
+        text-align: center;
+    }
+
+    .banner-left, .banner-right {
+        position: static;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .banner-right {
+        margin-top: 10px;
+    }
+
+    .banner h1, .banner-info h1 {
+        font-size: 1.5rem;
+    }
+
+    .banner p, .banner-info p {
+        font-size: 0.9rem;
+    }
+
+    /* Profile picture smaller */
+    .profile-picture {
+        width: 120px;
+        height: 120px;
+        border-width: 2px;
+    }
+
+    /* Certificate gallery scrollable horizontally */
+    .cert-gallery {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        justify-content: flex-start;
+        height: auto;
+        padding: 10px 0;
+        gap: 10px;
+    }
+
+    .cert-gallery img, .cert-wrapper img {
+        width: 140px;
+        height: 90px;
+        transform: none !important;
+    }
+
+    .cert-wrapper, .cert-wrapper.active, .cert-wrapper.prev, .cert-wrapper.next {
+        position: relative !important;
+        transform: none !important;
+        opacity: 1 !important;
+        z-index: auto !important;
+    }
+
+    /* Toggle button smaller */
+    .toggle-btn {
+        top: 10px;
+        right: 10px;
+        padding: 8px 12px;
+    }
+
+    /* CLI launcher smaller */
+    #cli-launcher {
+        bottom: 10px;
+        right: 10px;
+        width: 35px;
+        height: 35px;
+        font-size: 1rem;
+    }
+
+    #cli-window {
+        bottom: 55px;
+        right: 10px;
+        width: 90%;
+        max-width: 320px;
+        height: 180px;
+    }
+
+    /* Main container padding adjustment */
+    .main {
+        padding: 15px;
+    }
+
+    /* Cards smaller spacing */
+    .card {
+        padding: 15px;
+        margin: 15px 0;
+    }
+}
