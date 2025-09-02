@@ -525,26 +525,44 @@ body {
     }
 
     /* Certificate gallery scrollable horizontally */
-    .cert-gallery {
+        .cert-gallery {
+        display: flex;
         flex-wrap: nowrap;
         overflow-x: auto;
         justify-content: flex-start;
         height: auto;
         padding: 10px 0;
         gap: 10px;
+
+        /* Contain inside parent */
+        max-width: 100%;
+        box-sizing: border-box;
     }
 
-    .cert-gallery img, .cert-wrapper img {
+    /* Prevent images from overflowing */
+    .cert-gallery img,
+    .cert-wrapper img {
         width: 140px;
         height: 90px;
+        flex-shrink: 0; /* prevents shrinking in flex container */
         transform: none !important;
+        border-radius: 12px;
     }
 
-    .cert-wrapper, .cert-wrapper.active, .cert-wrapper.prev, .cert-wrapper.next {
+    /* Reset cert-wrapper positioning */
+    .cert-wrapper,
+    .cert-wrapper.active,
+    .cert-wrapper.prev,
+    .cert-wrapper.next {
         position: relative !important;
         transform: none !important;
         opacity: 1 !important;
         z-index: auto !important;
+    }
+
+    /* Make sure parent card contains children */
+    .card, .mini-card {
+        overflow-x: hidden; /* hides any accidental overflow */
     }
 
     /* Toggle button smaller */
