@@ -7,20 +7,43 @@
   <link rel="icon" type="image/x-icon" href="assets/favicon.jfif">
   <link rel="stylesheet" href="style/style.css"/>
   <script>
-    function togglePanel() {
-    const panel = document.getElementById("project-panel");
-    const wrapper = document.getElementById("page-wrapper");
 
-    if (panel.style.width === "250px") {
-        panel.style.width = "0";
-        wrapper.style.marginLeft = "0";
-    } else {
-        panel.style.width = "250px";
-        wrapper.style.marginLeft = "250px";
-    }
+function togglePanel() {
+  const panel = document.getElementById("project-panel");
+  const wrapper = document.getElementById("page-wrapper");
+
+  if (panel.style.width === "250px") {
+    panel.style.width = "0";
+    wrapper.style.marginLeft = "0";
+    // Reset text instantly when closed
+    document.querySelectorAll("#project-panel a").forEach(a => {
+      a.textContent = a.getAttribute("data-label");
+    });
+  } else {
+    panel.style.width = "250px";
+    wrapper.style.marginLeft = "250px";
+
+    // Typing effect
+    const links = document.querySelectorAll("#project-panel a");
+    links.forEach((a, i) => {
+      const fullText = a.getAttribute("data-label") || a.textContent;
+      a.setAttribute("data-label", fullText); // store original
+      a.textContent = ""; // clear text
+
+      setTimeout(() => {
+        let idx = 0;
+        function typeChar() {
+          if (idx < fullText.length) {
+            a.textContent += fullText.charAt(idx);
+            idx++;
+            setTimeout(typeChar, 40); // speed
+          }
+        }
+        typeChar();
+      }, i * 200); // stagger delay per link
+    });
+  }
 }
-
-
 </script>
 
 </head>
@@ -32,6 +55,7 @@
                 <div class="banner-info">
                         <h1>Kevin Roy V. Maglaqui</h1>
                         <p>Backend Developer | Learner | Builder</p>
+
                 </div>   
             </div>
             
@@ -158,9 +182,10 @@
                 <button class="toggle-btn" onclick="togglePanel()">☰ Projects</button>
                 <div id="project-panel" class="sidepanel">
                     <h2>Skills & Projects</h2>
-                    <a href="https://github.com/YOUR_USERNAME/backend_project" target="_blank" data-desc="Node.js + MySQL API">Backend</a>
-                    <a href="https://github.com/YOUR_USERNAME/cybersec_project" target="_blank" data-desc="Pen-testing & Security Tools">Cybersecurity</a>
-                    <a href="https://github.com/YOUR_USERNAME/fintech_project" target="_blank" data-desc="Fintech App / Dashboard">Fintech</a>
+                    
+                    <a href="https://github.com/vinny-Kev/Reservatory" target="_blank" data-desc="Node.JS + PHP Web Application Project, I developed the back-end of the system alongside my team!"><span class ="link-text">Reservatory</span></a>
+                    <a href="https://github.com/vinny-Kev/CryptoGraphers" target="_blank" data-desc="Machine Learning powered application that detects fake statements in text by recognizing patterns that indicate overly sensationalized content."><span class ="link-text">Cryptographers</span></a>
+                    <a href="https://github.com/vinny-Kev/Practice3DGame" target="_blank" data-desc="GDScript Game Im building, Still working on it!"><span class ="link-text">Godot Games!</span></a>
                 </div>
 
 
@@ -221,31 +246,41 @@ const cliInput = document.getElementById('cli-input');
 
 function typeMessage(message, index = 0, callback) {
   const line = document.createElement('div');
-  line.className = 'typed-line';
   cliContent.appendChild(line);
+
+  // Wrap the text in a span so cursor attaches
+  const span = document.createElement("span");
+  span.classList.add("typing-cursor");
+  line.appendChild(span);
 
   function typeChar() {
     if (index < message.length) {
-      line.textContent += message.charAt(index);
+      span.textContent += message.charAt(index);
       index++;
       setTimeout(typeChar, 30);
-    } else if (callback) {
-      callback();
+    } else {
+      // Stop blinking when done
+      span.classList.remove("typing-cursor");
+      if (callback) callback();
     }
   }
   typeChar();
 }
 
+
 launcher.addEventListener('click', () => {
   cliWindow.style.display = 'flex';
+  launcher.style.display = 'none'; // hide launcher
   cliInput.focus();
   typeMessage("If you're looking at this I probably sent you my resume... please hire me :(");
 });
 
 cliClose.addEventListener('click', () => {
   cliWindow.style.display = 'none';
+  launcher.style.display = 'block'; // show launcher again
   cliContent.innerHTML = '';
 });
+
 
 // Handle input
 cliInput.addEventListener('keypress', (e) => {
@@ -262,7 +297,7 @@ cliInput.addEventListener('keypress', (e) => {
 
     // Check for yes / no / y / n
     if (input === 'yes' || input === 'y') {
-      typeMessage('Yippie!! :)))');
+      typeMessage('Yippie!! :))), My email is kevinroymaglaqui29@gmail.com or 2234101@slu.edu.ph or my number 09708158167 or you can just click my socials above :)))');
     } else if (input === 'no' || input === 'n') {
       typeMessage('Oh no! pretty please(˃̣̣̥ᯅ˂̣̣̥)...');
     } else {
@@ -312,5 +347,78 @@ document.querySelectorAll('.cert-gallery').forEach(gallery => {
 
   gtag('config', 'G-68FH2QD3EM');
 </script>
+
+<div id="tooltip"></div>
+<script>
+const tooltip = document.getElementById("tooltip");
+
+document.querySelectorAll("#project-panel a").forEach(link => {
+  link.addEventListener("mouseenter", () => {
+    tooltip.textContent = link.getAttribute("data-desc");
+
+    // Position tooltip to the right of the link
+    const rect = link.getBoundingClientRect();
+    tooltip.style.top = rect.top + rect.height / 2 + "px";
+    tooltip.style.left = rect.right + 10 + "px";
+    tooltip.style.opacity = "1";
+    tooltip.style.transform = "translateY(-50%)";
+  });
+
+  link.addEventListener("mouseleave", () => {
+    tooltip.style.opacity = "0";
+  });
+});
+</script>
+<script>
+function typeIntro(text, container, speed = 30, callback) {
+  container.textContent = ""; // clear text
+  let i = 0;
+
+  // Create span to hold the text + cursor
+  const span = document.createElement("span");
+  span.classList.add("typing-cursor");
+  container.appendChild(span);
+
+  function typeChar() {
+    if (i < text.length) {
+      span.textContent += text.charAt(i);
+      i++;
+      setTimeout(typeChar, speed);
+    } else {
+      // stop blinking after typing finishes
+      span.classList.remove("typing-cursor");
+      if (callback) callback();
+    }
+  }
+
+  typeChar();
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  const introCard = document.querySelector(".card p");
+  const introText = introCard.textContent;
+
+  typeIntro(introText, introCard, 25);
+
+  introCard.parentElement.addEventListener("click", () => {
+    typeIntro(introText, introCard, 25);
+  });
+});
+
+</script>
+<footer id="site-footer">
+  <p>© 2025 Kevin Roy V. Maglaqui | Built with 💻 and ☕ and a bit of 🤖</p>
+  <p class="warning">
+    This page collects data using Google Analytics to understand user engagement and factors that can convert potential opportunities!
+    No personal information is collected.
+  </p>
+  <p>
+    <a href="https://github.com/vinny-Kev" target="_blank">GitHub</a> •
+    <a href="https://www.linkedin.com/in/kevin-roy-maglaqui-1664352b7/" target="_blank">LinkedIn</a> •
+    <a href="mailto:kevinroymaglaqui29@gmail.com">Email</a>
+  </p>
+</footer>
+
+
 </body>
 </html>

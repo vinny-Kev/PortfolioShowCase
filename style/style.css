@@ -25,7 +25,7 @@ body {
 }
 .banner {
     width: 100%;
-    height: 200px;
+    height: 190px;
     margin: 0 auto;
     background-color: black;
     color: white;
@@ -39,10 +39,13 @@ body {
     position: relative;
          
 }
+
+
 .banner-left{
     display: flex;
     align-items: center;
     gap: 20px;
+    justify-content: flex-start;
 }
 .banner-right{
     position: absolute;
@@ -95,12 +98,14 @@ body {
 }
 
 .profile-picture {
+    margin:0;
     border-radius: 50%;
     width: 150px;
     height: 150px;
     border: 3px solid white;
     box-shadow: 0 0 15px white;
-    
+    object-fit: cover;
+    flex-shrink: 0;
 }
 #content{
     transition: margin-left 0.4s;
@@ -114,6 +119,20 @@ body {
     border-radius: 10px;
     
 }
+
+
+.typing-cursor::after {
+  content: "|"; /* looks like a terminal caret */
+  display: inline-block;
+  margin-left: 2px;
+  animation: blink 0.8s steps(2, start) infinite;
+}
+
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  50.1%, 100% { opacity: 0; }
+}
+
 .cert-gallery {
     display: flex;
     justify-content: center;
@@ -262,36 +281,108 @@ body {
 /* Side Panel */
 .sidepanel {
     height: 100%;
-    width: 0; /* hidden by default */
+    width: 0;
     position: fixed;
     top: 0;
     left: 0;
-    background-color: grey;
-    overflow-x: hidden;
-    transition: 0.4s;
-    padding-top: 60px;
+    background: rgba(15, 15, 15, 0.95);
+    backdrop-filter: blur(8px);
+    transition: width 0.4s ease;
+    padding-top: 80px;
     z-index: 1000;
+    overflow: hidden;
+}
+
+.sidepanel.open {
+    width: 250px;
 }
 
 .sidepanel h2 {
-    color: white;
+    color: #0f0;
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: 25px;
+    font-family: monospace;
+    letter-spacing: 1px;
+    text-shadow: 0 0 10px #0f0;
 }
 
 .sidepanel a {
-    padding: 10px 20px;
+    display: block;
+    padding: 12px 20px;
     text-decoration: none;
     font-size: 18px;
-    color: aliceblue;
-    display: block;
-    transition: 0.2s;
+    color: #ddd;
+    transition: all 0.3s ease;
+    border-left: 3px solid transparent;
+    position: relative;
+}
+
+.sidepanel a .link-text {
+    display: inline-block;
+    max-width: 0;
+    opacity: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    transition: max-width 0.4s ease, opacity 0.3s ease;
+}
+
+.sidepanel.open a .link-text {
+    max-width: 200px;
+    opacity: 1;
 }
 
 .sidepanel a:hover {
-    background: white;
-    color: black;
+    color: #0f0;
+    background: rgba(0, 255, 0, 0.1);
+    border-left: 3px solid #0f0;
+    box-shadow: rgba(0, 255, 0, 0.8);
 }
+
+/* TEST TOOLTIP
+.sidepanel a::after {
+    content: attr(data-desc);
+    position: absolute;
+    left: 100%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, 0.95);
+    color: white;
+    padding: 20px;
+    font-size: 20px;
+    z-index: 999999;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.sidepanel a:hover::after {
+    opacity: 1 !important;
+} */
+
+#tooltip {
+  position: fixed;
+  background: #000;
+  color: #0f0;
+  font-family: monospace;
+  font-size: 14px;
+  padding: 12px 16px;
+  border: 1px solid #0f0;
+  border-radius: 6px;
+  box-shadow: 0 0 12px #0f0;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  z-index: 999999;
+
+
+  max-width: 200px;    /* limit width */
+  min-height: 70px;    /* keep some height */
+  white-space: normal; /* allow wrapping */
+  line-height: 1.4;    /* better readability */
+  text-align: left;    /* clean text alignment */
+  word-wrap: break-word;
+}
+
+
 
 .projects-btn-container {
     position: fixed;
@@ -322,7 +413,7 @@ body {
 .project-btn::after {
     content: attr(data-desc);
     position: absolute;
-    left: -220px; /* adjust width */
+    left: 105%; /* adjust width */
     top: 50%;
     transform: translateY(-50%);
     background: rgba(0,0,0,0.8);
@@ -335,9 +426,7 @@ body {
     transition: opacity 0.3s ease;
 }
 
-.project-btn:hover::after {
-    opacity: 1;
-}
+
 /* Card styling for sections */
 .card {
     background: rgba(255,255,255,0.05);
@@ -485,6 +574,30 @@ body {
   transform: scale(1.1);
   background: rgba(0,255,0,0.3);
 }
+
+#site-footer {
+  background: #000;
+  color: #0f0;
+  font-family: monospace;
+  text-align: center;
+  padding: 16px 8px;
+  border-top: 1px solid #0f0;
+  margin-top: 40px;
+  font-size: 14px;
+}
+
+#site-footer a {
+  color: #0f0;
+  text-decoration: none;
+  margin: 0 6px;
+  transition: color 0.2s ease, text-shadow 0.2s ease;
+}
+
+#site-footer a:hover {
+  color: #fff;
+  text-shadow: 0 0 8px #0f0;
+}
+
 /* -------------------- */
 /* MOBILE RESPONSIVE    */
 @media screen and (max-width: 768px) {
@@ -589,14 +702,49 @@ body {
         height: 180px;
     }
 
-    /* Main container padding adjustment */
+    
     .main {
         padding: 15px;
     }
 
-    /* Cards smaller spacing */
+    
     .card {
         padding: 15px;
         margin: 15px 0;
+    }
+    .sidepanel {
+        width: 0; /* hidden by default */
+        height: 100%;
+        top: 0;
+        left: 0;
+        background-color: rgba(0, 0, 0, 0.95); /* darker for mobile */
+        padding-top: 50px;
+        transition: width 0.3s ease;
+    }
+
+      .sidepanel.open {
+        width: 70%;
+        /* Enhanced glow for mobile */
+        box-shadow: 0 0 25px rgba(0, 255, 0, 0.8), 4px 0 20px rgba(0, 255, 0, 0.5); 
+        border-right: 3px solid rgba(0, 255, 0, 0.8);
+    }
+    
+    /* Hide tooltips on mobile to prevent overflow */
+    .sidepanel a::after {
+        display: none;
+    }
+
+    .sidepanel a {
+        font-size: 16px;
+        padding: 12px;
+        text-align: center;
+    }
+
+    .toggle-btn {
+        top: 15px;
+        left: 15px; 
+        right: auto;
+        padding: 8px 10px;
+        font-size: 0.9rem;
     }
 }
