@@ -1,423 +1,426 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Kevin Maglaqui</title>
-  <link rel="icon" type="image/x-icon" href="assets/favicon.jfif">
-  <link rel="stylesheet" href="style/style.css"/>
-  <script>
-
-function togglePanel() {
-  const panel = document.getElementById("project-panel");
-  const wrapper = document.getElementById("page-wrapper");
-
-  if (panel.style.width === "250px") {
-    panel.style.width = "0";
-    wrapper.style.marginLeft = "0";
-    // Reset text instantly when closed
-    document.querySelectorAll("#project-panel a").forEach(a => {
-      a.textContent = a.getAttribute("data-label");
-    });
-  } else {
-    panel.style.width = "250px";
-    wrapper.style.marginLeft = "250px";
-
-    // Typing effect
-    const links = document.querySelectorAll("#project-panel a");
-    links.forEach((a, i) => {
-      const fullText = a.getAttribute("data-label") || a.textContent;
-      a.setAttribute("data-label", fullText); // store original
-      a.textContent = ""; // clear text
-
-      setTimeout(() => {
-        let idx = 0;
-        function typeChar() {
-          if (idx < fullText.length) {
-            a.textContent += fullText.charAt(idx);
-            idx++;
-            setTimeout(typeChar, 40); // speed
-          }
-        }
-        typeChar();
-      }, i * 200); // stagger delay per link
-    });
-  }
-}
-</script>
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="icon" type="image/x-icon" href="assets/favicon.jfif">
+    <link rel="stylesheet" href="style/landing-page.css">
 </head>
 <body>
-    <div id ="page-wrapper">
-      <div class="banner">
-            <div class="banner-left">
-                <img src="assets/kevin-pfp.png" class="profile-picture">
-                <div class="banner-info">
-                        <h1>Kevin Roy V. Maglaqui</h1>
-                        <p>Backend Developer | Learner | Builder</p>
+    <div id="landing">
+  <canvas id="bg-canvas"></canvas>
 
-                </div>   
-            </div>
-            
-            <!--TODO: Insert GitHub and LinkedIn links-->
-            <div class="banner-right">
-                <div class="banner-socials">
-                    <a href="https://github.com/vinny-Kev" target="_blank">
-                    <img src="assets/githublogo.webp" alt="GitHub">
-                    </a>
-                    <a href="https://www.linkedin.com/in/kevin-roy-maglaqui-1664352b7/" target="_blank">
-                    <img src="assets/linkedinlogo.webp" alt="LinkedIn">
-                    </a>
-                    <a href="mailto:kevinroymaglaqui29@gmail.com">
-                    <img src="assets/gmaillogo.webp" alt="Email">
-                    </a>
-                </div>
-            </div>
-        </div>
-
-<div id="content">
-  <div class="main">
-    
-    <!-- Intro Card -->
-    <div class="card">
-      <p>
-        Back-end developer with experience in Java, Python, NodeJS, Erlang, PHP and more. I am passionate about fintech, blockchain technology,
-        AI/ML Engineering, Game Dev, and CyberSec, I am currently seeking an OJT as an academic requirement, in order to improve my skills and gain hands on experience
-        and grow under mentorship. I am eager to learn and even more eager to build!
-      </p>
+  <!-- CLI app window -->
+ <div class="terminal-window" id="terminal-app">
+  <div class="terminal-header">
+    <div class="term-title">bash</div>
+    <div class="term-buttons">
+      <span class="min-btn">—</span>
+      <span class="close-btn">✕</span>
     </div>
-
-  
-<div class="card">
-	<h4>Programming Languages I Use:</h4>
-  <div class="badge-container">
-    <span class="badge">Java</span>
-    <span class="badge">Python</span>
-    <span class="badge">Erlang</span>
-    <span class="badge">GDScript</span>
-    <span class="badge">Rust</span>
-    <span class="badge">HTML/CSS/JS</span>
-    <span class="badge">PHP</span>
-    <span class="badge">NodeJS</span>
   </div>
+  <div class="terminal-body">
+    <pre id="cli-output"></pre>
+  </div>
+</div>
 
 
-  <div class="mini-card">
-    <h5>Certificates</h5>
-    <div class="cert-gallery">
-      <div class="cert-wrapper" data-desc="Java Certificate">
-        <img src="assets/java_basic certificate.jpg" alt="Java Cert" onclick="openCert('assets/java_basic certificate.jpg')">
-      </div>
-      <div class="cert-wrapper" data-desc="cert placeholder">
-        <img src="assets/cert placeholder.png" alt="Python Cert" onclick="openCert('assets/python-cert.png')">
-      </div>
-        <div class="cert-wrapper" data-desc="cert placeholder">
-            <img src="assets/cert placeholder.png" alt="Python Cert" onclick="openCert('assets/python-cert.png')">
-        </div>
-        <div class="cert-wrapper" data-desc="cert placeholder">
-                    <img src="assets/cert placeholder.png" alt="Python Cert" onclick="openCert('assets/python-cert.png')">
-                </div>
-      <!-- Add more certs -->
+  <!-- Taskbar -->
+<div class="taskbar">
+  <div class="taskbar-icon" id="terminal-icon">
+    <img src="assets/terminal.webp" alt="CLI">
+  </div>
+  <div class="taskbar-icon" id="notepad-icon">
+    📝
+  </div>
+</div>
+
+
+<!-- UAC Modal -->
+<div class="modal hidden">
+  <div class="modal-window">
+    <div class="modal-header">
+      <span class="modal-title">User Account Control</span>
+      <span class="modal-close">✕</span>
+    </div>
+    <div class="modal-body">
+      <img src="assets/shield.png" alt="Shield">
+      <p>Do you want to allow this app to make changes to your device?</p>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-confirm">Yes</button>
+      <button class="btn btn-cancel">No</button>
     </div>
   </div>
 </div>
 
-    <!-- Tools -->
-    <div class="card">
-      <h4>Tools I Use:</h4>
-      <div class="badge-container">
-        <span class="badge">MySQL</span>
-        <span class="badge">Excel</span>
-        <span class="badge">Git</span>
-        <span class="badge">Docker</span>
-        <span class="badge">Cisco Packet Tracer</span>
-      </div>
+<!-- Notepad Icon -->
+<div id="notepad-icon" class="taskbar-icon">📝</div>
 
-  <div class="mini-card">
-    <h5>Certificates</h5>
-    <div class="cert-gallery">
-      <div class="cert-wrapper" data-desc="Java Certificate">
-        <img src="assets/cert placeholder.png" alt="Java Cert" onclick="openCert('assets/java-cert.png')">
-      </div>
-      <div class="cert-wrapper" data-desc="Python Certificate">
-        <img src="assets/cert placeholder.png" alt="Python Cert" onclick="openCert('assets/python-cert.png')">
-      </div>
-        <div class="cert-wrapper" data-desc="Python Certificate">
-            <img src="assets/cert placeholder.png" alt="Python Cert" onclick="openCert('assets/python-cert.png')">
-        </div>
-      <!-- Add more certs -->
+<!-- Notepad App -->
+<div id="notepad-app" class="window hidden">
+  <div class="window-header">
+    <span>Notepad - instructions.txt</span>
+    <div class="window-buttons">
+      <button class="close-btn">✖</button>
     </div>
+  </div>
+  <div class="window-body">
+    <pre contenteditable="true">
+Hello HR or non technical person looking at this
+
+If you don’t know what to do:
+1. Click the Terminal app
+2. Press ENTER
+3.  or Type "kevin --about" and hit ENTER
+    </pre>
   </div>
 </div>
 
-   
-    <div class="card">
-      <h4>Other Skills:</h4>
-        <div class="badge-container">
-            <span class="badge">Analytics</span>
-            <span class="badge">Project Management</span>
-            <span class="badge">Communication</span>
-            <span class="badge">Software Engineering</span>
-        </div>
-        <!-- Certificates inside mini-card -->
-        <div class="mini-card">
-                <h5>Certificates</h5>
-            <div class="cert-gallery">
-                <div class="cert-wrapper" data-desc="Software Engineering">
-                    <img src="assets/Accenture Certificate-1.png" alt="SoftEngCert" onclick="openCert('assets/Accenture Certificate-1.png')">
-                </div>
-                <div class="cert-wrapper" data-desc="cert placeholder">
-                    <img src="assets/cert placeholder.png" alt="ProjectManagementCert" onclick="openCert('assets/PMI.png')">
-                </div>
-                <div class="cert-wrapper" data-desc="Google Analytics">
-                    <img src="https://api.accredible.com/v1/frontend/credential_website_embed_image/certificate/159854891" alt="Python Cert" onclick="openCert('https://api.accredible.com/v1/frontend/credential_website_embed_image/certificate/159854891')">
-                </div>
-                <!-- Add more certs -->
-                </div>
-            </div>
-        </div>
-  </div>
-</div>
-
-                <button class="toggle-btn" onclick="togglePanel()">☰ Projects</button>
-                <div id="project-panel" class="sidepanel">
-                    <h2>Projects</h2>
-                    
-                    <a href="https://github.com/vinny-Kev/Reservatory" target="_blank" data-desc="Node.JS + PHP Web Application Project, I developed the back-end of the system alongside my team!"><span class ="link-text">Reservatory</span></a>
-                    <a href="https://github.com/vinny-Kev/CryptoGraphers" target="_blank" data-desc="Machine Learning powered application that detects fake statements in text by recognizing patterns that indicate overly sensationalized content."><span class ="link-text">Cryptographers</span></a>
-                    <a href="https://github.com/vinny-Kev/Practice3DGame" target="_blank" data-desc="GDScript Game Im building, Still working on it!"><span class ="link-text">Godot Games!</span></a>
-                </div>
-
-
-            </div>    
-        </div>
-    </div>
-    </div>
-    <div id="cli-launcher" title="Click me"><</div>
-        <div id="cli-window">
-            <div id="cli-header">
-                <span>Terminal</span>
-                <button id="cli-close">✖</button>
-            </div>
-            <div id="cli-content"></div>
-            <div id="cli-line">   
-            <span class="cli-prompt">></span>
-            <input type="text" id="cli-input" placeholder="(y/n)" autocomplete="off" />
-        </div>
-    </div>
-
-    </div>
-    <script>
-        function openCert(url) {
-        const overlay = document.createElement('div');
-        overlay.style.position = 'fixed';
-        overlay.style.top = '0';
-        overlay.style.left = '0';
-        overlay.style.width = '100vw';
-        overlay.style.height = '100vh';
-        overlay.style.background = 'rgba(0,0,0,0.8)';
-        overlay.style.display = 'flex';
-        overlay.style.alignItems = 'center';
-        overlay.style.justifyContent = 'center';
-        overlay.style.zIndex = '1000';
-    
-
-        const img = document.createElement('img');
-        img.src = url;
-        img.style.maxWidth = '90%';
-        img.style.maxHeight = '90%';
-        img.style.border = '3px solid white';
-        img.style.borderRadius = '10px';
-    
-
-        overlay.addEventListener('click', () => overlay.remove());
-    
-        overlay.appendChild(img);
-        document.body.appendChild(overlay);
-}
-</script>
 
 <script>
-const launcher = document.getElementById('cli-launcher');
-const cliWindow = document.getElementById('cli-window');
-const cliClose = document.getElementById('cli-close');
-const cliContent = document.getElementById('cli-content');
-const cliInput = document.getElementById('cli-input');
+const canvas = document.getElementById("bg-canvas");
+const ctx = canvas.getContext("2d");
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
 
-function typeMessage(message, index = 0, callback) {
-  const line = document.createElement('div');
-  cliContent.appendChild(line);
+let particles = [];
+const mouse = { x: null, y: null };
 
-  // Wrap the text in a span so cursor attaches
-  const span = document.createElement("span");
-  span.classList.add("typing-cursor");
-  line.appendChild(span);
-
-  function typeChar() {
-    if (index < message.length) {
-      span.textContent += message.charAt(index);
-      index++;
-      setTimeout(typeChar, 30);
-    } else {
-      // Stop blinking when done
-      span.classList.remove("typing-cursor");
-      if (callback) callback();
+class Particle {
+    constructor() {
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * canvas.height;
+        this.size = Math.random() * 2 + 1;
+        this.speedX = (Math.random() - 0.5) * 1;
+        this.speedY = (Math.random() - 0.5) * 1;
     }
-  }
-  typeChar();
+    update() {
+        this.x += this.speedX;
+        this.y += this.speedY;
+        if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+        if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+    }
+    draw() {
+        ctx.fillStyle = "#0f0";
+        ctx.shadowBlur = 15;
+        ctx.shadowColor = "#0f0";
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fill();
+    }
 }
 
-
-launcher.addEventListener('click', () => {
-  cliWindow.style.display = 'flex';
-  launcher.style.display = 'none'; // hide launcher
-  cliInput.focus();
-  typeMessage("If you're looking at this I probably sent you my resume... please hire me :(");
-});
-
-cliClose.addEventListener('click', () => {
-  cliWindow.style.display = 'none';
-  launcher.style.display = 'block'; // show launcher again
-  cliContent.innerHTML = '';
-});
-
-
-// Handle input
-cliInput.addEventListener('keypress', (e) => {
-  if (e.key === 'Enter') {
-    let input = cliInput.value.trim();       // raw input
-    const displayInput = input;              // keep original for unknown command
-    input = input.toLowerCase();             // lowercase for checking
-    cliInput.value = '';
-
-    // Show user input
-    const userLine = document.createElement('div');
-    userLine.textContent = '> ' + displayInput;
-    cliContent.appendChild(userLine);
-
-    // Check for yes / no / y / n
-    if (input === 'yes' || input === 'y') {
-      typeMessage('Yippie!! :))), My email is kevinroymaglaqui29@gmail.com or 2234101@slu.edu.ph or my number 09708158167 or you can just click my socials above :)))');
-    } else if (input === 'no' || input === 'n') {
-      typeMessage('Oh no! pretty please(˃̣̣̥ᯅ˂̣̣̥)...');
-    } else {
-      typeMessage(`'${displayInput}' is not recognized as an internal or external command, operable program or batch file`);
+function init() {
+    particles = [];
+    for (let i = 0; i < 100; i++) {
+        particles.push(new Particle());
     }
+}
 
-    cliContent.scrollTop = cliContent.scrollHeight; // auto-scroll
-  }
-});
+function connectParticles() {
+    for (let a = 0; a < particles.length; a++) {
+        for (let b = a + 1; b < particles.length; b++) {
+            let dx = particles[a].x - particles[b].x;
+            let dy = particles[a].y - particles[b].y;
+            let distance = Math.sqrt(dx * dx + dy * dy);
+            if (distance < 120) {
+                ctx.strokeStyle = `rgba(0,255,0,${1 - distance / 120})`;
+                ctx.lineWidth = 1;
+                ctx.beginPath();
+                ctx.moveTo(particles[a].x, particles[a].y);
+                ctx.lineTo(particles[b].x, particles[b].y);
+                ctx.stroke();
+            }
+        }
+        if (mouse.x && mouse.y) {
+            let dx = particles[a].x - mouse.x;
+            let dy = particles[a].y - mouse.y;
+            let distance = Math.sqrt(dx * dx + dy * dy);
+            if (distance < 150) {
+                ctx.strokeStyle = `rgba(0,255,0,${1 - distance / 150})`;
+                ctx.lineWidth = 1;
+                ctx.beginPath();
+                ctx.moveTo(particles[a].x, particles[a].y);
+                ctx.lineTo(mouse.x, mouse.y);
+                ctx.stroke();
+            }
+        }
+    }
+}
 
+let hue = 120;
+function animate() {
+    ctx.fillStyle = `black`;
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    hue += 0.05;
 
-
-</script>
-  <script>
-document.querySelectorAll('.cert-gallery').forEach(gallery => {
-  const wrappers = gallery.querySelectorAll('.cert-wrapper');
-  let activeIndex = 0;
-
-  function updateCarousel() {
-    wrappers.forEach((wrap, i) => {
-      wrap.classList.remove('active', 'prev', 'next', 'hidden');
-
-      if (i === activeIndex) wrap.classList.add('active');
-      else if (i === (activeIndex - 1 + wrappers.length) % wrappers.length) wrap.classList.add('prev');
-      else if (i === (activeIndex + 1) % wrappers.length) wrap.classList.add('next');
-      else wrap.classList.add('hidden'); // hide all other cards
+    particles.forEach(p => {
+        p.update();
+        p.draw();
+        if (mouse.x && mouse.y) {
+            let dx = p.x - mouse.x;
+            let dy = p.y - mouse.y;
+            let distance = Math.sqrt(dx*dx + dy*dy);
+            ctx.shadowBlur = distance < 100 ? 25 : 15;
+        }
     });
+
+    connectParticles();
+    requestAnimationFrame(animate);
+}
+
+init();
+animate();
+
+window.addEventListener("resize", () => {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    init();
+});
+
+window.addEventListener("mousemove", (e) => {
+    mouse.x = e.x;
+    mouse.y = e.y;
+});
+
+window.addEventListener("mouseleave", () => {
+    mouse.x = null;
+    mouse.y = null;
+});
+</script>
+
+<script>
+const terminalApp = document.getElementById("terminal-app");
+const terminalIcon = document.getElementById("terminal-icon");
+const minimizeBtn = document.querySelector(".min-btn");
+const closeBtn = document.querySelector(".close-btn");
+const cliOutput = document.getElementById("cli-output");
+const modal = document.querySelector(".modal");
+
+// History
+let history = [];
+let historyIndex = -1;
+
+// Input handling
+let inputActive = false;
+let currentCommand = "";
+
+// === Taskbar buttons ===
+terminalIcon.addEventListener("click", () => {
+  terminalApp.classList.remove("hidden");
+  terminalApp.style.zIndex = 20;
+  focusPrompt();
+});
+
+minimizeBtn.addEventListener("click", () => {
+  terminalApp.classList.add("hidden");
+});
+
+closeBtn.addEventListener("click", () => {
+  resetTerminal();
+  terminalApp.classList.add("hidden");
+});
+
+// Modal buttons
+document.querySelector(".btn-confirm").addEventListener("click", () => {
+  document.body.classList.add("fade-out");
+  setTimeout(() => (window.location.href = "main-page.html"), 600);
+});
+
+document.querySelector(".btn-cancel").addEventListener("click", () => {
+  modal.classList.add("hidden");
+  printLine("Command cancelled. Type \"kevin --about\" again.");
+  newPrompt();
+});
+
+// Draggable terminal
+let offsetX, offsetY, isDragging = false;
+const header = terminalApp.querySelector(".terminal-header");
+
+header.addEventListener("mousedown", (e) => {
+  isDragging = true;
+  offsetX = e.clientX - terminalApp.offsetLeft;
+  offsetY = e.clientY - terminalApp.offsetTop;
+});
+document.addEventListener("mouseup", () => (isDragging = false));
+document.addEventListener("mousemove", (e) => {
+  if (!isDragging) return;
+  terminalApp.style.left = (e.clientX - offsetX) + "px";
+  terminalApp.style.top = (e.clientY - offsetY) + "px";
+});
+
+// === Terminal core ===
+function printLine(text = "") {
+  cliOutput.innerHTML += text + "\n";
+  cliOutput.scrollTop = cliOutput.scrollHeight;
+}
+
+function newPrompt(defaultText = "") {
+  cliOutput.innerHTML += `<span class="prompt">kevinOS$ </span><span id="active-input" class="active-input" contenteditable="true">${defaultText}</span>`;
+  focusPrompt();
+  inputActive = true;
+}
+
+function focusPrompt() {
+  const activeInput = document.getElementById("active-input");
+  if (activeInput) {
+    const range = document.createRange();
+    const sel = window.getSelection();
+    range.selectNodeContents(activeInput);
+    range.collapse(false);
+    sel.removeAllRanges();
+    sel.addRange(range);
+    activeInput.focus();
   }
+}
 
-  wrappers.forEach((wrap, index) => {
-    wrap.addEventListener('click', () => {
-      activeIndex = index;
-      updateCarousel();
-    });
+// Boot sequence
+function boot() {
+  cliOutput.innerHTML = "";
+  printLine("Welcome to KevinOS!");
+  typeLine("kevinOS$ kevin --help", () => {
+    setTimeout(() => {
+      printLine("Available commands:");
+      printLine("  kevin --about    → Go to portfolio");
+      printLine("  kevin --help     → Show this help menu");
+      setTimeout(() => newPrompt("kevin --about"), 400);
+    }, 400);
   });
+}
 
-  updateCarousel();
-});
+function resetTerminal() {
+  history = [];
+  historyIndex = -1;
+  inputActive = false;
+  cliOutput.innerHTML = "";
+  boot();
+}
 
-  </script>
-  <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-68FH2QD3EM"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-68FH2QD3EM');
-</script>
-
-<div id="tooltip"></div>
-<script>
-const tooltip = document.getElementById("tooltip");
-
-document.querySelectorAll("#project-panel a").forEach(link => {
-  link.addEventListener("mouseenter", () => {
-    tooltip.textContent = link.getAttribute("data-desc");
-
-    // Position tooltip to the right of the link
-    const rect = link.getBoundingClientRect();
-    tooltip.style.top = rect.top + rect.height / 2 + "px";
-    tooltip.style.left = rect.right + 10 + "px";
-    tooltip.style.opacity = "1";
-    tooltip.style.transform = "translateY(-50%)";
-  });
-
-  link.addEventListener("mouseleave", () => {
-    tooltip.style.opacity = "0";
-  });
-});
-</script>
-<script>
-function typeIntro(text, container, speed = 30, callback) {
-  container.textContent = ""; // clear text
+function typeLine(line, callback) {
   let i = 0;
-
-  // Create span to hold the text + cursor
-  const span = document.createElement("span");
-  span.classList.add("typing-cursor");
-  container.appendChild(span);
-
-  function typeChar() {
-    if (i < text.length) {
-      span.textContent += text.charAt(i);
+  function typing() {
+    if (i < line.length) {
+      cliOutput.innerHTML += line[i];
       i++;
-      setTimeout(typeChar, speed);
+      setTimeout(typing, 40);
     } else {
-      // stop blinking after typing finishes
-      span.classList.remove("typing-cursor");
+      cliOutput.innerHTML += "\n";
       if (callback) callback();
     }
   }
-
-  typeChar();
+  typing();
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-  const introCard = document.querySelector(".card p");
-  const introText = introCard.textContent;
+// === Input handling ===
+document.addEventListener("keydown", (e) => {
+  const activeInput = document.getElementById("active-input");
+  if (!activeInput) return;
 
-  typeIntro(introText, introCard, 25);
+  if (e.key === "Enter") {
+    e.preventDefault();
+    const input = activeInput.textContent.trim();
+    activeInput.removeAttribute("id");
+    history.push(input);
+    historyIndex = history.length;
+    inputActive = false;
 
-  introCard.parentElement.addEventListener("click", () => {
-    typeIntro(introText, introCard, 25);
-  });
+    if (input === "kevin --about") {
+      modal.classList.remove("hidden");
+    } else if (input === "kevin --help") {
+      printLine("Available commands:");
+      printLine("  kevin --about    → Go to portfolio");
+      printLine("  kevin --help     → Show this help menu");
+      newPrompt();
+    } else if (input) {
+      printLine(`'${input}' is not recognized as an internal or external command,`);
+      printLine("operable program or batch file.");
+      newPrompt();
+    } else {
+      newPrompt();
+    }
+  }
+
+  if (e.key === "ArrowUp") {
+    if (history.length > 0 && historyIndex > 0) {
+      historyIndex--;
+      activeInput.textContent = history[historyIndex];
+      focusPrompt();
+    }
+  }
+
+  if (e.key === "ArrowDown") {
+    if (historyIndex < history.length - 1) {
+      historyIndex++;
+      activeInput.textContent = history[historyIndex];
+    } else {
+      activeInput.textContent = "";
+      historyIndex = history.length;
+    }
+    focusPrompt();
+  }
+});
+
+// Boot up
+window.addEventListener("load", boot);
+//notepad HR assistance
+const notepadApp = document.getElementById("notepad-app");
+const notepadIcon = document.getElementById("notepad-icon");
+
+notepadIcon.addEventListener("click", () => {
+  notepadApp.classList.remove("hidden");
+  notepadApp.style.zIndex = 30;
+
+  // spawn at far right
+  notepadApp.style.left = "auto";
+  notepadApp.style.right = "20px";
+  notepadApp.style.top = "50px";
+});
+
+
+
+
+// Close button
+notepadApp.querySelector(".close-btn").addEventListener("click", () => {
+  notepadApp.classList.add("hidden");
+});
+
+
+// === Draggable Notepad ===
+let npOffsetX, npOffsetY, npDragging = false;
+const npHeader = notepadApp.querySelector(".window-header");
+
+// drag start
+npHeader.addEventListener("mousedown", (e) => {
+  npDragging = true;
+  npOffsetX = e.clientX - notepadApp.offsetLeft;
+  npOffsetY = e.clientY - notepadApp.offsetTop;
+});
+
+// drag end
+document.addEventListener("mouseup", () => npDragging = false);
+
+// drag move
+document.addEventListener("mousemove", (e) => {
+  if (!npDragging) return;
+  notepadApp.style.left = (e.clientX - npOffsetX) + "px";
+  notepadApp.style.top = (e.clientY - npOffsetY) + "px";
+});
+
+
+notepadIcon.addEventListener("click", () => {
+  notepadApp.classList.remove("hidden");
+  notepadApp.style.zIndex = 30;
+
+  // reset position
+  notepadApp.style.left = "auto";
+  notepadApp.style.right = "20px";
+  notepadApp.style.top = "50px";
 });
 
 </script>
-<footer id="site-footer">
-  <p>© 2025 Kevin Roy V. Maglaqui</p>
-  <p class="warning">
-    This page collects data using Google Analytics to understand user engagement and factors that can convert potential opportunities!
-    No personal information is collected.
-  </p>
-  <p>
-    <a href="https://github.com/vinny-Kev" target="_blank">GitHub</a> •
-    <a href="https://www.linkedin.com/in/kevin-roy-maglaqui-1664352b7/" target="_blank">LinkedIn</a> •
-    <a href="mailto:kevinroymaglaqui29@gmail.com">Email</a>
-  </p>
-</footer>
+
 
 
 </body>
