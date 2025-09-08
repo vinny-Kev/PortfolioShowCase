@@ -247,11 +247,12 @@ pre#cli-output {
   display: flex;
   align-items: center;
   justify-content: flex-start; /* keeps them left-aligned */
-  padding: 0 20px; /* increase left/right padding */
+  padding: 0 50px; /* increase left/right padding */
   gap: 12px; /* spacing between icons */
 }
 
 .taskbar-icon {
+  left: 5px;
   width: 28px; height: 28px;
   display: flex;
   align-items: center; justify-content: center;
@@ -306,4 +307,35 @@ pre#cli-output {
   padding: 10px;
   white-space: pre-wrap;
   font-size: 14px;
+}
+
+#notepad-app .window-header {
+  position: relative; /* needed for z-index stacking */
+  background: #0078d7;
+  color: #fff;
+  padding: 6px 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: move;
+}
+
+#notepad-app .notepad-close-btn {
+  position: relative; /* so z-index applies */
+  z-index: 10;        /* above the header */
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+  padding: 2px 6px;
+}
+
+#notepad-app .notepad-close-btn:hover {
+  background: rgba(255,255,255,0.2);
+}
+
+
+#notepad-app.hidden {
+  display: none !important;
 }
