@@ -91,7 +91,15 @@ If you don’t know what to do:
   </div>
 </div>
 
-
+<!-- Mobile Warning Modal -->
+<div id="mobile-warning" class="mobile-warning hidden">
+  <div class="warning-card">
+    <h2>⚠️ Small Screen Detected</h2>
+    <p>This experience is best viewed on a desktop.</p>
+    <button id="proceed-btn">Proceed to Portfolio</button>
+    <button id="stay-btn">Stay Here Anyway</button>
+  </div>
+</div>
 <script>
 const canvas = document.getElementById("bg-canvas");
 const ctx = canvas.getContext("2d");
@@ -523,6 +531,35 @@ setInterval(updateDateTime, 1000);
 updateDateTime();
 
 
+
+</script>
+<script>
+  // Detect small screens
+window.addEventListener("load", () => {
+  if (window.innerWidth < 700) {
+    document.getElementById("mobile-warning").classList.remove("hidden");
+  }
+});
+
+// Button actions
+document.getElementById("proceed-btn").addEventListener("click", () => {
+  window.location.href = "main-page.html"; // <-- replace with your portfolio link
+});
+
+document.getElementById("stay-btn").addEventListener("click", () => {
+  document.getElementById("mobile-warning").classList.add("hidden");
+});
+function checkMobileWarning() {
+  const warning = document.getElementById("mobile-warning");
+  if (window.innerWidth < 700) {
+    warning.classList.remove("hidden");
+  } else {
+    warning.classList.add("hidden");
+  }
+}
+
+window.addEventListener("load", checkMobileWarning);
+window.addEventListener("resize", checkMobileWarning);
 
 </script>
 
