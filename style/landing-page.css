@@ -339,3 +339,47 @@ pre#cli-output {
 #notepad-app.hidden {
   display: none !important;
 }
+
+@media (max-width: 700px) {
+  .terminal-window {
+    width: 95%;
+    height: 60vh;
+    top: 10px !important;
+    left: 2.5% !important; /* center */
+  }
+
+  #notepad-app {
+    width: 90%;
+    right: 5% !important;
+    top: 70px !important;
+    max-height: 60vh;
+    overflow-y: auto;
+  }
+
+  .modal-window {
+    width: 95%;
+  }
+
+  .terminal-body {
+    font-size: 13px;
+  }
+
+  .taskbar {
+    padding: 0 10px;
+    gap: 6px;
+    height: 48px;
+  }
+
+  .taskbar-icon {
+    width: 36px;
+    height: 36px;
+  }
+}
+
+/* Touch dragging support */
+@media (hover: none) and (pointer: coarse) {
+  .terminal-header, 
+  #notepad-app .window-header {
+    touch-action: none; /* prevent scroll hijack */
+  }
+}
