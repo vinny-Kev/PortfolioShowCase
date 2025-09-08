@@ -367,6 +367,12 @@ window.addEventListener("load", boot);
 //notepad HR assistance
 const notepadApp = document.getElementById("notepad-app");
 const notepadIcon = document.getElementById("notepad-icon");
+// show notepad once on startup
+  notepadApp.classList.remove("hidden");
+  notepadApp.style.zIndex = 30;
+  notepadApp.style.left = "auto";
+  notepadApp.style.right = "20px";
+  notepadApp.style.top = "50px";
 
 notepadIcon.addEventListener("click", () => {
   notepadApp.classList.remove("hidden");
@@ -414,10 +420,12 @@ notepadIcon.addEventListener("click", () => {
   notepadApp.style.zIndex = 30;
 
   // reset position
+  
   notepadApp.style.left = "auto";
   notepadApp.style.right = "20px";
   notepadApp.style.top = "50px";
 });
+
 
 </script>
 
