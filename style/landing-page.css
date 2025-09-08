@@ -247,9 +247,28 @@ pre#cli-output {
   display: flex;
   align-items: center;
   justify-content: flex-start; /* keeps them left-aligned */
-  padding: 0 50px; /* increase left/right padding */
+  padding: 0 10px; /* increase left/right padding */
   gap: 12px; /* spacing between icons */
 }
+
+.taskbar-systemtray {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  padding-right: 16px;
+  font-size: 14px;
+  color: #fff;
+}
+
+#datetime {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end; /* pushes text to the right edge */
+  line-height: 1.1;
+  font-family: "Segoe UI", sans-serif;
+  font-size: 13px;
+}
+
 
 .taskbar-icon {
   left: 5px;
@@ -339,6 +358,87 @@ pre#cli-output {
 #notepad-app.hidden {
   display: none !important;
 }
+#save-btn {
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-size: 14px;
+  cursor: pointer;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+#save-btn:hover {
+  background: rgba(255,255,255,0.2);
+}
+
+
+#desktop {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  padding: 20px;
+  gap: 20px;
+  pointer-events: none; /* icons don’t block background */
+}
+.desktop-icon {
+  width: 64px;
+  text-align: center;
+  color: white;
+  font-size: 12px;
+  cursor: pointer;
+  pointer-events: auto; /* icons clickable */
+}
+.desktop-icon img {
+  filter: brightness(0) invert(1);
+  width: 48px;
+  height: 48px;
+  display: block;
+  margin: 0 auto 4px;
+}
+
+
+.menu-bar {
+  display: flex;
+  gap: 12px;
+  margin-left: 20px;
+  color: #fff;
+  font-size: 14px;
+}
+
+.menu {
+  position: relative;
+  cursor: pointer;
+  padding: 2px 6px;
+}
+.menu:hover { background: rgba(255,255,255,0.15); }
+
+.dropdown {
+  position: absolute;
+  top: 20px;
+  left: 0;
+  background: #fff;
+  color: #000;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  min-width: 100px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.25);
+  z-index: 999;
+}
+.dropdown.hidden { display: none; }
+
+.dropdown-item {
+  padding: 6px 10px;
+  cursor: pointer;
+}
+.dropdown-item:hover {
+  background: #0078d7;
+  color: #fff;
+}
+
+
 
 @media (max-width: 700px) {
   .terminal-window {
