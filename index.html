@@ -1,569 +1,610 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kevin OS</title>
-    <link rel="icon" type="image/x-icon" href="assets/favicon.jfif">
-    <link rel="stylesheet" href="style/landing-page.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kevin OS</title>
+  <link rel="icon" type="image/x-icon" href="assets/favicon.jfif">
+  <link rel="stylesheet" href="style/landing-page.css">
 </head>
 <body>
-    <div id="landing">
-  <canvas id="bg-canvas"></canvas>
-  <div id="desktop"></div>
-
-
-  <!-- CLI app window -->
- <div class="terminal-window" id="terminal-app">
-  <div class="terminal-header">
-    <div class="term-title">bash</div>
-    <div class="term-buttons">
-      <span class="min-btn">—</span>
-      <span class="close-btn">✕</span>
+  <div id="landing">
+    <canvas id="bg-canvas"></canvas>
+    <div id="desktop"></div>
+    <!-- CLI app window -->
+    <div class="terminal-window" id="terminal-app">
+      <div class="terminal-header">
+        <div class="term-title">bash</div>
+        <div class="term-buttons">
+          <span class="min-btn">—</span>
+          <span class="close-btn">✕</span>
+        </div>
+      </div>
+      <div class="terminal-body">
+        <pre id="cli-output"></pre>
+      </div>
     </div>
-  </div>
-  <div class="terminal-body">
-    <pre id="cli-output"></pre>
-  </div>
-</div>
-
-
-  <!-- Taskbar -->
-<!-- Taskbar -->
-<div class="taskbar">
-  <div class="taskbar-icon" id="terminal-icon">
-    <img src="assets/terminal-icon-2.jpg" alt="CLI">
-  </div>
-  <div class="taskbar-icon" id="notepad-icon">📝</div>
-  <div class="taskbar-systemtray">
-    <span id="weather"></span>
-    <span id="datetime"></span>
-  </div>
-</div>
-
-
-
-<!-- UAC Modal -->
-<div class="modal hidden">
-  <div class="modal-window">
-    <div class="modal-header">
-      <span class="modal-title">User Account Control</span>
-      <span class="modal-close">✕</span>
+    <!-- Taskbar -->
+    <div class="taskbar">
+      <div class="taskbar-icon" id="terminal-icon">
+        <img src="assets/terminal-icon-2.jpg" alt="CLI">
+      </div>
+      <div class="taskbar-icon" id="notepad-icon">📝</div>
+      <div class="taskbar-systemtray">
+        <button id="nav-toggle" title="Switch to Portfolio View" onclick="window.location.href='main-page.html'">📄</button>
+        <button id="theme-toggle" title="Toggle theme">🌙</button>
+        <div id="datetime"></div>
+      </div>
     </div>
-    <div class="modal-body">
-      <img src="assets/shield.png" alt="Shield">
-      <p>Do you want to allow this app to make changes to your device?</p>
-    </div>
-    <div class="modal-footer">
-      <button class="btn btn-confirm">Yes</button>
-      <button class="btn btn-cancel">No</button>
-    </div>
-  </div>
-</div>
-
-<!-- Notepad Icon -->
-<div id="notepad-icon" class="taskbar-icon">📝</div>
-
-<!-- Notepad App -->
-<div id="notepad-app" class="window hidden">
-  <div class="window-header">
-    <span>Notepad - instructions.txt</span>
-    <div class="menu-bar">
-      <div class="menu">
-        File ▾
-        <div class="dropdown hidden">
-          <div class="dropdown-item" id="save-option">Save</div>
-          <div class="dropdown-item" id="saveas-option">Save As</div>
+    <!-- UAC Modal -->
+    <div class="modal hidden">
+      <div class="modal-window">
+        <div class="modal-header">
+          <span class="modal-title">User Account Control</span>
+          <span class="modal-close">✕</span>
+        </div>
+        <div class="modal-body">
+          <img src="assets/shield.png" alt="Shield">
+          <p>Do you want to allow this app to make changes to your device?</p>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-confirm">Yes</button>
+          <button class="btn btn-cancel">No</button>
         </div>
       </div>
     </div>
-    <button class="close-btn">✖</button>
-  </div>
-  <div class="window-body">
-    <pre contenteditable="true">
+    <!-- Notepad App -->
+    <div id="notepad-app" class="window hidden">
+      <div class="window-header">
+        <span>Notepad - instructions.txt</span>
+        <div class="menu-bar">
+          <div class="menu">
+            File ▾
+            <div class="dropdown hidden">
+              <div class="dropdown-item" id="save-option">Save</div>
+              <div class="dropdown-item" id="saveas-option">Save As</div>
+            </div>
+          </div>
+        </div>
+        <button class="close-btn">✖</button>
+      </div>
+      <div class="window-body">
+        <pre contenteditable="true">
 Hello If You're Having Trouble!
 
 If you don’t know what to do:
 1. Click the Terminal app
 2. Press ENTER
 3. or Type "kevin --about" and hit ENTER
-    </pre>
+        </pre>
+      </div>
+    </div>
+
+    <!-- Mobile Warning Modal -->
+    <div id="mobile-warning" class="mobile-warning hidden">
+      <div class="warning-card">
+        <h2>⚠️ Small Screen Detected</h2>
+        <p>This experience is best viewed on a desktop.</p>
+        <button id="proceed-btn">Proceed to Portfolio</button>
+        <button id="stay-btn">Stay Here Anyway</button>
+      </div>
+    </div>
   </div>
-</div>
 
-<!-- Mobile Warning Modal -->
-<div id="mobile-warning" class="mobile-warning hidden">
-  <div class="warning-card">
-    <h2>⚠️ Small Screen Detected</h2>
-    <p>This experience is best viewed on a desktop.</p>
-    <button id="proceed-btn">Proceed to Portfolio</button>
-    <button id="stay-btn">Stay Here Anyway</button>
-  </div>
-</div>
-<script>
-const canvas = document.getElementById("bg-canvas");
-const ctx = canvas.getContext("2d");
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
-
-let particles = [];
-const mouse = { x: null, y: null };
-
-class Particle {
-    constructor() {
-        this.x = Math.random() * canvas.width;
-        this.y = Math.random() * canvas.height;
-        this.size = Math.random() * 2 + 1;
-        this.speedX = (Math.random() - 0.5) * 1;
-        this.speedY = (Math.random() - 0.5) * 1;
-    }
-    update() {
-        this.x += this.speedX;
-        this.y += this.speedY;
-        if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
-        if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
-    }
-    draw() {
-        ctx.fillStyle = "#0f0";
-        ctx.shadowBlur = 15;
-        ctx.shadowColor = "#0f0";
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-        ctx.fill();
-    }
-}
-
-function init() {
-    particles = [];
-    for (let i = 0; i < 100; i++) {
-        particles.push(new Particle());
-    }
-}
-
-function connectParticles() {
-    for (let a = 0; a < particles.length; a++) {
-        for (let b = a + 1; b < particles.length; b++) {
-            let dx = particles[a].x - particles[b].x;
-            let dy = particles[a].y - particles[b].y;
-            let distance = Math.sqrt(dx * dx + dy * dy);
-            if (distance < 120) {
-                ctx.strokeStyle = `rgba(0,255,0,${1 - distance / 120})`;
-                ctx.lineWidth = 1;
-                ctx.beginPath();
-                ctx.moveTo(particles[a].x, particles[a].y);
-                ctx.lineTo(particles[b].x, particles[b].y);
-                ctx.stroke();
-            }
-        }
-        if (mouse.x && mouse.y) {
-            let dx = particles[a].x - mouse.x;
-            let dy = particles[a].y - mouse.y;
-            let distance = Math.sqrt(dx * dx + dy * dy);
-            if (distance < 150) {
-                ctx.strokeStyle = `rgba(0,255,0,${1 - distance / 150})`;
-                ctx.lineWidth = 1;
-                ctx.beginPath();
-                ctx.moveTo(particles[a].x, particles[a].y);
-                ctx.lineTo(mouse.x, mouse.y);
-                ctx.stroke();
-            }
-        }
-    }
-}
-
-let hue = 120;
-function animate() {
-    ctx.fillStyle = `black`;
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-    hue += 0.05;
-
-    particles.forEach(p => {
-        p.update();
-        p.draw();
-        if (mouse.x && mouse.y) {
-            let dx = p.x - mouse.x;
-            let dy = p.y - mouse.y;
-            let distance = Math.sqrt(dx*dx + dy*dy);
-            ctx.shadowBlur = distance < 100 ? 25 : 15;
-        }
-    });
-
-    connectParticles();
-    requestAnimationFrame(animate);
-}
-
-init();
-animate();
-
-window.addEventListener("resize", () => {
+  <!-- Background Canvas Animation Script -->
+  <script>
+    // Handles animated background particles
+    const canvas = document.getElementById("bg-canvas");
+    const ctx = canvas.getContext("2d");
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
+    let particles = [];
+    const mouse = { x: null, y: null };
+    
+    // Theme-aware particle system
+    const currentTheme = document.body.getAttribute('data-theme');
+    const isLightTheme = currentTheme === 'light';
+    
+    class Particle {
+      constructor() {
+        this.reset();
+        const theme = document.body.getAttribute('data-theme');
+        this.color = theme === 'light' ? '#ff69b4' : '#0f0';
+      }
+
+      reset() {
+        const theme = document.body.getAttribute('data-theme');
+        if (theme === 'light') {
+          // Sakura mode: start from top with downward motion
+          this.x = Math.random() * canvas.width;
+          this.y = -10;
+          this.size = Math.random() * 6 + 2;
+          this.speedX = Math.random() * 2 - 1; // Left to right drift
+          this.speedY = Math.random() * 1 + 0.5; // Downward fall
+          this.angle = Math.random() * 360;
+          this.rotationSpeed = (Math.random() - 0.5) * 2;
+          this.oscillationSpeed = Math.random() * 0.02;
+          this.oscillationDistance = Math.random() * 40 + 40;
+          this.initialX = this.x;
+        } else {
+          // Matrix mode: standard particle behavior
+          this.x = Math.random() * canvas.width;
+          this.y = Math.random() * canvas.height;
+          this.size = Math.random() * 2 + 1;
+          this.speedX = (Math.random() - 0.5) * 1;
+          this.speedY = (Math.random() - 0.5) * 1;
+        }
+      }
+
+      update() {
+        const theme = document.body.getAttribute('data-theme');
+        
+        if (theme === 'light') {
+          // Sakura petal movement
+          this.y += this.speedY;
+          this.x = this.initialX + Math.sin(this.y * this.oscillationSpeed) * this.oscillationDistance;
+          this.angle += this.rotationSpeed;
+
+          // Check if petal is off screen
+          if (this.y > canvas.height + 10) {
+            this.reset();
+          }
+
+          // Mouse interaction
+          if (mouse.x && mouse.y) {
+            const dx = this.x - mouse.x;
+            const dy = this.y - mouse.y;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+            if (distance < 50) {
+              this.x += dx / distance * 2;
+              this.y += dy / distance * 2;
+            }
+          }
+        } else {
+          // Matrix mode movement
+          this.x += this.speedX;
+          this.y += this.speedY;
+          if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+          if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+        }
+      }
+
+      draw() {
+        const theme = document.body.getAttribute('data-theme');
+        
+        if (theme === 'light') {
+          // Draw sakura petal
+          ctx.save();
+          ctx.translate(this.x, this.y);
+          ctx.rotate(this.angle * Math.PI / 180);
+          
+          ctx.fillStyle = this.color;
+          ctx.shadowBlur = 5;
+          ctx.shadowColor = this.color;
+          
+          // Draw a simple petal shape
+          ctx.beginPath();
+          ctx.moveTo(0, 0);
+          ctx.bezierCurveTo(-this.size, -this.size, this.size, -this.size, 0, this.size * 2);
+          ctx.bezierCurveTo(-this.size, -this.size, -this.size, this.size, 0, 0);
+          ctx.fill();
+          
+          ctx.restore();
+        } else {
+          // Draw matrix particle
+          const theme = document.body.getAttribute('data-theme');
+          this.color = theme === 'light' ? '#ff69b4' : '#0f0';
+          ctx.fillStyle = this.color;
+          ctx.shadowBlur = 15;
+          ctx.shadowColor = this.color;
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+    }
+    function init() {
+      particles = [];
+      for (let i = 0; i < 100; i++) {
+        particles.push(new Particle());
+      }
+    }
+    function connectParticles() {
+      const theme = document.body.getAttribute('data-theme');
+      const baseColor = theme === 'light' ? '255,105,180' : '0,255,0';
+      const maxDistance = theme === 'light' ? 100 : 120;
+      const mouseMaxDistance = theme === 'light' ? 120 : 150;
+      
+      for (let a = 0; a < particles.length; a++) {
+        for (let b = a + 1; b < particles.length; b++) {
+          let dx = particles[a].x - particles[b].x;
+          let dy = particles[a].y - particles[b].y;
+          let distance = Math.sqrt(dx * dx + dy * dy);
+          if (distance < maxDistance) {
+            ctx.strokeStyle = `rgba(${baseColor},${(1 - distance / maxDistance) * (theme === 'light' ? 0.6 : 1)})`;
+            ctx.lineWidth = theme === 'light' ? 0.5 : 1;
+            ctx.beginPath();
+            ctx.moveTo(particles[a].x, particles[a].y);
+            ctx.lineTo(particles[b].x, particles[b].y);
+            ctx.stroke();
+          }
+        }
+        if (mouse.x && mouse.y) {
+          let dx = particles[a].x - mouse.x;
+          let dy = particles[a].y - mouse.y;
+          let distance = Math.sqrt(dx * dx + dy * dy);
+          if (distance < mouseMaxDistance) {
+            ctx.strokeStyle = `rgba(${baseColor},${(1 - distance / mouseMaxDistance) * (theme === 'light' ? 0.6 : 1)})`;
+            ctx.lineWidth = theme === 'light' ? 0.5 : 1;
+            ctx.beginPath();
+            ctx.moveTo(particles[a].x, particles[a].y);
+            ctx.lineTo(mouse.x, mouse.y);
+            ctx.stroke();
+          }
+        }
+      }
+    }
+    let hue = 120;
+    function animate() {
+      const theme = document.body.getAttribute('data-theme');
+      ctx.fillStyle = theme === 'light' ? '#fff' : '#000';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      
+      ctx.globalAlpha = theme === 'light' ? 0.8 : 1;
+      
+      particles.forEach(p => {
+        p.update();
+        p.draw();
+      });
+      
+      if (theme === 'dark') {
+        connectParticles();
+      }
+      
+      requestAnimationFrame(animate);
+    }
     init();
-});
+    animate();
+    window.addEventListener("resize", () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      init();
+    });
+    window.addEventListener("mousemove", (e) => {
+      mouse.x = e.x;
+      mouse.y = e.y;
+    });
+    window.addEventListener("mouseleave", () => {
+      mouse.x = null;
+      mouse.y = null;
+    });
+  </script>
 
-window.addEventListener("mousemove", (e) => {
-    mouse.x = e.x;
-    mouse.y = e.y;
-});
+  <!-- Terminal and Notepad App Script -->
+  <script>
+    // Handles terminal, notepad, and desktop file logic
+    const terminalApp = document.getElementById("terminal-app");
+    const terminalIcon = document.getElementById("terminal-icon");
+    const minimizeBtn = document.querySelector(".min-btn");
+    const closeBtn = document.querySelector(".close-btn");
+    const cliOutput = document.getElementById("cli-output");
+    const modal = document.querySelector(".modal");
+    let history = [];
+    let historyIndex = -1;
+    let inputActive = false;
+    let currentCommand = "";
 
-window.addEventListener("mouseleave", () => {
-    mouse.x = null;
-    mouse.y = null;
-});
-</script>
-
-<script>
-const terminalApp = document.getElementById("terminal-app");
-const terminalIcon = document.getElementById("terminal-icon");
-const minimizeBtn = document.querySelector(".min-btn");
-const closeBtn = document.querySelector(".close-btn");
-const cliOutput = document.getElementById("cli-output");
-const modal = document.querySelector(".modal");
-
-// History
-let history = [];
-let historyIndex = -1;
-
-// Input handling
-let inputActive = false;
-let currentCommand = "";
-
-// === Taskbar buttons ===
-terminalIcon.addEventListener("click", () => {
-  terminalApp.classList.remove("hidden");
-  terminalApp.style.zIndex = 20;
-  focusPrompt();
-});
-
-minimizeBtn.addEventListener("click", () => {
-  terminalApp.classList.add("hidden");
-});
-
-closeBtn.addEventListener("click", () => {
-  resetTerminal();
-  terminalApp.classList.add("hidden");
-});
-
-// Modal buttons
-document.querySelector(".btn-confirm").addEventListener("click", () => {
-  document.body.classList.add("fade-out");
-  setTimeout(() => (window.location.href = "main-page.html"), 600);
-});
-
-document.querySelector(".btn-cancel").addEventListener("click", () => {
-  modal.classList.add("hidden");
-  printLine("Command cancelled. Type \"kevin --about\" again.");
-  newPrompt();
-});
-
-// Draggable terminal
-let offsetX, offsetY, isDragging = false;
-const header = terminalApp.querySelector(".terminal-header");
-
-header.addEventListener("mousedown", (e) => {
-  isDragging = true;
-  offsetX = e.clientX - terminalApp.offsetLeft;
-  offsetY = e.clientY - terminalApp.offsetTop;
-});
-document.addEventListener("mouseup", () => (isDragging = false));
-document.addEventListener("mousemove", (e) => {
-  if (!isDragging) return;
-  terminalApp.style.left = (e.clientX - offsetX) + "px";
-  terminalApp.style.top = (e.clientY - offsetY) + "px";
-});
-
-// === Terminal core ===
-function printLine(text = "") {
-  cliOutput.innerHTML += text + "\n";
-  cliOutput.scrollTop = cliOutput.scrollHeight;
-}
-
-function newPrompt(defaultText = "") {
-  cliOutput.innerHTML += `<span class="prompt">kevinOS$ </span><span id="active-input" class="active-input" contenteditable="true">${defaultText}</span>`;
-  focusPrompt();
-  inputActive = true;
-}
-
-function focusPrompt() {
-  const activeInput = document.getElementById("active-input");
-  if (activeInput) {
-    const range = document.createRange();
-    const sel = window.getSelection();
-    range.selectNodeContents(activeInput);
-    range.collapse(false);
-    sel.removeAllRanges();
-    sel.addRange(range);
-    activeInput.focus();
-  }
-}
-
-// Boot sequence
-function boot() {
-  cliOutput.innerHTML = "";
-  printLine("Welcome to KevinOS!");
-  typeLine("kevinOS$ kevin --help", () => {
-    setTimeout(() => {
-      printLine("Available commands:");
-      printLine("  kevin --about    → Go to portfolio");
-      printLine("  kevin --help     → Show this help menu");
-      setTimeout(() => newPrompt("kevin --about"), 400);
-    }, 400);
-  });
-}
-
-function resetTerminal() {
-  history = [];
-  historyIndex = -1;
-  inputActive = false;
-  cliOutput.innerHTML = "";
-  boot();
-}
-
-function typeLine(line, callback) {
-  let i = 0;
-  function typing() {
-    if (i < line.length) {
-      cliOutput.innerHTML += line[i];
-      i++;
-      setTimeout(typing, 40);
-    } else {
-      cliOutput.innerHTML += "\n";
-      if (callback) callback();
-    }
-  }
-  typing();
-}
-
-// === Input handling ===
-document.addEventListener("keydown", (e) => {
-  const activeInput = document.getElementById("active-input");
-  if (!activeInput) return;
-
-  if (e.key === "Enter") {
-    e.preventDefault();
-    const input = activeInput.textContent.trim();
-    activeInput.removeAttribute("id");
-    history.push(input);
-    historyIndex = history.length;
-    inputActive = false;
-
-    if (input === "kevin --about") {
-      modal.classList.remove("hidden");
-    } else if (input === "kevin --help") {
-      printLine("Available commands:");
-      printLine("  kevin --about    → Go to portfolio");
-      printLine("  kevin --help     → Show this help menu");
-      newPrompt();
-    } else if (input) {
-      printLine(`'${input}' is not recognized as an internal or external command,`);
-      printLine("operable program or batch file.");
-      newPrompt();
-    } else {
-      newPrompt();
-    }
-  }
-
-  if (e.key === "ArrowUp") {
-    if (history.length > 0 && historyIndex > 0) {
-      historyIndex--;
-      activeInput.textContent = history[historyIndex];
+    // Taskbar buttons
+    terminalIcon.addEventListener("click", () => {
+      terminalApp.classList.remove("hidden");
+      terminalApp.style.zIndex = 20;
       focusPrompt();
+    });
+    minimizeBtn.addEventListener("click", () => {
+      terminalApp.classList.add("hidden");
+    });
+    closeBtn.addEventListener("click", () => {
+      resetTerminal();
+      terminalApp.classList.add("hidden");
+    });
+    document.querySelector(".btn-confirm").addEventListener("click", () => {
+      document.body.classList.add("fade-out");
+      setTimeout(() => (window.location.href = "main-page.html"), 600);
+    });
+    document.querySelector(".btn-cancel").addEventListener("click", () => {
+      modal.classList.add("hidden");
+      printLine("Command cancelled. Type \"kevin --about\" again.");
+      newPrompt();
+    });
+    // Draggable terminal
+    let offsetX, offsetY, isDragging = false;
+    const header = terminalApp.querySelector(".terminal-header");
+    header.addEventListener("mousedown", (e) => {
+      isDragging = true;
+      offsetX = e.clientX - terminalApp.offsetLeft;
+      offsetY = e.clientY - terminalApp.offsetTop;
+    });
+    document.addEventListener("mouseup", () => (isDragging = false));
+    document.addEventListener("mousemove", (e) => {
+      if (!isDragging) return;
+      terminalApp.style.left = (e.clientX - offsetX) + "px";
+      terminalApp.style.top = (e.clientY - offsetY) + "px";
+    });
+    // Terminal core
+    function printLine(text = "") {
+      cliOutput.innerHTML += text + "\n";
+      cliOutput.scrollTop = cliOutput.scrollHeight;
     }
-  }
-
-  if (e.key === "ArrowDown") {
-    if (historyIndex < history.length - 1) {
-      historyIndex++;
-      activeInput.textContent = history[historyIndex];
-    } else {
-      activeInput.textContent = "";
-      historyIndex = history.length;
+    function newPrompt(defaultText = "") {
+      cliOutput.innerHTML += `<span class="prompt">kevinOS$ </span><span id="active-input" class="active-input" contenteditable="true">${defaultText}</span>`;
+      focusPrompt();
+      inputActive = true;
     }
-    focusPrompt();
-  }
-});
-
-// Boot up
-window.addEventListener("load", boot);
-//notepad HR assistance
-const notepadApp = document.getElementById("notepad-app");
-const notepadIcon = document.getElementById("notepad-icon");
-// show notepad once on startup
-  notepadApp.classList.remove("hidden");
-  notepadApp.style.zIndex = 30;
-  notepadApp.style.left = "auto";
-  notepadApp.style.right = "20px";
-  notepadApp.style.top = "50px";
-
-notepadIcon.addEventListener("click", () => {
-  notepadApp.classList.remove("hidden");
-  notepadApp.style.zIndex = 30;
-
-  // spawn at far right
-  notepadApp.style.left = "auto";
-  notepadApp.style.right = "20px";
-  notepadApp.style.top = "50px";
-});
-
-
-const fileMenu = document.querySelector(".menu");
-const dropdown = fileMenu.querySelector(".dropdown");
-
-fileMenu.addEventListener("click", () => {
-  dropdown.classList.toggle("hidden");
-});
-
-// Save
-document.getElementById("save-option").addEventListener("click", () => {
-  const content = notepadApp.querySelector(".window-body pre").innerText;
-  addFileToDesktop(currentFilename, content);
-  dropdown.classList.add("hidden");
-});
-
-// Save As
-document.getElementById("saveas-option").addEventListener("click", () => {
-  const newName = prompt("Enter file name:", currentFilename);
-  if (newName) {
-    currentFilename = newName.endsWith(".txt") ? newName : newName + ".txt";
-    notepadApp.querySelector(".window-header span").innerText = "Notepad - " + currentFilename;
-    const content = notepadApp.querySelector(".window-body pre").innerText;
-    addFileToDesktop(currentFilename, content);
-  }
-  dropdown.classList.add("hidden");
-});
-
-
-
-let desktopFiles = []; // fake storage
-let currentFilename = "instructions.txt"
-
-function addFileToDesktop(name, content) {
-  // update if exists
-  let existing = desktopFiles.find(f => f.name === name);
-  if (existing) {
-    existing.content = content;
-    return;
-  }
-
-  // otherwise create new
-  desktopFiles.push({ name, content });
-
-  const desktop = document.getElementById("desktop");
-  const icon = document.createElement("div");
-  icon.className = "desktop-icon";
-  icon.innerHTML = `
-    <img src="assets/text-file.png" alt="file">
-    <div>${name}</div>
-  `;
-
-  // open file in notepad when double-clicked
-  icon.addEventListener("dblclick", () => {
+    function focusPrompt() {
+      const activeInput = document.getElementById("active-input");
+      if (activeInput) {
+        const range = document.createRange();
+        const sel = window.getSelection();
+        range.selectNodeContents(activeInput);
+        range.collapse(false);
+        sel.removeAllRanges();
+        sel.addRange(range);
+        activeInput.focus();
+      }
+    }
+    // Boot sequence
+    function boot() {
+      cliOutput.innerHTML = "";
+      printLine("Welcome to KevinOS!");
+      typeLine("kevinOS$ kevin --help", () => {
+        setTimeout(() => {
+          printLine("Available commands:");
+          printLine("  kevin --about    → Go to portfolio");
+          printLine("  kevin --help     → Show this help menu");
+          setTimeout(() => newPrompt("kevin --about"), 400);
+        }, 400);
+      });
+    }
+    function resetTerminal() {
+      history = [];
+      historyIndex = -1;
+      inputActive = false;
+      cliOutput.innerHTML = "";
+      boot();
+    }
+    function typeLine(line, callback) {
+      let i = 0;
+      function typing() {
+        if (i < line.length) {
+          cliOutput.innerHTML += line[i];
+          i++;
+          setTimeout(typing, 40);
+        } else {
+          cliOutput.innerHTML += "\n";
+          if (callback) callback();
+        }
+      }
+      typing();
+    }
+    document.addEventListener("keydown", (e) => {
+      const activeInput = document.getElementById("active-input");
+      if (!activeInput) return;
+      if (e.key === "Enter") {
+        e.preventDefault();
+        const input = activeInput.textContent.trim();
+        activeInput.removeAttribute("id");
+        history.push(input);
+        historyIndex = history.length;
+        inputActive = false;
+        if (input === "kevin --about") {
+          modal.classList.remove("hidden");
+        } else if (input === "kevin --help") {
+          printLine("Available commands:");
+          printLine("  kevin --about    → Go to portfolio");
+          printLine("  kevin --help     → Show this help menu");
+          newPrompt();
+        } else if (input) {
+          printLine(`'${input}' is not recognized as an internal or external command,`);
+          printLine("operable program or batch file.");
+          newPrompt();
+        } else {
+          newPrompt();
+        }
+      }
+      if (e.key === "ArrowUp") {
+        if (history.length > 0 && historyIndex > 0) {
+          historyIndex--;
+          activeInput.textContent = history[historyIndex];
+          focusPrompt();
+        }
+      }
+      if (e.key === "ArrowDown") {
+        if (historyIndex < history.length - 1) {
+          historyIndex++;
+          activeInput.textContent = history[historyIndex];
+        } else {
+          activeInput.textContent = "";
+          historyIndex = history.length;
+        }
+        focusPrompt();
+      }
+    });
+    window.addEventListener("load", boot);
+    // Notepad logic
+    const notepadApp = document.getElementById("notepad-app");
+    const notepadIcon = document.getElementById("notepad-icon");
     notepadApp.classList.remove("hidden");
-    notepadApp.querySelector(".window-body pre").innerText = content;
-    currentFilename = name;
-    notepadApp.querySelector(".window-header span").innerText = "Notepad - " + name;
-  });
-
-  desktop.appendChild(icon);
-}
-
-
-
-// Close button
-notepadApp.querySelector(".close-btn").addEventListener("click", () => {
-  notepadApp.classList.add("hidden");
-});
-
-
-// === Draggable Notepad ===
-let npOffsetX, npOffsetY, npDragging = false;
-const npHeader = notepadApp.querySelector(".window-header");
-
-// drag start
-npHeader.addEventListener("mousedown", (e) => {
-  npDragging = true;
-  npOffsetX = e.clientX - notepadApp.offsetLeft;
-  npOffsetY = e.clientY - notepadApp.offsetTop;
-});
-
-// drag end
-document.addEventListener("mouseup", () => npDragging = false);
-
-// drag move
-document.addEventListener("mousemove", (e) => {
-  if (!npDragging) return;
-  notepadApp.style.left = (e.clientX - npOffsetX) + "px";
-  notepadApp.style.top = (e.clientY - npOffsetY) + "px";
-});
-
-
-notepadIcon.addEventListener("click", () => {
-  notepadApp.classList.remove("hidden");
-  notepadApp.style.zIndex = 30;
-
-  // reset position
-  
-  notepadApp.style.left = "auto";
-  notepadApp.style.right = "20px";
-  notepadApp.style.top = "50px";
-});
-
-
-
-
-
-// ========== Date & Time ==========
-function updateDateTime() {
-  try {
-    const now = new Date();
-    const time = now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-    const date = now.toLocaleDateString();
-    document.getElementById("datetime").innerHTML = `
-      <div>${time}</div>
-      <div>${date}</div>
-    `;
-  } catch (e) {
-    console.error("DateTime update failed:", e);
-  }
-}
-
-setInterval(updateDateTime, 1000);
-updateDateTime();
-
-
-
-</script>
-<script>
-  // Detect small screens
-window.addEventListener("load", () => {
-  if (window.innerWidth < 700) {
-    document.getElementById("mobile-warning").classList.remove("hidden");
-  }
-});
-
-// Button actions
-document.getElementById("proceed-btn").addEventListener("click", () => {
-  window.location.href = "main-page.html"; // <-- replace with your portfolio link
-});
-
-document.getElementById("stay-btn").addEventListener("click", () => {
-  document.getElementById("mobile-warning").classList.add("hidden");
-});
-function checkMobileWarning() {
-  const warning = document.getElementById("mobile-warning");
-  if (window.innerWidth < 700) {
-    warning.classList.remove("hidden");
-  } else {
-    warning.classList.add("hidden");
-  }
-}
-
-window.addEventListener("load", checkMobileWarning);
-window.addEventListener("resize", checkMobileWarning);
-
-</script>
+    notepadApp.style.zIndex = 30;
+    notepadApp.style.left = "auto";
+    notepadApp.style.right = "20px";
+    notepadApp.style.top = "50px";
+    notepadIcon.addEventListener("click", () => {
+      notepadApp.classList.remove("hidden");
+      notepadApp.style.zIndex = 30;
+      notepadApp.style.left = "auto";
+      notepadApp.style.right = "20px";
+      notepadApp.style.top = "50px";
+    });
+    const fileMenu = document.querySelector(".menu");
+    const dropdown = fileMenu.querySelector(".dropdown");
+    fileMenu.addEventListener("click", () => {
+      dropdown.classList.toggle("hidden");
+    });
+    document.getElementById("save-option").addEventListener("click", () => {
+      const content = notepadApp.querySelector(".window-body pre").innerText;
+      addFileToDesktop(currentFilename, content);
+      dropdown.classList.add("hidden");
+    });
+    document.getElementById("saveas-option").addEventListener("click", () => {
+      const newName = prompt("Enter file name:", currentFilename);
+      if (newName) {
+        currentFilename = newName.endsWith(".txt") ? newName : newName + ".txt";
+        notepadApp.querySelector(".window-header span").innerText = "Notepad - " + currentFilename;
+        const content = notepadApp.querySelector(".window-body pre").innerText;
+        addFileToDesktop(currentFilename, content);
+      }
+      dropdown.classList.add("hidden");
+    });
+    let desktopFiles = [];
+    let currentFilename = "instructions.txt"
+    function addFileToDesktop(name, content) {
+      let existing = desktopFiles.find(f => f.name === name);
+      if (existing) {
+        existing.content = content;
+        return;
+      }
+      desktopFiles.push({ name, content });
+      const desktop = document.getElementById("desktop");
+      const icon = document.createElement("div");
+      icon.className = "desktop-icon";
+      icon.innerHTML = `
+        <img src="assets/text-file.png" alt="file">
+        <div>${name}</div>
+      `;
+      icon.addEventListener("dblclick", () => {
+        notepadApp.classList.remove("hidden");
+        notepadApp.querySelector(".window-body pre").innerText = content;
+        currentFilename = name;
+        notepadApp.querySelector(".window-header span").innerText = "Notepad - " + name;
+      });
+      desktop.appendChild(icon);
+    }
+    notepadApp.querySelector(".close-btn").addEventListener("click", () => {
+      notepadApp.classList.add("hidden");
+    });
+    // Draggable Notepad
+    let npOffsetX, npOffsetY, npDragging = false;
+    const npHeader = notepadApp.querySelector(".window-header");
+    npHeader.addEventListener("mousedown", (e) => {
+      npDragging = true;
+      npOffsetX = e.clientX - notepadApp.offsetLeft;
+      npOffsetY = e.clientY - notepadApp.offsetTop;
+    });
+    document.addEventListener("mouseup", () => npDragging = false);
+    document.addEventListener("mousemove", (e) => {
+      if (!npDragging) return;
+      notepadApp.style.left = (e.clientX - npOffsetX) + "px";
+      notepadApp.style.top = (e.clientY - npOffsetY) + "px";
+    });
+    notepadIcon.addEventListener("click", () => {
+      notepadApp.classList.remove("hidden");
+      notepadApp.style.zIndex = 30;
+      notepadApp.style.left = "auto";
+      notepadApp.style.right = "20px";
+      notepadApp.style.top = "50px";
+    });
 
 
+    // Date & Time
+    function updateDateTime() {
+      try {
+        const now = new Date();
+        const time = now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+        const date = now.toLocaleDateString();
+        document.getElementById("datetime").innerHTML = `
+          <div>${time}</div>
+          <div>${date}</div>
+        `;
+      } catch (e) {
+        console.error("DateTime update failed:", e);
+      }
+    }
+    setInterval(updateDateTime, 1000);
+    updateDateTime();
+  </script>
 
+  <!-- Theme Toggle Script -->
+  <script>
+    // Theme toggle functionality
+    const themeToggle = document.getElementById('theme-toggle');
+    const root = document.documentElement;
+    
+    // Check for saved theme preference
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    document.body.setAttribute('data-theme', savedTheme);
+    updateThemeIcon();
+
+    themeToggle.addEventListener('click', () => {
+      const currentTheme = document.body.getAttribute('data-theme');
+      const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+      
+      document.body.setAttribute('data-theme', newTheme);
+      localStorage.setItem('theme', newTheme);
+      updateThemeIcon();
+      
+      // Reinitialize particles for the new theme
+      particles = [];
+      for (let i = 0; i < (newTheme === 'light' ? 50 : 100); i++) {
+        particles.push(new Particle());
+      }
+    });
+
+    function updateThemeIcon() {
+      themeToggle.textContent = document.body.getAttribute('data-theme') === 'light' ? '🌙' : '☀️';
+    }
+
+    // Flower particle system
+    function initFlowerParticles() {
+      particles = [];
+      const flowers = ['🌸', '🌺', '🌹', '🌷', '💮'];
+      
+      for (let i = 0; i < 50; i++) {
+        particles.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height,
+          flower: flowers[Math.floor(Math.random() * flowers.length)],
+          size: Math.random() * 20 + 10,
+          speedX: (Math.random() - 0.5) * 2,
+          speedY: (Math.random() - 0.5) * 2
+        });
+      }
+    }
+  </script>
+
+  <!-- Mobile Warning Modal Script -->
+  <script>
+    // Handles mobile warning modal and responsive logic
+    window.addEventListener("load", () => {
+      if (window.innerWidth < 700) {
+        document.getElementById("mobile-warning").classList.remove("hidden");
+      }
+    });
+    document.getElementById("proceed-btn").addEventListener("click", () => {
+      window.location.href = "main-page.html";
+    });
+    document.getElementById("stay-btn").addEventListener("click", () => {
+      document.getElementById("mobile-warning").classList.add("hidden");
+    });
+    function checkMobileWarning() {
+      const warning = document.getElementById("mobile-warning");
+      if (window.innerWidth < 700) {
+        warning.classList.remove("hidden");
+      } else {
+        warning.classList.add("hidden");
+      }
+    }
+    window.addEventListener("load", checkMobileWarning);
+    window.addEventListener("resize", checkMobileWarning);
+  </script>
 </body>
 </html>
