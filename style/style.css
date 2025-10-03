@@ -57,7 +57,7 @@ body[data-theme='light'] {
 }
 #page-wrapper{
     transition: margin-left 0.4s;
-    overflow: visible !important;
+    
         
 }
 /* Theme Toggle Button */
@@ -1077,12 +1077,12 @@ body[data-theme='light'] {
 }
 
 /* Support cards area */
-.support-cards {
+/* .support-cards {
     /* position: sticky; */
-    position: relative;
-    z-index:100;
+    /* position: relative; */
+    /* z-index:100;
     overflow: visible;
-}
+} */ 
 
 /* Support Card Styling */
 .support-card {
@@ -1094,7 +1094,7 @@ body[data-theme='light'] {
     box-shadow: 0 0 15px var(--shadow-color);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     color: var(--text-color);
-    overflow: visible;
+    /* overflow: visible; */
 }
 
 .support-card:hover {
@@ -1109,7 +1109,7 @@ body[data-theme='light'] {
 }
 
 .support-button {
-    position: relative;
+    /* position: relative; */
     display: flex;
     align-items: center;
     justify-content: center;
