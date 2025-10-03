@@ -81,14 +81,15 @@
 
     <div id="content">
       <div class="main">
-        <!-- Intro Card -->
-        <div class="card">
-          <p>
-            Back-end developer with experience in Java, Python, NodeJS, Erlang, PHP and more. I am passionate about fintech, blockchain technology,
-            AI/ML Engineering, Game Dev, and CyberSec, I am currently seeking an OJT as an academic requirement, in order to improve my skills and gain hands on experience
-            and grow under mentorship. I am eager to learn and even more eager to build!
-          </p>
-        </div>
+        <div class="main-content">
+          <!-- Intro Card -->
+          <div class="card">
+            <p>
+              Back-end developer with experience in Java, Python, NodeJS, Erlang, PHP and more. I am passionate about fintech, blockchain technology,
+              AI/ML Engineering, Game Dev, and CyberSec, I am currently seeking an OJT as an academic requirement, in order to improve my skills and gain hands on experience
+              and grow under mentorship. I am eager to learn and even more eager to build!
+            </p>
+          </div>
 
         <!-- Programming Languages Card -->
         <div class="card">
@@ -124,57 +125,84 @@
           </div>
         </div>
 
-        <!-- Tools Card -->
-        <div class="card">
-          <h4>Tools I Use:</h4>
-          <div class="badge-container">
-            <span class="badge">MySQL</span>
-            <span class="badge">Excel</span>
-            <span class="badge">Git</span>
-            <span class="badge">Docker</span>
-            <span class="badge">Cisco Packet Tracer</span>
-            <span class="badge">Cloud</span>
+          <!-- Tools Card -->
+          <div class="card">
+            <h4>Tools I Use:</h4>
+            <div class="badge-container">
+              <span class="badge">MySQL</span>
+              <span class="badge">Excel</span>
+              <span class="badge">Git</span>
+              <span class="badge">Docker</span>
+              <span class="badge">Cisco Packet Tracer</span>
+              <span class="badge">Cloud</span>
+            </div>
+            <div class="mini-card">
+              <h5>Certificates</h5>
+              <div class="cert-gallery">
+                <div class="cert-wrapper" data-desc="Cert PlaceHolder">
+                  <img src="assets/cert placeholder.png" alt="Im still working on getting more certs!" onclick="openCert('assets/java-cert.png')">
+                </div>
+                <div class="cert-wrapper" data-desc="Cert PlaceHolder">
+                  <img src="assets/cert placeholder.png" alt="Im still working on getting more certs!" onclick="openCert('assets/python-cert.png')">
+                </div>
+                <div class="cert-wrapper" data-desc="Cert PlaceHolder">
+                  <img src="assets/cert placeholder.png" alt="Im still working on getting more certs!" onclick="openCert('assets/python-cert.png')">
+                </div>
+                <!-- Add more certs as needed -->
+              </div>
+            </div>
           </div>
-          <div class="mini-card">
-            <h5>Certificates</h5>
-            <div class="cert-gallery">
-              <div class="cert-wrapper" data-desc="Cert PlaceHolder">
-                <img src="assets/cert placeholder.png" alt="Im still working on getting more certs!" onclick="openCert('assets/java-cert.png')">
+
+          <!-- Other Skills Card -->
+          <div class="card">
+            <h4>Other Skills:</h4>
+            <div class="badge-container">
+              <span class="badge">Analytics</span>
+              <span class="badge">Project Management</span>
+              <span class="badge">Communication</span>
+              <span class="badge">Software Engineering</span>
+            </div>
+            <!-- Certificates inside mini-card -->
+            <div class="mini-card">
+              <h5>Certificates</h5>
+              <div class="cert-gallery">
+                <div class="cert-wrapper" data-desc="Software Engineering">
+                  <img src="assets/Accenture Certificate-1.png" alt="SoftEngCert" onclick="openCert('assets/Accenture Certificate-1.png')">
+                </div>
+                <div class="cert-wrapper" data-desc="cert placeholder">
+                  <img src="assets/cert placeholder.png" alt="ProjectManagementCert" onclick="openCert('assets/PMI.png')">
+                </div>
+                <div class="cert-wrapper" data-desc="Google Analytics">
+                  <img src="https://api.accredible.com/v1/frontend/credential_website_embed_image/certificate/159854891" alt="Google Analytics Cert" onclick="openCert('https://api.accredible.com/v1/frontend/credential_website_embed_image/certificate/159854891')">
+                </div>
+                <!-- Add more certs as needed -->
               </div>
-              <div class="cert-wrapper" data-desc="Cert PlaceHolder">
-                <img src="assets/cert placeholder.png" alt="Im still working on getting more certs!" onclick="openCert('assets/python-cert.png')">
-              </div>
-              <div class="cert-wrapper" data-desc="Cert PlaceHolder">
-                <img src="assets/cert placeholder.png" alt="Im still working on getting more certs!" onclick="openCert('assets/python-cert.png')">
-              </div>
-              <!-- Add more certs as needed -->
             </div>
           </div>
         </div>
-
-        <!-- Other Skills Card -->
-        <div class="card">
-          <h4>Other Skills:</h4>
-          <div class="badge-container">
-            <span class="badge">Analytics</span>
-            <span class="badge">Project Management</span>
-            <span class="badge">Communication</span>
-            <span class="badge">Software Engineering</span>
-          </div>
-          <!-- Certificates inside mini-card -->
-          <div class="mini-card">
-            <h5>Certificates</h5>
-            <div class="cert-gallery">
-              <div class="cert-wrapper" data-desc="Software Engineering">
-                <img src="assets/Accenture Certificate-1.png" alt="SoftEngCert" onclick="openCert('assets/Accenture Certificate-1.png')">
-              </div>
-              <div class="cert-wrapper" data-desc="cert placeholder">
-                <img src="assets/cert placeholder.png" alt="ProjectManagementCert" onclick="openCert('assets/PMI.png')">
-              </div>
-              <div class="cert-wrapper" data-desc="Google Analytics">
-                <img src="https://api.accredible.com/v1/frontend/credential_website_embed_image/certificate/159854891" alt="Google Analytics Cert" onclick="openCert('https://api.accredible.com/v1/frontend/credential_website_embed_image/certificate/159854891')">
-              </div>
-              <!-- Add more certs as needed -->
+        <!-- Support Cards Area -->
+        <div class="support-cards">
+          <!-- Support Card -->
+          <div class="support-card">
+            <div class="support-buttons">
+              <a href="https://kevinroymaglaqui.is-a.dev/send-job-request.html" class="support-button hire-button" target="_blank">
+                <span class="button-content">
+                  💼 Looking for talent?
+                  <div class="dropdown-content">
+                    <span class="dropdown-title">Hire me.</span>
+                    <p>Available for full-time positions or commissions</p>
+                  </div>
+                </span>
+              </a>
+              <a href="https://buymeacoffee.com/kevinmaglaqui" class="support-button coffee-button" target="_blank">
+                <span class="button-content">
+                  ☕ Support Me
+                  <div class="dropdown-content">
+                    <span class="dropdown-title">Help me grow!</span>
+                    <p>All proceeds will go to certifications, upskilling, tools and equipment!</p>
+                  </div>
+                </span>
+              </a>
             </div>
           </div>
         </div>
