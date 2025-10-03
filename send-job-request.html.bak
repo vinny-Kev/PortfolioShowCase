@@ -21,25 +21,32 @@
             font-family: 'Inter', sans-serif;
             background-color: #0d1117; /* Dark background similar to GitHub/Dev themes */
             color: #c9d1d9; /* Light gray text */
-            line-height: 1.5;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 2rem 1rem;
         }
-
-        /* Form Container */
         .form-container {
-            width: 100%;
-            max-width: 640px;
+            max-width: 600px;
             margin: 2rem auto;
             padding: 2.5rem;
-            background-color: #161b22;
-            border-radius: 12px;
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.25);
-            border: 1px solid #30363d;
+            overflow-x: hidden;
             animation: fadeIn 0.5s ease-out;
+            background-color: #161b22; /* Slightly lighter inner box */
+            border-radius: 12px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            border: 1px solid #30363d;
+        }
+        .input-style {
+            background-color: #0d1117;
+            border: 1px solid #30363d;
+            color: #c9d1d9;
+            padding: 0.75rem 1rem;
+            line-height: 1.5;
+            word-wrap: break-word;
+            border-radius: 6px;
+            transition: border-color 0.2s;
+        }
+        .input-style:focus {
+            border-color: #58a6ff; /* Blue focus ring */
+            outline: none;
+            box-shadow: 0 0 0 1px #58a6ff;
         }
 
         /* Typography */
@@ -124,39 +131,6 @@
             color: #c9d1d9;
         }
 
-        /* Input Styling */
-        .input-style {
-            width: 100%;
-            padding: 0.75rem 1rem;
-            background-color: #0d1117;
-            border: 1px solid #30363d;
-            color: #c9d1d9;
-            border-radius: 6px;
-            font-size: 0.875rem;
-            transition: all 0.2s ease;
-        }
-
-        .input-style:hover {
-            border-color: #6e7681;
-        }
-
-        .input-style:focus {
-            border-color: #58a6ff;
-            box-shadow: 0 0 0 2px rgba(88, 166, 255, 0.2);
-            outline: none;
-        }
-
-        textarea.input-style {
-            min-height: 120px;
-            resize: vertical;
-            line-height: 1.5;
-        }
-
-        ::placeholder {
-            color: #6e7681;
-            opacity: 1;
-        }
-
         /* Success and Error Messages */
         .message {
             padding: 1rem 1.25rem;
@@ -220,6 +194,59 @@
             background-color: #da3633;
         }
 
+        @keyframes slideIn {
+            from { 
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Input Styling */
+        .input-style {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            background-color: #0d1117;
+            border: 1px solid #30363d;
+            color: #c9d1d9;
+            border-radius: 6px;
+            font-size: 0.875rem;
+            transition: all 0.2s ease;
+        }
+
+        .input-style:hover {
+            border-color: #6e7681;
+        }
+
+        .input-style:focus {
+            border-color: #58a6ff;
+            box-shadow: 0 0 0 2px rgba(88, 166, 255, 0.2);
+            outline: none;
+        }
+
+        textarea.input-style {
+            min-height: 120px;
+            resize: vertical;
+            line-height: 1.5;
+        }
+
+        ::placeholder {
+            color: #6e7681;
+            opacity: 1;
+        }
+
+        .submit-button:hover {
+            background-color: #2ea043;
+        }
+
+        .submit-button:disabled {
+            background-color: #30363d;
+            cursor: not-allowed;
+        }
+
         /* Animations */
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(-10px); }
@@ -251,6 +278,7 @@
     </style>
 </head>
 <body>
+
     <div class="form-container">
         <h1>Job & Commission Request</h1>
         <p class="subtitle">
@@ -258,7 +286,9 @@
             I will get back to you within 24-48 hours.
         </p>
 
-        <form id="requestForm" action="#" method="POST">
+        <!-- The form action is set to # as the submission is handled by JavaScript (EmailJS) -->
+        <form id="requestForm" action="#" method="POST" class="space-y-6">
+
             <!-- 1. Offer Type -->
             <div class="form-group">
                 <label>1. Offer Type</label>
@@ -283,16 +313,13 @@
                 <!-- Contact # -->
                 <div class="form-group">
                     <label for="contact_number">2. Contact Number</label>
-                    <input type="tel" name="contact_number" id="contact_number" 
-                           placeholder="(+63) 9XX-XXX-XXXX" required 
-                           class="input-style">
+                    <input type="tel" name="contact_number" id="contact_number" placeholder="(+63) 9XX-XXX-XXXX" required class="input-style">
                 </div>
                 <!-- Email -->
                 <div class="form-group">
                     <label for="email">3. Your Email Address (Required for reply)</label>
-                    <input type="email" name="reply_to" id="email" 
-                           placeholder="company@example.com" required 
-                           class="input-style">
+                    <!-- IMPORTANT: The 'name' attribute must be 'reply_to' if you want EmailJS to use it for replies -->
+                    <input type="email" name="reply_to" id="email" placeholder="company@example.com" required class="input-style">
                 </div>
             </div>
 
@@ -300,16 +327,16 @@
             <div class="form-group">
                 <label for="term_deadline">4. Term (Time/Deadline)</label>
                 <input type="text" name="term_deadline" id="term_deadline" 
-                       placeholder="e.g., 3-month internship starting Jan 2025, or Project deadline: March 1st" 
-                       required class="input-style">
+                    placeholder="e.g., 3-month internship starting Jan 2025, or Project deadline: March 1st" 
+                    required class="input-style">
             </div>
 
             <!-- 5. Requirements/Details -->
             <div class="form-group">
                 <label for="requirements">5. Requirements & Detailed Scope</label>
                 <textarea name="requirements" id="requirements" rows="6" 
-                          placeholder="Please describe the role, required skills, team structure, and any specific technical requirements or project scope." 
-                          required class="input-style"></textarea>
+                    placeholder="Please describe the role, required skills, team structure, and any specific technical requirements or project scope." 
+                    required class="input-style"></textarea>
             </div>
 
             <!-- Message Containers -->
@@ -330,8 +357,8 @@
 
     <script>
         const form = document.getElementById('requestForm');
-        const formSuccess = document.getElementById('formSuccess');
-        const formError = document.getElementById('formError');
+        const successMessage = document.getElementById('formSuccess');
+        const errorMessage = document.getElementById('formError');
         const submitButton = document.getElementById('submitButton');
         
         // Helper function to show/hide messages with animation
@@ -350,13 +377,13 @@
         };
 
         const hideMessages = () => {
-            showMessage(formSuccess, false);
-            showMessage(formError, false);
+            showMessage(successMessage, false);
+            showMessage(errorMessage, false);
         };
 
         // EmailJS configuration
         const SERVICE_ID = 'service_z2ck02e';
-        const TEMPLATE_ID = 'template_wbx0lrg';
+        const TEMPLATE_ID = 'template_job_request';
         const PUBLIC_KEY = '19r3mqDyY-vE9qSHx';
         // ----------------------------------------------------------------------
         
@@ -365,9 +392,10 @@
             emailjs.init(PUBLIC_KEY);
         } else {
             console.error("EmailJS SDK failed to load.");
-            formError.textContent = "Error: Email service not loaded. Check console for details.";
-            showMessage(formError);
+            errorMessage.textContent = "Error: Email service not loaded. Check console for details.";
+            errorMessage.classList.remove('hidden');
         }
+
 
         // Handles the form submission using EmailJS
         form.addEventListener('submit', async function(event) {
@@ -375,15 +403,16 @@
             hideMessages(); // Clear previous messages
             
             if (PUBLIC_KEY === 'YOUR_PUBLIC_KEY' || SERVICE_ID === 'YOUR_SERVICE_ID' || TEMPLATE_ID === 'YOUR_TEMPLATE_ID') {
-                 formError.textContent = "Setup Error: Please update the SERVICE_ID, TEMPLATE_ID, and PUBLIC_KEY in the script block.";
-                 showMessage(formError);
+                 errorMessage.textContent = "Setup Error: Please update the SERVICE_ID, TEMPLATE_ID, and PUBLIC_KEY in the script block.";
+                 errorMessage.classList.remove('hidden');
                  return;
             }
 
             // Disable button and show loading state
             submitButton.disabled = true;
             submitButton.textContent = 'Sending...';
-            submitButton.classList.remove('success', 'error');
+            submitButton.classList.remove('bg-blue-600', 'hover:bg-blue-700', 'bg-red-600', 'hover:bg-red-700');
+            submitButton.classList.add('bg-gray-500');
 
             try {
                 // Prepare the template parameters
@@ -396,12 +425,12 @@
                 };
 
                 // Send the email using EmailJS
-                const response = await emailjs.send(SERVICE_ID, TEMPLATE_ID, templateParams);
+                const response = await emailjs.send(SERVICE_ID, 'template_job_request', templateParams);
 
                 if (response.status === 200) {
                     // Success!
                     form.reset();
-                    showMessage(formSuccess);
+                    showMessage(successMessage);
                     submitButton.textContent = 'Sent Successfully!';
                     submitButton.classList.remove('error');
                     submitButton.classList.add('success');
@@ -416,26 +445,23 @@
                 } else {
                     // Handle non-200 responses from EmailJS
                     console.error('EmailJS Status Error:', response);
-                    formError.textContent = `Submission failed (Code ${response.status}). Please check your EmailJS service setup.`;
-                    showMessage(formError);
-                    submitButton.classList.add('error');
+                    errorMessage.textContent = `Submission failed (Code ${response.status}). Please check your EmailJS service setup.`;
+                    errorMessage.classList.remove('hidden');
                 }
             } catch (error) {
                 // Handle network errors or other exceptions
                 console.error('EmailJS Network Error:', error);
-                formError.textContent = 'A network error occurred. Please check your connection and try again.';
-                showMessage(formError);
-                submitButton.classList.add('error');
+                errorMessage.textContent = 'A network error occurred. Please check your connection and try again.';
+                errorMessage.classList.remove('hidden');
             } finally {
                 // Restore button state on failure
                 if (submitButton.disabled) {
                     submitButton.disabled = false;
                     submitButton.textContent = 'Send Job Request';
-                    // Only remove error class if not already success
-                    if (!submitButton.classList.contains('success')) {
-                        setTimeout(() => {
-                            submitButton.classList.remove('error');
-                        }, 3000);
+                    submitButton.classList.remove('bg-gray-500');
+                    // Only restore blue if not already green from success path
+                    if (!submitButton.classList.contains('bg-green-600')) {
+                        submitButton.classList.add('bg-blue-600', 'hover:bg-blue-700');
                     }
                 }
             }
