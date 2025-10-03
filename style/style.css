@@ -57,6 +57,8 @@ body[data-theme='light'] {
 }
 #page-wrapper{
     transition: margin-left 0.4s;
+    overflow: visible !important;
+        
 }
 /* Theme Toggle Button */
 .button-group {
@@ -670,41 +672,32 @@ body[data-theme='light'] {
     box-shadow: 0 5px 15px var(--shadow-color);
 }
 
-.support-button .dropdown-content {
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    background: var(--card-bg);
-    border: 2px solid #fff;
-    border-radius: 10px;
-    padding: 0;
-    color: var(--text-color);
-    transform: translateY(100%);
-    opacity: 0;
-    visibility: hidden;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    z-index: 9999999999;
-}
+
 
 [data-theme='light'] .support-button .dropdown-content {
     border-color: var(--primary-color);
 }
 
-.dropdown-title {
-    display: block;
-    font-weight: bold;
-    padding: 12px 15px;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 8px 8px 0 0;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+/* New style for the expanding content */
+.support-expansion {
+    /* Smooth animation */
+    transition: max-height 0.4s ease-out, opacity 0.3s ease-out, padding 0.4s ease-out;
+    
+    /* Initially Hidden State */
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden; /* Crucial for clipping the content inside max-height: 0 */
+    padding: 0 10px; /* Reset vertical padding when closed */
+    margin-top: 10px;
+    border-top: 1px solid var(--border-color);
 }
 
-.dropdown-content p {
-    margin: 0;
-    padding: 12px 15px;
-    font-size: 0.9rem;
-    line-height: 1.4;
+/* When the card is hovered, expand the content */
+.support-card:hover .support-expansion {
+    /* Expanded State */
+    max-height: 500px; /* A value larger than the content's eventual height */
+    opacity: 1;
+    padding: 15px 10px 5px; /* Add vertical padding when open */
 }
 
 .support-button:hover .dropdown-content {
@@ -1084,10 +1077,12 @@ body[data-theme='light'] {
 }
 
 /* Support cards area */
-/* .support-cards {
-    position: sticky;
-    top: 20px;
-} */
+.support-cards {
+    /* position: sticky; */
+    position: relative;
+    z-index:100;
+    overflow: visible;
+}
 
 /* Support Card Styling */
 .support-card {
@@ -1099,7 +1094,7 @@ body[data-theme='light'] {
     box-shadow: 0 0 15px var(--shadow-color);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     color: var(--text-color);
-        
+    overflow: visible;
 }
 
 .support-card:hover {
