@@ -1130,3 +1130,157 @@ body[data-theme='light'] {
     box-shadow: 0 5px 15px var(--shadow-color);
     background: var(--button-hover-bg);
 }
+
+/* Touch-friendly interactions */
+@media (hover: none) {
+    .support-button:active,
+    .card:active,
+    .cert-wrapper:active img,
+    .profile-picture:active,
+    .badge:active {
+        transform: scale(0.95);
+    }
+
+    .support-expansion {
+        max-height: none;
+        opacity: 1;
+        padding: 15px 10px 5px;
+    }
+
+    #tooltip {
+        display: none;
+    }
+
+    .cert-wrapper::after,
+    .cert-gallery img::after {
+        opacity: 1;
+        transform: translateX(-50%) translateY(-5px);
+    }
+
+    /* Improved touch targets */
+    .sidepanel a,
+    .support-button,
+    #cli-launcher,
+    .toggle-btn,
+    .banner-socials img {
+        min-height: 44px; /* iOS minimum touch target size */
+        padding: 12px 20px;
+    }
+
+    /* Prevent hover states from sticking on touch devices */
+    .card:hover,
+    .support-button:hover,
+    .badge:hover,
+    .cert-wrapper:hover img {
+        transform: none;
+    }
+
+    /* Show tooltips on tap instead of hover */
+    .cert-wrapper.touched::after,
+    .project-btn.touched::after {
+        opacity: 1;
+        transform: translateX(-50%) translateY(-5px);
+    }
+
+    /* Improved scrolling */
+    .cert-gallery {
+        -webkit-overflow-scrolling: touch;
+        scroll-snap-type: x mandatory;
+        padding: 15px 0;
+    }
+
+    .cert-wrapper {
+        scroll-snap-align: center;
+    }
+
+    /* Enhanced touch feedback */
+    .support-button:active,
+    .toggle-btn:active,
+    #cli-launcher:active {
+        background: var(--primary-color);
+        color: var(--button-hover-color);
+    }
+
+    /* Larger tap targets for mobile navigation */
+    .sidepanel a {
+        padding: 15px 25px;
+        margin: 5px 0;
+    }
+
+    /* Improved mobile navigation drawer */
+    .sidepanel.open {
+        width: 80%;
+        max-width: 300px;
+    }
+
+    /* Mobile-optimized support panel */
+    .side-support-panel {
+        padding: 20px 15px;
+    }
+
+    .side-support-panel::before {
+        content: "⋮";
+        position: absolute;
+        top: 5px;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 24px;
+        color: var(--primary-color);
+    }
+}
+
+/* Additional mobile optimizations */
+@media screen and (max-width: 480px) {
+    .main {
+        grid-template-columns: 1fr;
+        gap: 15px;
+        padding: 10px;
+    }
+
+    .banner {
+        padding: 15px;
+    }
+
+    .profile-picture {
+        width: 100px;
+        height: 100px;
+    }
+
+    .banner-info h1 {
+        font-size: 1.4rem;
+    }
+
+    .banner-info p {
+        font-size: 0.85rem;
+    }
+
+    .cert-gallery {
+        height: 120px;
+    }
+
+    .cert-wrapper img,
+    .cert-gallery img {
+        width: 120px;
+        height: 80px;
+    }
+
+    #cli-window {
+        width: calc(100% - 20px);
+        height: 160px;
+    }
+
+    .badge {
+        font-size: 0.8rem;
+        padding: 4px 8px;
+    }
+}
+
+/* Prevent content shifting when scrollbar appears */
+html {
+    scrollbar-gutter: stable;
+}
+
+/* Smooth scrolling for the whole page */
+html {
+    scroll-behavior: smooth;
+}
