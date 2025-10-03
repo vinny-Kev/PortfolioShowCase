@@ -19,7 +19,7 @@
 
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #0d1117; /* Dark background similar to GitHub/Dev themes */
+            background-color: #0d1117; 
             color: #c9d1d9; /* Light gray text */
             line-height: 1.5;
             min-height: 100vh;
@@ -360,7 +360,6 @@
         const PUBLIC_KEY = '19r3mqDyY-vE9qSHx';
         // ----------------------------------------------------------------------
         
-        // Initialize EmailJS with your public key
         if (typeof emailjs !== 'undefined') {
             emailjs.init(PUBLIC_KEY);
         } else {
@@ -399,7 +398,6 @@
                 const response = await emailjs.send(SERVICE_ID, TEMPLATE_ID, templateParams);
 
                 if (response.status === 200) {
-                    // Success!
                     form.reset();
                     showMessage(formSuccess);
                     submitButton.textContent = 'Sent Successfully!';
