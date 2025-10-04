@@ -17,50 +17,12 @@
   <link rel="icon" type="image/x-icon" href="assets/favicon.jfif">
   <link rel="stylesheet" href="style/style.css"/>
   <!-- Project Panel Toggle Script -->
-  <script>
-    // Toggle the project side panel with typing animation
-    function togglePanel() {
-      const panel = document.getElementById("project-panel");
-      const wrapper = document.getElementById("page-wrapper");
-
-      if (panel.style.width === "250px") {
-        panel.style.width = "0";
-        wrapper.style.marginLeft = "0";
-        // Reset text instantly when closed
-        document.querySelectorAll("#project-panel a").forEach(a => {
-          a.textContent = a.getAttribute("data-label");
-        });
-      } else {
-        panel.style.width = "250px";
-        wrapper.style.marginLeft = "250px";
-
-        // Typing effect for each project link
-        const links = document.querySelectorAll("#project-panel a");
-        links.forEach((a, i) => {
-          const fullText = a.getAttribute("data-label") || a.textContent;
-          a.setAttribute("data-label", fullText); // store original
-          a.textContent = ""; // clear text
-
-          setTimeout(() => {
-            let idx = 0;
-            function typeChar() {
-              if (idx < fullText.length) {
-                a.textContent += fullText.charAt(idx);
-                idx++;
-                setTimeout(typeChar, 40); // typing speed
-              }
-            }
-            typeChar();
-          }, i * 200); // stagger delay per link
-        });
-      }
-    }
-  </script>
+  <script src="scripts/modules/supportCard.js" defer></script>
 </head>
 <body>
   <div id="page-wrapper">
     <!-- Banner Section -->
-    <div class="banner">
+  <div class="banner" id="top-banner">
       <div class="banner-left">
         <img src="assets/kevin-pfp.png" class="profile-picture">
         <div class="banner-info">
@@ -92,7 +54,7 @@
       <div class="main">
         <div class="main-content">
           <!-- Intro Card -->
-          <div class="card">
+          <div class="card" id="intro-card">
             <p>
               Back-end developer with experience in Java, Python, NodeJS, Erlang, PHP and more. I am passionate about fintech, blockchain technology,
               AI/ML Engineering, Game Dev, and CyberSec, I am currently seeking an OJT as an academic requirement, in order to improve my skills and gain hands on experience
@@ -101,7 +63,7 @@
           </div>
 
         <!-- Programming Languages Card -->
-        <div class="card">
+  <div class="card" id="languages-card">
           <h4>Programming Languages I Use:</h4>
           <div class="badge-container">
             <span class="badge">Java</span>
@@ -135,7 +97,7 @@
         </div>
 
           <!-- Tools Card -->
-          <div class="card">
+          <div class="card" id="tools-card">
             <h4>Tools I Use:</h4>
             <div class="badge-container">
               <span class="badge">MySQL</span>
@@ -163,7 +125,7 @@
           </div>
 
           <!-- Other Skills Card -->
-          <div class="card">
+          <div class="card" id="other-skills-card">
             <h4>Other Skills:</h4>
             <div class="badge-container">
               <span class="badge">Analytics</span>
@@ -190,8 +152,57 @@
           </div>
         </div>
         <!-- Support Cards Area -->
-        <div class="support-cards">
+  <div class="support-cards" id="support-section">
           <!-- Support Card -->
+          <div class="support-card">
+            <div class="support-buttons">
+              <div class="support-item">
+                <span class="badge">🎓 Education</span>
+                <div class="support-expansion">
+                  <h2>Saint Louis University</h2>
+                  <p>Bachelor of Science in Information Technology</p>
+                  <p><em>2021 - Expected Graduation: July, 2025</em></p>
+                  <p>Relevant Coursework: Data Structures and Algorithms, Database Management Systems, Web Development, Network Security, Software Engineering, Cloud Computing</p>
+                </div>
+              </div>
+              <div class="support-item">
+                <span class="badge">📚 Extra-Curricular Activities</span>
+                <div class="support-expansion">
+                  <div class="activity-list">
+                    <div class="activity-item">
+                      <span class="activity-icon">🏃‍♂️</span>
+                      <div class="activity-content">
+                        <h3>Run for Hope Finisher</h3>
+                        <p>Participated in university charity marathon supporting children in need of shelter.</p>
+                      </div>
+                    </div>
+                    <div class="activity-item">
+                      <span class="activity-icon">🤝</span>
+                      <div class="activity-content">
+                        <h3>School Community Service</h3>
+                        <p>Organized and conducted a feeding program for students at a rural school as part of high school community service.</p>
+                      </div>
+                    </div>
+                    <div class="activity-item">
+                      <span class="activity-icon">💝</span>
+                      <div class="activity-content">
+                        <h3>COVID-19 Frontliner Support</h3>
+                        <p>Prepared and distributed meals to checkpoint guards and healthcare workers during the COVID-19 pandemic.</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="support-item">
+                <span class="badge">📈 Career Objectives</span>
+                <div class="support-expansion">
+                  <h2>Objectives</h2>
+                  <p>To contribute and grow in a dynamic organization that values innovation and creativity.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        
           <div class="support-card">
             <div class="support-buttons">
               <a href="https://kevinroymaglaqui.is-a.dev/send-job-request.html" class="support-button hire-button" target="_blank">
@@ -200,12 +211,12 @@
                 </span>
               </a>
               <div class="support-expansion">
-                  <h2>Hire me</h2>
+                  <h2>Hire me.</h2>
                   <p>Available for internship opportunities or commissions.</p>
               </div>
               <a href="https://buymeacoffee.com/kevinmaglaqui" class="support-button coffee-button" target="_blank">
                 <span class="button-content">
-                  ☕ Support Me
+                  ☕ Support Me!
                 </span>
               </a>
               <div class="support-expansion">
@@ -234,7 +245,7 @@
   </div>
 
   <!-- CLI Launcher and Window -->
-  <div id="cli-launcher" title="Click me"><</div>
+  <div id="cli-launcher" title="Click me"></div>
   <div id="cli-window">
     <div id="cli-header">
       <span>Terminal</span>
@@ -243,144 +254,18 @@
     <div id="cli-content"></div>
     <div id="cli-line">
       <span class="cli-prompt">></span>
-      <input type="text" id="cli-input" placeholder="(y/n)" autocomplete="off" />
+  <input type="text" id="cli-input" placeholder="Type a command (help)" autocomplete="off" />
     </div>
   </div>
 
-  <!-- Certificate Modal Script -->
-  <script>
-    // Opens certificate image in overlay modal
-    function openCert(url) {
-      const overlay = document.createElement('div');
-      overlay.style.position = 'fixed';
-      overlay.style.top = '0';
-      overlay.style.left = '0';
-      overlay.style.width = '100vw';
-      overlay.style.height = '100vh';
-      overlay.style.background = 'rgba(0,0,0,0.8)';
-      overlay.style.display = 'flex';
-      overlay.style.alignItems = 'center';
-      overlay.style.justifyContent = 'center';
-      overlay.style.zIndex = '1000';
-
-      const img = document.createElement('img');
-      img.src = url;
-      img.style.maxWidth = '90%';
-      img.style.maxHeight = '90%';
-      img.style.border = '3px solid white';
-      img.style.borderRadius = '10px';
-
-      overlay.addEventListener('click', () => overlay.remove());
-
-      overlay.appendChild(img);
-      document.body.appendChild(overlay);
-    }
-  </script>
-
-  <!-- CLI Window Script -->
-  <script>
-    const launcher = document.getElementById('cli-launcher');
-    const cliWindow = document.getElementById('cli-window');
-    const cliClose = document.getElementById('cli-close');
-    const cliContent = document.getElementById('cli-content');
-    const cliInput = document.getElementById('cli-input');
-
-    // Types out a message in the CLI window
-    function typeMessage(message, index = 0, callback) {
-      const line = document.createElement('div');
-      cliContent.appendChild(line);
-
-      // Wrap the text in a span so cursor attaches
-      const span = document.createElement("span");
-      span.classList.add("typing-cursor");
-      line.appendChild(span);
-
-      function typeChar() {
-        if (index < message.length) {
-          span.textContent += message.charAt(index);
-          index++;
-          setTimeout(typeChar, 30);
-        } else {
-          // Stop blinking when done
-          span.classList.remove("typing-cursor");
-          if (callback) callback();
-        }
-      }
-      typeChar();
-    }
-
-    // CLI launcher click event
-    launcher.addEventListener('click', () => {
-      cliWindow.style.display = 'flex';
-      launcher.style.display = 'none'; // hide launcher
-      cliInput.focus();
-      typeMessage("If you're looking at this I probably sent you my resume... please hire me :(");
-    });
-
-    // CLI close button event
-    cliClose.addEventListener('click', () => {
-      cliWindow.style.display = 'none';
-      launcher.style.display = 'block'; // show launcher again
-      cliContent.innerHTML = '';
-    });
-
-    // Handle CLI input
-    cliInput.addEventListener('keypress', (e) => {
-      if (e.key === 'Enter') {
-        let input = cliInput.value.trim();       // raw input
-        const displayInput = input;              // keep original for unknown command
-        input = input.toLowerCase();             // lowercase for checking
-        cliInput.value = '';
-
-        // Show user input
-        const userLine = document.createElement('div');
-        userLine.textContent = '> ' + displayInput;
-        cliContent.appendChild(userLine);
-
-        // Check for yes / no / y / n
-        if (input === 'yes' || input === 'y') {
-          typeMessage('Yippie!! :))), My email is kevinroymaglaqui29@gmail.com or 2234101@slu.edu.ph or my number 09708158167 or you can just click my socials above :)))');
-        } else if (input === 'no' || input === 'n') {
-          typeMessage('Oh no! pretty please(˃̣̣̥ᯅ˂̣̣̥)...');
-        } else if (input === 'why pink?' || input === 'why pink') {
-          typeMessage('Because pink is a happy color! :))) [And also my gf loves this color]');
-        } else {
-          typeMessage(`'${displayInput}' is not recognized as an internal or external command, operable program or batch file`);
-        }
-
-        cliContent.scrollTop = cliContent.scrollHeight; // auto-scroll
-      }
-    });
-  </script>
-
-  <!-- Certificate Carousel Script -->
-  <script>
-    // Handles certificate gallery carousel logic
-    document.querySelectorAll('.cert-gallery').forEach(gallery => {
-      const wrappers = gallery.querySelectorAll('.cert-wrapper');
-      let activeIndex = 0;
-
-      function updateCarousel() {
-        wrappers.forEach((wrap, i) => {
-          wrap.classList.remove('active', 'prev', 'next', 'hidden');
-
-          if (i === activeIndex) wrap.classList.add('active');
-          else if (i === (activeIndex - 1 + wrappers.length) % wrappers.length) wrap.classList.add('prev');
-          else if (i === (activeIndex + 1) % wrappers.length) wrap.classList.add('next');
-          else wrap.classList.add('hidden'); // hide all other cards
-        });
-      }
-
-      wrappers.forEach((wrap, index) => {
-        wrap.addEventListener('click', () => {
-          activeIndex = index;
-          updateCarousel();
-        });
-      });
-
-      updateCarousel();
-    });
-  </script>
+  <!-- Modularized Scripts -->
+  <script src="scripts/modules/togglePanel.js" defer></script>
+  <script src="scripts/modules/certificateModal.js" defer></script>
+  <script src="scripts/modules/cliWindow.js" defer></script>
+  <script src="scripts/modules/cliOnboarding.js" defer></script>
+  <script src="scripts/modules/cliLauncher.js" defer></script>
+  <script src="scripts/modules/certificateCarousel.js" defer></script>
+  <script src="scripts/modules/themeToggle.js" defer></script>
 
   <!-- Google Analytics Tag -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-68FH2QD3EM"></script>
@@ -391,7 +276,7 @@
     gtag('config', 'G-68FH2QD3EM');
   </script>
 
-  <!-- Project Tooltip -->
+  <!-- Certificate Tooltip -->
   <div id="tooltip"></div>
   <script>
     // Tooltip for project links
@@ -417,6 +302,7 @@
 
   <!-- Animated Intro Typing Effect -->
   <script>
+   
     // Types out the intro text in the intro card
     function typeIntro(text, container, speed = 30, callback) {
       container.textContent = ""; // clear text
@@ -452,40 +338,7 @@
         typeIntro(introText, introCard, 25);
       });
     });
-  </script>
-
-  <!-- Theme Toggle Script -->
-  <script>
-    // Theme toggle functionality
-    const themeToggle = document.getElementById('theme-toggle');
-    const root = document.documentElement;
-
-    // Check for saved theme preference
-    const savedTheme = localStorage.getItem('theme') || 'dark';
-    document.body.setAttribute('data-theme', savedTheme);
-    updateThemeIcon();
-
-    themeToggle.addEventListener('click', () => {
-      const currentTheme = document.body.getAttribute('data-theme');
-      const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-      
-      document.body.setAttribute('data-theme', newTheme);
-      localStorage.setItem('theme', newTheme);
-      updateThemeIcon();
-      
-      // Force background image update
-      const tempBg = document.body.style.backgroundImage;
-      document.body.style.backgroundImage = 'none';
-      setTimeout(() => {
-        document.body.style.backgroundImage = newTheme === 'light' ? 
-          'url(assets/flowery-bg.png)' : 
-          'url(assets/opoy7.jpg)';
-      }, 50);
-    });
-
-    function updateThemeIcon() {
-      themeToggle.textContent = document.body.getAttribute('data-theme') === 'light' ? '🌜' : '☀️';
-    }
+  
   </script>
 
   <!-- Footer -->
