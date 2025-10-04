@@ -9,6 +9,8 @@
     --button-hover-bg: rgba(0, 255, 0, 0.2);
     --button-hover-color: #fff;
     --inverse-text: #000;
+    --text-bright: #fff;
+    --text-muted: rgba(255, 255, 255, 0.75);
 }
 
 [data-theme='light'] {
@@ -22,6 +24,8 @@
     --button-hover-bg: rgba(255, 105, 180, 0.1);
     --button-hover-color: #fff;
     --inverse-text: #fff;
+    --text-bright: #ff69b4;
+    --text-muted: rgba(255, 105, 180, 0.7);
 }
 
 body {
@@ -226,6 +230,28 @@ body[data-theme='light'] {
   display: inline-block;
   margin-left: 2px;
   animation: blink 0.8s steps(2, start) infinite;
+}
+
+.cli-highlight {
+    position: relative;
+    outline: 3px solid var(--primary-color);
+    outline-offset: 8px;
+    animation: cliPulse 1.3s ease-in-out infinite alternate;
+    box-shadow: 0 0 0 4px rgba(0, 255, 0, 0.28), 0 0 20px rgba(0, 255, 0, 0.45);
+    transform: scale(1.04);
+    transform-origin: center;
+    filter: brightness(1.08);
+    transition: transform 0.25s ease, box-shadow 0.25s ease, filter 0.25s ease;
+    z-index: 2;
+}
+
+@keyframes cliPulse {
+    from {
+        box-shadow: 0 0 0 3px rgba(0, 255, 0, 0.25), 0 0 16px rgba(0, 255, 0, 0.42);
+    }
+    to {
+        box-shadow: 0 0 0 8px rgba(0, 255, 0, 0.45), 0 0 36px rgba(0, 255, 0, 0.75);
+    }
 }
 
 @keyframes blink {
@@ -678,32 +704,21 @@ body[data-theme='light'] {
     border-color: var(--primary-color);
 }
 
-/* New style for the expanding content */
+/* Expanding content panels */
 .support-expansion {
-    /* Smooth animation */
     transition: max-height 0.4s ease-out, opacity 0.3s ease-out, padding 0.4s ease-out;
-    
-    /* Initially Hidden State */
     max-height: 0;
     opacity: 0;
-    overflow: hidden; /* Crucial for clipping the content inside max-height: 0 */
-    padding: 0 10px; /* Reset vertical padding when closed */
-    margin-top: 10px;
+    overflow: hidden;
+    padding: 0 10px;
+    margin-top: 18px;
     border-top: 1px solid var(--border-color);
 }
 
-/* When the card is hovered, expand the content */
-.support-card:hover .support-expansion {
-    /* Expanded State */
-    max-height: 500px; /* A value larger than the content's eventual height */
+.support-expansion.active {
+    max-height: 500px;
     opacity: 1;
-    padding: 15px 10px 5px; /* Add vertical padding when open */
-}
-
-.support-button:hover .dropdown-content {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(calc(100% + 10px));
+    padding: 20px 10px 6px;
 }
 
 .hire-button::before,
@@ -797,12 +812,75 @@ body[data-theme='light'] {
   white-space: pre-wrap;
   scrollbar-width: thin;
   scrollbar-color: #0f0 #111;
+    font-family: 'Fira Code', 'Consolas', 'Courier New', monospace;
+    font-size: 0.92rem;
 }
 #cli-line {
   display: flex;
   align-items: center;
   padding: 5px 10px;
   font-family: monospace;
+}
+
+.cli-line {
+    display: flex;
+    gap: 0.75rem;
+    align-items: flex-start;
+    font-family: 'Fira Code', 'Consolas', 'Courier New', monospace;
+    font-size: 0.92rem;
+    color: #c7f9cc;
+    margin-bottom: 4px;
+}
+
+.cli-prompt-label {
+    color: var(--primary-color);
+    white-space: pre;
+    min-width: 19ch;
+    flex-shrink: 0;
+    text-shadow: 0 0 6px rgba(0, 255, 0, 0.6);
+}
+
+.cli-text {
+    white-space: pre-wrap;
+    color: #e9ffe9;
+    flex: 1;
+}
+
+.cli-line--input .cli-text {
+    color: #8ef58e;
+}
+
+.cli-line--system .cli-text {
+    color: #b7ffb7;
+}
+
+.cli-line--hint .cli-text {
+    color: #9ef5ff;
+}
+
+[data-theme='light'] .cli-line {
+    color: #0b3d0b;
+}
+
+[data-theme='light'] .cli-text {
+    color: #114b11;
+}
+
+[data-theme='light'] .cli-line--input .cli-text {
+    color: #ff69b4;
+}
+
+[data-theme='light'] .cli-line--system .cli-text {
+    color: #0c5a0c;
+}
+
+[data-theme='light'] .cli-line--hint .cli-text {
+    color: #0f3c6a;
+}
+
+[data-theme='light'] .cli-prompt-label {
+    color: #ff69b4;
+    text-shadow: none;
 }
 
 .cli-prompt {
@@ -1094,7 +1172,6 @@ body[data-theme='light'] {
     box-shadow: 0 0 15px var(--shadow-color);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     color: var(--text-color);
-    /* overflow: visible; */
 }
 
 .support-card:hover {
@@ -1144,7 +1221,8 @@ body[data-theme='light'] {
     .support-expansion {
         max-height: none;
         opacity: 1;
-        padding: 15px 10px 5px;
+        margin-top: 18px;
+        padding: 20px 10px 6px;
     }
 
     #tooltip {
@@ -1283,4 +1361,41 @@ html {
 /* Smooth scrolling for the whole page */
 html {
     scroll-behavior: smooth;
+}
+
+.activity-list {
+  margin-top: 1rem;
+}
+
+.activity-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 0.75rem;
+  margin-bottom: 0.75rem;
+  border-radius: 8px;
+  transition: background-color 0.2s;
+}
+
+.activity-item:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.activity-icon {
+  font-size: 1.5rem;
+  min-width: 2rem;
+  text-align: center;
+}
+
+.activity-content h3 {
+  font-size: 1rem;
+  margin: 0 0 0.25rem 0;
+  color: var(--text-bright);
+}
+
+.activity-content p {
+  font-size: 0.9rem;
+  margin: 0;
+  color: var(--text-muted);
+  line-height: 1.4;
 }

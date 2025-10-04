@@ -1,28 +1,36 @@
 // Theme toggle functionality
-const themeToggle = document.getElementById('theme-toggle');
+if (!window.themeToggleInitialized) {
+  window.themeToggleInitialized = true;
 
-// Check for saved theme preference
-const savedTheme = localStorage.getItem('theme') || 'dark';
-document.body.setAttribute('data-theme', savedTheme);
-updateThemeIcon();
+  const themeToggle = document.getElementById('theme-toggle');
+  const root = document.documentElement;
 
-themeToggle.addEventListener('click', () => {
-  const currentTheme = document.body.getAttribute('data-theme');
-  const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-  
-  document.body.setAttribute('data-theme', newTheme);
-  localStorage.setItem('theme', newTheme);
+  // Check for saved theme preference
+  const savedTheme = localStorage.getItem('theme') || 'dark';
+  document.body.setAttribute('data-theme', savedTheme);
   updateThemeIcon();
-  
-  // Reinitialize particles for the new theme
-  particles = [];
-  for (let i = 0; i < (newTheme === 'light' ? 50 : 100); i++) {
-    particles.push(new Particle());
-  }
-});
 
-function updateThemeIcon() {
-  themeToggle.textContent = document.body.getAttribute('data-theme') === 'light' ? '🌙' : '☀️';
+  themeToggle.addEventListener('click', () => {
+    const currentTheme = document.body.getAttribute('data-theme');
+    const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+
+    document.body.setAttribute('data-theme', newTheme);
+    localStorage.setItem('theme', newTheme);
+    updateThemeIcon();
+
+    // Force background image update
+    const tempBg = document.body.style.backgroundImage;
+    document.body.style.backgroundImage = 'none';
+    setTimeout(() => {
+      document.body.style.backgroundImage = newTheme === 'light' ? 
+        'url(assets/flowery-bg.png)' : 
+        'url(assets/opoy7.jpg)';
+    }, 50);
+  });
+
+  function updateThemeIcon() {
+    themeToggle.textContent = document.body.getAttribute('data-theme') === 'light' ? '🌜' : '☀️';
+  }
 }
 
 // Flower particle system
