@@ -215,13 +215,12 @@
                 </div>
                 <p>A microservice API that forecasts Bitcoin trajectory using advanced machine learning algorithms.</p>
                 <div class="project-buttons">
-                  <button class="project-btn api-btn" 
-                          data-url="https://btc-forecast-api.onrender.com" 
-                          title="💡 Want this integrated? Contact me and I can implement this API in your system!"
-                          onclick="window.open(this.dataset.url, '_blank')">BTC Forecast API</button>
+                  <div class="api-link-display">
+                    <span class="api-label">API:</span>
+                    <a href="https://btc-forecast-api.onrender.com" target="_blank" class="api-url">https://btc-forecast-api.onrender.com</a>
+                  </div>
                   <button class="project-btn demo-btn" 
                           data-url="https://bitcoin-prection-demo.streamlit.app/#generate-prediction" 
-                          data-preview="https://bitcoin-prection-demo.streamlit.app/#generate-prediction"
                           title="🚀 See it in action - Live interactive demo"
                           onclick="window.open(this.dataset.url, '_blank')">DEMO</button>
                 </div>
@@ -292,52 +291,6 @@
   <script src="scripts/modules/cliLauncher.js" defer></script>
   <script src="scripts/modules/certificateCarousel.js" defer></script>
   <script src="scripts/modules/themeToggle.js" defer></script>
-
-  <!-- Project Preview Script -->
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      const demoButtons = document.querySelectorAll('.project-btn[data-preview]');
-      
-      demoButtons.forEach(button => {
-        let previewElement = null;
-        
-        button.addEventListener('mouseenter', () => {
-          if (window.innerWidth > 768) { // Only on desktop
-            const previewUrl = button.getAttribute('data-preview');
-            if (previewUrl && !previewElement) {
-              previewElement = document.createElement('div');
-              previewElement.className = 'page-preview';
-              previewElement.innerHTML = `
-                <iframe src="${previewUrl}" 
-                        sandbox="allow-scripts allow-same-origin"
-                        loading="lazy"></iframe>
-              `;
-              button.appendChild(previewElement);
-              
-              // Show preview after a short delay
-              setTimeout(() => {
-                if (previewElement) {
-                  previewElement.style.opacity = '1';
-                }
-              }, 300);
-            }
-          }
-        });
-        
-        button.addEventListener('mouseleave', () => {
-          if (previewElement) {
-            previewElement.style.opacity = '0';
-            setTimeout(() => {
-              if (previewElement && previewElement.parentNode) {
-                previewElement.parentNode.removeChild(previewElement);
-                previewElement = null;
-              }
-            }, 300);
-          }
-        });
-      });
-    });
-  </script>
 
   <!-- Google Analytics Tag -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-68FH2QD3EM"></script>
