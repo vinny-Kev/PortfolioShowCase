@@ -939,16 +939,16 @@ body[data-theme='light'] {
 }
 
 .project-btn.demo-btn {
-    border-color: #4ecdc4;
-    color: #4ecdc4;
+    border-color: var(--primary-color);
+    color: var(--primary-color);
     align-self: flex-start;
 }
 
 .project-btn.demo-btn:hover {
-    background: #4ecdc4;
-    color: white;
+    background: var(--primary-color);
+    color: var(--card-bg);
     transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(78, 205, 196, 0.4);
+    box-shadow: 0 5px 15px var(--shadow-color);
 }
 
 /* Dark theme adjustments for project showcase */
@@ -1001,12 +1001,12 @@ body[data-theme='light'] {
 }
 
 [data-theme='light'] .project-btn.demo-btn {
-    border-color: #4ecdc4;
-    color: #4ecdc4;
+    border-color: var(--primary-color);
+    color: var(--primary-color);
 }
 
 [data-theme='light'] .project-btn.demo-btn:hover {
-    background: #4ecdc4;
+    background: var(--primary-color);
     color: white;
 }
 
