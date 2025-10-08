@@ -1661,8 +1661,8 @@ body[data-theme='light'] {
 /* Additional mobile optimizations */
 @media screen and (max-width: 480px) {
     .main {
-        grid-template-columns: 1fr;
-        gap: 15px;
+        grid-template-columns: 1fr 250px;
+        gap: 10px;
         padding: 10px;
     }
 
