@@ -37,6 +37,9 @@ body {
     background-size: cover;
     background-position: center;
     transition: all 0.3s ease;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
 }
 
 body[data-theme='dark'] {
@@ -513,6 +516,9 @@ body[data-theme='light'] {
   box-shadow: 0 0 12px var(--shadow-color);
   opacity: 0;
   pointer-events: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
   transition: opacity 0.2s ease, transform 0.2s ease;
   z-index: 999999;
   backdrop-filter: blur(8px);
@@ -582,6 +588,9 @@ body[data-theme='light'] {
 
 /* Card styling for sections */
 .card {
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    user-select: text;
     background: var(--card-bg);
     border: 2px solid var(--border-color);
     border-radius: 10px;
@@ -913,14 +922,26 @@ body[data-theme='light'] {
 .project-buttons {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 15px;
+}
+
+.project-buttons > .project-btn {
+    align-self: flex-start;
+}
+
+/* Button row container for demo and docs buttons */
+.button-row {
+    display: flex;
+    flex-direction: row;
+    gap: 15px;
+    flex-wrap: wrap;
 }
 
 .project-btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    padding: 10px 20px;
+    padding: 8px 16px;
     border: 2px solid;
     border-radius: 6px;
     background: transparent;
@@ -930,7 +951,7 @@ body[data-theme='light'] {
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s ease;
-    min-width: 120px;
+    min-width: 90px;
     position: relative;
 }
 
@@ -1084,8 +1105,11 @@ body[data-theme='light'] {
   white-space: pre-wrap;
   scrollbar-width: thin;
   scrollbar-color: #0f0 #111;
-    font-family: 'Fira Code', 'Consolas', 'Courier New', monospace;
-    font-size: 0.92rem;
+  font-family: 'Fira Code', 'Consolas', 'Courier New', monospace;
+  font-size: 0.92rem;
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  user-select: text;
 }
 #cli-line {
   display: flex;
@@ -1168,6 +1192,9 @@ body[data-theme='light'] {
   font-family: monospace;
   flex: 1; /* take up remaining space */
   font-size: 0.9rem;
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  user-select: text;
 }
 #cli-content::-webkit-scrollbar {
   width: 6px;                      /* scrollbar width */
