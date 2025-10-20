@@ -670,7 +670,9 @@ body[data-theme='light'] {
 
 .support-button {
     position: relative;
-    display: flex;
+    display: inline-flex; /* Ensure it doesn't take full width */
+    width: auto; /* Adjust width to content */
+    margin-top: 10px; /* Add spacing from the content above */
     align-items: center;
     justify-content: center;
     padding: 15px 20px;
@@ -1538,7 +1540,9 @@ body[data-theme='light'] {
 
 .support-button {
     /* position: relative; */
-    display: flex;
+    display: inline-flex; /* Ensure it doesn't take full width */
+    width: auto; /* Adjust width to content */
+    margin-top: 10px; /* Add spacing from the content above */
     align-items: center;
     justify-content: center;
     padding: 15px 20px;
@@ -1749,4 +1753,28 @@ html {
   margin: 0;
   color: var(--text-muted);
   line-height: 1.4;
+}
+
+.view-resume-button {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 10px 20px;
+  background-color: #4CAF50; /* Green theme color */
+  color: white;
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 5px;
+  text-align: center;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.view-resume-button:hover {
+  background-color: #45a049; /* Slightly darker green */
+  transform: scale(1.05);
+}
+
+.view-resume-button:active {
+  background-color: #3e8e41; /* Even darker green */
+  transform: scale(0.95);
 }
