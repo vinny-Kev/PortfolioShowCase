@@ -2080,7 +2080,124 @@ html {
   transform: scale(1.05);
 }
 
-.view-resume-button:active {
-  background-color: #3e8e41; /* Even darker green */
-  transform: scale(0.95);
+    .view-resume-button:active {
+    background-color: #3e8e41; /* Even darker green */
+    transform: scale(0.95);
+}
+
+/* --- Mobile responsive fixes (appended) ---
+     Stacks layout, constrains widths, prevents horizontal overflow,
+     and scales images/certificates for small screens. */
+@media screen and (max-width: 900px) {
+    html, body { overflow-x: hidden; }
+
+    .main {
+        grid-template-columns: 1fr !important;
+        max-width: 100% !important;
+        margin: 8px auto !important;
+        padding: 12px !important;
+        gap: 12px !important;
+        box-sizing: border-box;
+    }
+
+    #content {
+        margin: 12px !important;
+        padding: 14px !important;
+        border: 2px solid transparent !important;
+        box-shadow: none !important;
+        max-width: 100% !important;
+        width: calc(100% - 28px) !important;
+        box-sizing: border-box !important;
+    }
+
+    .main-content { width: 100% !important; box-sizing: border-box; }
+
+    .card {
+        margin: 10px 0 !important;
+        padding: 14px !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+        border-left: none !important;
+        border-right: none !important;
+    }
+
+    .support-cards, .support-card {
+        width: 100% !important;
+        box-sizing: border-box !important;
+        position: relative !important;
+        right: 0 !important;
+    }
+
+    .banner {
+        flex-direction: row !important;
+        align-items: center !important;
+        padding: 12px !important;
+        gap: 12px !important;
+        height: auto !important;
+    }
+
+    .banner-right {
+        position: static !important;
+        right: auto !important;
+        bottom: auto !important;
+        margin-left: auto !important;
+    }
+
+    .banner-left { gap: 12px !important; }
+
+    .profile-picture {
+        width: 96px !important;
+        height: 96px !important;
+    }
+
+    /* Certificate gallery: horizontal scrolling, smaller images */
+    .cert-gallery {
+        display: flex !important;
+        gap: 12px !important;
+        height: auto !important;
+        overflow-x: auto !important;
+        padding: 8px 4px !important;
+        justify-content: flex-start !important;
+    }
+
+    .cert-wrapper, .cert-gallery img {
+        position: relative !important;
+        transform: none !important;
+        left: auto !important;
+        top: auto !important;
+        opacity: 1 !important;
+        z-index: 1 !important;
+        width: calc(50% - 12px) !important;
+        max-width: 220px !important;
+        height: auto !important;
+    }
+
+    .cert-wrapper img, .cert-gallery img {
+        width: 100% !important;
+        height: auto !important;
+        border-radius: 8px !important;
+    }
+
+    /* Sidepanel full-width on mobile */
+    .sidepanel.open { width: 100% !important; }
+
+    /* Tweak floating controls */
+    .toggle-btn { top: 10px !important; right: 8px !important; padding: 8px 10px !important; }
+    #cli-window { right: 8px !important; left: 8px !important; width: auto !important; max-width: 420px !important; }
+
+    /* Prevent button overflow */
+    .button-row { flex-wrap: wrap !important; gap: 8px !important; }
+    .project-btn { min-width: 0 !important; padding: 8px 10px !important; }
+
+    .badge-container { gap: 6px !important; }
+
+    #site-footer { padding: 12px 10px !important; }
+}
+
+@media screen and (max-width: 480px) {
+    .cert-wrapper, .cert-gallery img { width: calc(80%) !important; max-width: 320px !important; }
+    .profile-picture { width: 80px !important; height: 80px !important; }
+    #content { padding: 12px !important; }
+    .banner h1 { font-size: 1.2rem !important; }
+    .banner-info p, .banner p { font-size: 0.9rem !important; }
 }
