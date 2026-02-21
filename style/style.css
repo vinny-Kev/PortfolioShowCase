@@ -1838,6 +1838,94 @@ body[data-theme='light'] {
     box-shadow: 0 0 25px var(--primary-color);
 }
 
+/* Career Highlights card styling */
+.career-highlights-card {
+    position: relative;
+    overflow: visible;
+}
+
+.career-highlights-card::before { display: none !important; }
+
+/* Red glow styling for career card */
+.career-highlights-card {
+    --career-red: #ff3b30;
+    border-color: rgba(255,59,48,0.35);
+    box-shadow: 0 0 10px rgba(255,59,48,0.08);
+    background: linear-gradient(180deg, rgba(255,59,48,0.01), transparent);
+    transition: box-shadow 0.25s ease, border-color 0.25s ease, transform 0.15s ease;
+}
+
+.career-highlights-card:hover {
+    box-shadow: 0 0 20px rgba(255,59,48,0.18);
+    border-color: rgba(255,59,48,0.65);
+    transform: translateY(-3px);
+}
+
+.career-highlights-card h2 {
+    color: var(--career-red);
+    text-shadow: none;
+    font-weight: 700;
+}
+
+/* Make badges in this card red instead of green */
+.career-highlights-card .career-badges .badge {
+    background: transparent;
+    color: var(--career-red);
+    border: 1.5px solid var(--career-red);
+    box-shadow: none;
+}
+
+.career-highlights-card .career-badges .badge:hover {
+    background: rgba(255,59,48,0.08);
+    color: #fff;
+}
+
+/* Make the call-to-action button red */
+.career-highlights-card .support-button {
+    border-color: var(--career-red);
+    color: var(--career-red);
+    background: transparent;
+}
+
+.career-highlights-card .support-button:hover {
+    background: var(--career-red);
+    color: #111;
+    box-shadow: 0 6px 18px rgba(255,59,48,0.12);
+}
+
+/* Ensure text in the card remains readable */
+.career-highlights-card,
+.career-highlights-card p,
+.career-highlights-card .muted {
+    color: var(--text-bright);
+}
+
+.career-highlights-card h2 {
+    margin-top: 0;
+    color: var(--primary-color);
+    font-size: 1.15rem;
+}
+
+.career-highlights-card h3 {
+    margin: 6px 0 4px 0;
+    font-size: 1rem;
+}
+
+.career-highlights-card .muted {
+    color: var(--text-muted);
+    margin-bottom: 10px;
+}
+
+.career-badges .badge {
+    font-size: 0.75rem;
+    padding: 4px 8px;
+}
+
+.career-desc p {
+    margin: 10px 0 12px 0;
+    line-height: 1.45;
+}
+
 .support-buttons {
     display: flex;
     flex-direction: column;
