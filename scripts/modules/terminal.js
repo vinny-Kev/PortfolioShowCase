@@ -1,169 +1,199 @@
-// Terminal functionality
-const terminalApp = document.getElementById("terminal-app");
-const terminalIcon = document.getElementById("terminal-icon");
-const minimizeBtn = document.querySelector(".min-btn");
-const closeBtn = document.querySelector(".close-btn");
-const cliOutput = document.getElementById("cli-output");
-const modal = document.querySelector(".modal");
-let history = [];
-let historyIndex = -1;
-let inputActive = false;
-let currentCommand = "";
+(() => {
+  const terminalApp = document.getElementById('terminal-app');
+  const terminalIcon = document.getElementById('terminal-icon');
+  const terminalHeader = terminalApp?.querySelector('.terminal-header');
+  const minimizeButton = terminalApp?.querySelector('.min-btn');
+  const closeButton = terminalApp?.querySelector('.close-btn');
+  const output = document.getElementById('cli-output');
+  const modal = document.querySelector('.modal');
+  const confirmButton = document.querySelector('.btn-confirm');
+  const cancelButton = document.querySelector('.btn-cancel');
 
-// Terminal functions
-function printLine(text = "") {
-  cliOutput.innerHTML += text + "\n";
-  cliOutput.scrollTop = cliOutput.scrollHeight;
-}
+  if (!terminalApp || !terminalIcon || !output || !terminalHeader || !minimizeButton || !closeButton || !modal || !confirmButton || !cancelButton) {
+    console.warn('[Terminal] Required DOM elements are missing.');
+    return;
+  }
 
-function newPrompt(defaultText = "") {
-  cliOutput.innerHTML += `<span class="prompt">kevinOS$ </span><span id="active-input" class="active-input" contenteditable="true">${defaultText}</span>`;
-  focusPrompt();
-  inputActive = true;
-}
+  let history = [];
+  let historyIndex = -1;
+  let dragging = false;
+  let dragOffsetX = 0;
+  let dragOffsetY = 0;
 
-function focusPrompt() {
-  const activeInput = document.getElementById("active-input");
-  if (activeInput) {
+  const printLine = (text = '') => {
+    output.innerHTML += `${text}\n`;
+    output.scrollTop = output.scrollHeight;
+  };
+
+  const focusPrompt = () => {
+    const activeInput = document.getElementById('active-input');
+    if (!activeInput) {
+      return;
+    }
+
     const range = document.createRange();
-    const sel = window.getSelection();
+    const selection = window.getSelection();
     range.selectNodeContents(activeInput);
     range.collapse(false);
-    sel.removeAllRanges();
-    sel.addRange(range);
+    selection.removeAllRanges();
+    selection.addRange(range);
     activeInput.focus();
-  }
-}
+  };
 
-function boot() {
-  cliOutput.innerHTML = "";
-  printLine("Welcome to KevinOS!");
-  typeLine("kevinOS$ kevin --help", () => {
-    setTimeout(() => {
-      printLine("Available commands:");
-      printLine("  kevin --about    → Go to portfolio");
-      printLine("  kevin --help     → Show this help menu");
-      setTimeout(() => newPrompt("kevin --about"), 400);
-    }, 400);
+  const newPrompt = (defaultText = '') => {
+    output.innerHTML += `<span class="prompt">kevinOS$ </span><span id="active-input" class="active-input" contenteditable="true">${defaultText}</span>`;
+    focusPrompt();
+  };
+
+  const typeLine = (line, callback) => {
+    let index = 0;
+
+    const typeNext = () => {
+      if (index < line.length) {
+        output.innerHTML += line[index];
+        index += 1;
+        window.setTimeout(typeNext, 30);
+        return;
+      }
+
+      output.innerHTML += '\n';
+      if (typeof callback === 'function') {
+        callback();
+      }
+    };
+
+    typeNext();
+  };
+
+  const boot = () => {
+    output.innerHTML = '';
+    printLine('Welcome to KevinOS');
+    typeLine('kevinOS$ kevin --help', () => {
+      window.setTimeout(() => {
+        printLine('Available commands:');
+        printLine('  kevin --about    -> Go to portfolio');
+        printLine('  kevin --help     -> Show this help menu');
+        window.setTimeout(() => newPrompt('kevin --about'), 300);
+      }, 250);
+    });
+  };
+
+  const resetTerminal = () => {
+    history = [];
+    historyIndex = -1;
+    output.innerHTML = '';
+    boot();
+  };
+
+  const openTerminal = () => {
+    terminalApp.classList.remove('hidden');
+    terminalApp.style.zIndex = '20';
+    focusPrompt();
+  };
+
+  const minimizeTerminal = () => {
+    terminalApp.classList.add('hidden');
+  };
+
+  const closeTerminal = () => {
+    resetTerminal();
+    terminalApp.classList.add('hidden');
+  };
+
+  const handleCommand = (commandText) => {
+    if (commandText === 'kevin --about') {
+      modal.classList.remove('hidden');
+      return;
+    }
+
+    if (commandText === 'kevin --help') {
+      printLine('Available commands:');
+      printLine('  kevin --about    -> Go to portfolio');
+      printLine('  kevin --help     -> Show this help menu');
+      newPrompt();
+      return;
+    }
+
+    if (commandText) {
+      printLine(`'${commandText}' is not recognized as an internal or external command.`);
+      newPrompt();
+      return;
+    }
+
+    newPrompt();
+  };
+
+  terminalIcon.addEventListener('click', openTerminal);
+  minimizeButton.addEventListener('click', minimizeTerminal);
+  closeButton.addEventListener('click', closeTerminal);
+
+  confirmButton.addEventListener('click', () => {
+    document.body.classList.add('fade-out');
+    window.setTimeout(() => {
+      window.location.href = 'main-page.html';
+    }, 600);
   });
-}
 
-function resetTerminal() {
-  history = [];
-  historyIndex = -1;
-  inputActive = false;
-  cliOutput.innerHTML = "";
-  boot();
-}
+  cancelButton.addEventListener('click', () => {
+    modal.classList.add('hidden');
+    printLine('Command cancelled. Type "kevin --about" again.');
+    newPrompt();
+  });
 
-function typeLine(line, callback) {
-  let i = 0;
-  function typing() {
-    if (i < line.length) {
-      cliOutput.innerHTML += line[i];
-      i++;
-      setTimeout(typing, 40);
-    } else {
-      cliOutput.innerHTML += "\n";
-      if (callback) callback();
+  terminalHeader.addEventListener('mousedown', (event) => {
+    dragging = true;
+    dragOffsetX = event.clientX - terminalApp.offsetLeft;
+    dragOffsetY = event.clientY - terminalApp.offsetTop;
+  });
+
+  document.addEventListener('mouseup', () => {
+    dragging = false;
+  });
+
+  document.addEventListener('mousemove', (event) => {
+    if (!dragging) {
+      return;
     }
-  }
-  typing();
-}
 
-// Event Listeners
-terminalIcon.addEventListener("click", () => {
-  terminalApp.classList.remove("hidden");
-  terminalApp.style.zIndex = 20;
-  focusPrompt();
-});
+    terminalApp.style.left = `${event.clientX - dragOffsetX}px`;
+    terminalApp.style.top = `${event.clientY - dragOffsetY}px`;
+  });
 
-minimizeBtn.addEventListener("click", () => {
-  terminalApp.classList.add("hidden");
-});
-
-closeBtn.addEventListener("click", () => {
-  resetTerminal();
-  terminalApp.classList.add("hidden");
-});
-
-document.querySelector(".btn-confirm").addEventListener("click", () => {
-  document.body.classList.add("fade-out");
-  setTimeout(() => (window.location.href = "main-page.html"), 600);
-});
-
-document.querySelector(".btn-cancel").addEventListener("click", () => {
-  modal.classList.add("hidden");
-  printLine("Command cancelled. Type \"kevin --about\" again.");
-  newPrompt();
-});
-
-// Terminal dragging functionality
-let offsetX, offsetY, isDragging = false;
-const header = terminalApp.querySelector(".terminal-header");
-
-header.addEventListener("mousedown", (e) => {
-  isDragging = true;
-  offsetX = e.clientX - terminalApp.offsetLeft;
-  offsetY = e.clientY - terminalApp.offsetTop;
-});
-
-document.addEventListener("mouseup", () => (isDragging = false));
-
-document.addEventListener("mousemove", (e) => {
-  if (!isDragging) return;
-  terminalApp.style.left = (e.clientX - offsetX) + "px";
-  terminalApp.style.top = (e.clientY - offsetY) + "px";
-});
-
-// Command handling
-document.addEventListener("keydown", (e) => {
-  const activeInput = document.getElementById("active-input");
-  if (!activeInput) return;
-
-  if (e.key === "Enter") {
-    e.preventDefault();
-    const input = activeInput.textContent.trim();
-    activeInput.removeAttribute("id");
-    history.push(input);
-    historyIndex = history.length;
-    inputActive = false;
-
-    if (input === "kevin --about") {
-      modal.classList.remove("hidden");
-    } else if (input === "kevin --help") {
-      printLine("Available commands:");
-      printLine("  kevin --about    → Go to portfolio");
-      printLine("  kevin --help     → Show this help menu");
-      newPrompt();
-    } else if (input) {
-      printLine(`'${input}' is not recognized as an internal or external command,`);
-      printLine("operable program or batch file.");
-      newPrompt();
-    } else {
-      newPrompt();
+  document.addEventListener('keydown', (event) => {
+    const activeInput = document.getElementById('active-input');
+    if (!activeInput) {
+      return;
     }
-  }
 
-  if (e.key === "ArrowUp") {
-    if (history.length > 0 && historyIndex > 0) {
-      historyIndex--;
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      const value = activeInput.textContent.trim();
+      activeInput.removeAttribute('id');
+
+      history.push(value);
+      historyIndex = history.length;
+      handleCommand(value);
+      return;
+    }
+
+    if (event.key === 'ArrowUp' && history.length && historyIndex > 0) {
+      historyIndex -= 1;
       activeInput.textContent = history[historyIndex];
       focusPrompt();
+      return;
     }
-  }
 
-  if (e.key === "ArrowDown") {
-    if (historyIndex < history.length - 1) {
-      historyIndex++;
-      activeInput.textContent = history[historyIndex];
-    } else {
-      activeInput.textContent = "";
-      historyIndex = history.length;
+    if (event.key === 'ArrowDown') {
+      if (historyIndex < history.length - 1) {
+        historyIndex += 1;
+        activeInput.textContent = history[historyIndex];
+      } else {
+        activeInput.textContent = '';
+        historyIndex = history.length;
+      }
+      focusPrompt();
     }
-    focusPrompt();
-  }
-});
+  });
 
-// Initialize terminal on load
-window.addEventListener("load", boot);
+  window.addEventListener('load', boot);
+})();

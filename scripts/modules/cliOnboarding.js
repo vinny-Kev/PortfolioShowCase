@@ -8,7 +8,6 @@
   const PROMPT_SPACER = `${' '.repeat(Math.max(0, GUIDE_PROMPT.length - 2))}↳ `;
 
   let cliAPI = null;
-  let launcher = null;
   let isGuideOpen = false;
   let messageQueue = [];
   let isTyping = false;
@@ -52,8 +51,15 @@
     connections: 'contact',
     socials: 'contact',
     project: 'projects',
+    portfolio: 'open',
+    launch: 'open',
     quit: 'exit',
     close: 'exit',
+  };
+
+  const revealPortfolio = () => {
+    document.body.classList.add('app-ready');
+    document.body.classList.remove('boot-cli-only');
   };
 
   const schedule = (fn, delay) => {
@@ -345,6 +351,14 @@
       description: 'Close this guide',
       handler: () => exitGuide(),
     },
+    open: {
+      description: 'Open the main portfolio view',
+      handler: () => {
+        revealPortfolio();
+        enqueueMessage('portfolio shell ready :: rendering interface.', { className: 'cli-line--system' });
+        schedule(() => exitGuide(), 250);
+      },
+    },
   };
 
   const resolveCommandKey = (input) => {
@@ -416,10 +430,10 @@
 
   const initialize = () => {
     cliAPI = window.cliWindowAPI || null;
-    launcher = document.getElementById('cli-launcher');
 
     if (!cliAPI) {
       console.warn('[CLI] Onboarding cannot start because cliWindowAPI is missing.');
+      revealPortfolio();
       return;
     }
 
@@ -444,12 +458,8 @@
         cliAPI.clear();
         cliAPI.focusInput();
 
-        if (launcher) {
-          launcher.style.display = 'none';
-        }
-
         enqueueMessage('guide daemon online :: session initialized.', { className: 'cli-line--system' });
-        enqueueMessage("input ready :: try 'help', 'next', or 'exit'.", {
+        enqueueMessage("input ready :: try 'open' to launch portfolio or 'help' for commands.", {
           className: 'cli-line--hint',
         });
       },
@@ -466,10 +476,6 @@
 
         cliAPI.hide();
         cliAPI.clear();
-
-        if (launcher) {
-          launcher.style.display = 'block';
-        }
       },
       onCloseFromButton: () => {
         onboarding.close();
@@ -483,5 +489,23 @@
 
   document.addEventListener('DOMContentLoaded', () => {
     initialize();
+
+    window.setTimeout(() => {
+      if (window.cliOnboarding && typeof window.cliOnboarding.open === 'function') {
+        window.cliOnboarding.open();
+      }
+    }, 120);
+
+    window.setTimeout(() => {
+      const wrapper = document.getElementById('page-wrapper');
+      if (!wrapper) {
+        return;
+      }
+
+      const computed = window.getComputedStyle(wrapper);
+      if (computed.visibility === 'hidden' || Number.parseFloat(computed.opacity || '1') === 0) {
+        revealPortfolio();
+      }
+    }, 1800);
   });
 })();

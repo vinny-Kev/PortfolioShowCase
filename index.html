@@ -14,7 +14,8 @@
   <meta name="twitter:image" content="https://kevinroymaglaqui.is-a.dev/assets/favicon.jfif" />
   <title>Kevin OS</title>
   <link rel="icon" type="image/x-icon" href="assets/favicon.jfif">
-  <link rel="stylesheet" href="style/landing-page.css">
+  <link rel="preload" href="style/landing-page.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="style/landing-page.css"></noscript>
 </head>
 <body>
   <div id="landing">
@@ -36,12 +37,14 @@
     <!-- Taskbar -->
     <div class="taskbar">
       <div class="taskbar-icon" id="terminal-icon">
-        <img src="assets/terminal-icon-2.jpg" alt="CLI">
+        <img src="assets/terminal-icon-2.jpg" alt="CLI" width="22" height="22" loading="eager" decoding="async">
       </div>
-      <div class="taskbar-icon" id="notepad-icon">📝</div>
+      <div class="taskbar-icon" id="notepad-icon" aria-label="Notepad">TXT</div>
+      <div class="taskbar-icon" id="calculator-icon" aria-label="Calculator">CALC</div>
+      <div class="taskbar-icon" id="explorer-icon" aria-label="File Explorer">FILES</div>
       <div class="taskbar-systemtray">
-        <button id="nav-toggle" title="Switch to Portfolio View" onclick="window.location.href='main-page.html'">📄</button>
-        <button id="theme-toggle" title="Toggle theme">🌙</button>
+        <button id="nav-toggle" title="Switch to Portfolio View" onclick="window.location.href='main-page.html'">Portfolio</button>
+        <button id="theme-toggle" title="Toggle theme">Theme</button>
         <div id="datetime"></div>
       </div>
     </div>
@@ -53,7 +56,7 @@
           <span class="modal-close">✕</span>
         </div>
         <div class="modal-body">
-          <img src="assets/shield.png" alt="Shield">
+          <img src="assets/shield.png" alt="Shield" width="44" height="44" loading="lazy" decoding="async">
           <p>Do you want to allow this app to make changes to your device?</p>
         </div>
         <div class="modal-footer">
@@ -90,13 +93,58 @@ If you don’t know what to do:
       </div>
     </div>
 
-    <!-- Mobile Warning Modal -->
-    <div id="mobile-warning" class="mobile-warning hidden">
-      <div class="warning-card">
-        <h2>⚠️ Small Screen Detected</h2>
-        <p>This experience is best viewed on a desktop.</p>
-        <button id="proceed-btn">Proceed to Portfolio</button>
-        <button id="stay-btn">Stay Here Anyway</button>
+    <!-- Calculator App -->
+    <div id="calculator-app" class="window hidden" aria-label="Calculator application">
+      <div class="calc-header">
+        <span class="calc-title">Calculator</span>
+        <div class="calc-buttons-right">
+          <button class="calc-min" id="calculator-min" aria-label="Minimize calculator">—</button>
+          <button class="calc-close" id="calculator-close" aria-label="Close calculator">Close</button>
+        </div>
+      </div>
+      <div class="calc-body">
+        <div class="calc-display">
+          <div class="calc-previous" id="calc-previous"></div>
+          <div class="calc-current" id="calc-current">0</div>
+        </div>
+        <div class="calc-buttons" id="calc-buttons">
+          <button class="calc-btn" data-action="clear">AC</button>
+          <button class="calc-btn" data-action="delete">DEL</button>
+          <button class="calc-btn" data-action="operation" data-value="%">%</button>
+          <button class="calc-btn" data-action="operation" data-value="/">÷</button>
+          <button class="calc-btn" data-action="number" data-value="7">7</button>
+          <button class="calc-btn" data-action="number" data-value="8">8</button>
+          <button class="calc-btn" data-action="number" data-value="9">9</button>
+          <button class="calc-btn" data-action="operation" data-value="*">×</button>
+          <button class="calc-btn" data-action="number" data-value="4">4</button>
+          <button class="calc-btn" data-action="number" data-value="5">5</button>
+          <button class="calc-btn" data-action="number" data-value="6">6</button>
+          <button class="calc-btn" data-action="operation" data-value="-">−</button>
+          <button class="calc-btn" data-action="number" data-value="1">1</button>
+          <button class="calc-btn" data-action="number" data-value="2">2</button>
+          <button class="calc-btn" data-action="number" data-value="3">3</button>
+          <button class="calc-btn" data-action="operation" data-value="+">+</button>
+          <button class="calc-btn span-2" data-action="number" data-value="0">0</button>
+          <button class="calc-btn" data-action="decimal">.</button>
+          <button class="calc-btn" data-action="equals">=</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- File Explorer App -->
+    <div id="explorer-app" class="window hidden" aria-label="File explorer application">
+      <div class="window-header explorer-header">
+        <span>File Explorer</span>
+        <button id="explorer-close" class="explorer-close-btn" aria-label="Close file explorer">Close</button>
+      </div>
+      <div class="window-body explorer-body">
+        <p class="explorer-path">This PC / Portfolio Projects</p>
+        <ul class="explorer-list">
+          <li><a href="https://github.com/vinny-Kev/Reservatory" target="_blank" rel="noopener">Reservatory</a></li>
+          <li><a href="https://github.com/vinny-Kev/CryptoGraphers" target="_blank" rel="noopener">Cryptographers</a></li>
+          <li><a href="https://github.com/vinny-Kev/DungeonCrawlers" target="_blank" rel="noopener">Godot Game (In Development)</a></li>
+          <li><a href="https://github.com/vinny-Kev/Fintech-API-Sentiment-Analysis-Microservice" target="_blank" rel="noopener">Sentiment Analysis Microservice</a></li>
+        </ul>
       </div>
     </div>
   </div>
@@ -105,6 +153,8 @@ If you don’t know what to do:
   <script src="scripts/modules/backgroundAnimation.js"></script>
   <script src="scripts/modules/terminal.js"></script>
   <script src="scripts/modules/notepad.js"></script>
+  <script src="scripts/modules/calculator.js"></script>
+  <script src="scripts/modules/fileExplorer.js"></script>
   <script src="scripts/modules/themeToggle.js"></script>
   <script src="scripts/modules/utils.js"></script>
   <script src="scripts/modules/touchInteractions.js"></script>

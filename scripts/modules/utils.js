@@ -1,6 +1,10 @@
 // Mobile warning functionality
 function checkMobileWarning() {
   const warning = document.getElementById("mobile-warning");
+  if (!warning) {
+    return;
+  }
+
   if (window.innerWidth < 700) {
     warning.classList.remove("hidden");
   } else {
@@ -9,18 +13,28 @@ function checkMobileWarning() {
 }
 
 window.addEventListener("load", () => {
-  if (window.innerWidth < 700) {
-    document.getElementById("mobile-warning").classList.remove("hidden");
+  const warning = document.getElementById("mobile-warning");
+  if (warning && window.innerWidth < 700) {
+    warning.classList.remove("hidden");
   }
 });
 
-document.getElementById("proceed-btn").addEventListener("click", () => {
-  window.location.href = "main-page.html";
-});
+const proceedButton = document.getElementById('proceed-btn');
+if (proceedButton) {
+  proceedButton.addEventListener('click', () => {
+    window.location.href = 'main-page.html';
+  });
+}
 
-document.getElementById("stay-btn").addEventListener("click", () => {
-  document.getElementById("mobile-warning").classList.add("hidden");
-});
+const stayButton = document.getElementById('stay-btn');
+if (stayButton) {
+  stayButton.addEventListener('click', () => {
+    const warning = document.getElementById('mobile-warning');
+    if (warning) {
+      warning.classList.add('hidden');
+    }
+  });
+}
 
 window.addEventListener("load", checkMobileWarning);
 window.addEventListener("resize", checkMobileWarning);
