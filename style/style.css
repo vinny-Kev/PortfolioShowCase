@@ -2179,7 +2179,7 @@ html {
      Stacks layout, constrains widths, prevents horizontal overflow,
      and scales images/certificates for small screens. */
 @media screen and (max-width: 900px) {
-    html, body { overflow-x: hidden; }
+    html, body, #page-wrapper { overflow-x: hidden; }
 
     .main {
         grid-template-columns: 1fr !important;
@@ -2375,6 +2375,10 @@ body.app-ready #page-wrapper {
         grid-template-columns: 1fr;
         gap: 12px;
     }
+    .support-card, .project-item { max-width: 100%; box-sizing: border-box; padding: 12px 8px; }
+    .badge-container { flex-wrap: wrap; gap: 6px; }
+    #content, .support-cards, .project-showcase { overflow-x: hidden; }
+    .banner-right { width: 100%; }
 
     #intro-card,
     #languages-card,

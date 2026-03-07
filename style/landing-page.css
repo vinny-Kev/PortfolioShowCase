@@ -22,7 +22,7 @@ body {
   background: var(--bg-color);
   font-family: "Consolas","Courier New", monospace;
   margin: 0;
-  overflow: hidden;
+  overflow-x: hidden;
   color: var(--text-color);
 }
 
@@ -33,6 +33,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  background: var(--bg-color);
 }
 
 #bg-canvas {
@@ -66,6 +67,7 @@ body {
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  color: var(--text-color);
 }
 
 .terminal-header {
@@ -199,7 +201,7 @@ body.fade-out { transition: opacity .6s ease; opacity: 0; }
 
 /* responsive tweak */
 @media (max-width:700px){
-  .terminal { width: 90%; height: 60vh; }
+  .terminal { width: 90%; height: 60vh; max-width: calc(100% - 20px); }
   .modal-window { width: 92%; }
 }
 
@@ -232,6 +234,7 @@ pre#cli-output {
   top: 60px; left: 60px;
   width: 640px; height: 380px;
   background: var(--bg-color);
+  color: var(--text-color);
   border: 2px solid var(--terminal-border);
   border-radius: 8px;
   box-shadow: 0 0 25px var(--shadow-color);
@@ -242,8 +245,9 @@ pre#cli-output {
 }
 
 [data-theme='light'] .terminal-window {
-  background: #fafafa;
+  background: #f8fafc;
   border-color: var(--primary-color);
+  color: #0f172a;
 }
 
 [data-theme='light'] pre#cli-output {
@@ -391,14 +395,14 @@ pre#cli-output {
 /* Notepad window */
 #notepad-app {
   position: absolute;
-  top :50px;
+  top: 50px;
   right: 20px;
   width: 400px;
-  background: #fff;
-  color: #000;
-  border: 2px solid #493f3f;
+  background: var(--bg-color);
+  color: var(--text-color);
+  border: 2px solid var(--border-color);
   border-radius: 6px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
   font-family: Consolas, monospace;
 }
 
@@ -792,6 +796,13 @@ pre#cli-output {
   display: none !important;
 }
 
+#calculator-app,
+#explorer-app {
+  background: var(--bg-color);
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+}
+
 #nav-toggle,
 #theme-toggle {
   border: 1px solid var(--border-color);
@@ -880,8 +891,7 @@ pre#cli-output {
   border-color: var(--primary-color);
 }
 
-@media (max-width: 768px) {
-  body {
+@media (max-width: 768px) {  html, body, #page-wrapper { overflow-x: hidden; }  body {
     overflow: hidden;
   }
 
