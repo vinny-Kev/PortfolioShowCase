@@ -530,6 +530,7 @@
     },
     plasma: {
       description: 'Run plasma animation (use -help and --yes)',
+      noPrompt: true,
       handler: ({ args }) => {
         const argList = args.map((arg) => arg.toLowerCase());
         const wantsHelp = argList.some((arg) => ['-h', '--help', '-help', 'help'].includes(arg));
@@ -629,6 +630,13 @@
       return;
     }
 
+    // Don't steal clicks intended for the window controls.
+    if (event.target && typeof event.target.closest === 'function') {
+      if (event.target.closest('.term-buttons') || event.target.closest('.min-btn') || event.target.closest('.close-btn')) {
+        return;
+      }
+    }
+
     if (resizing) {
       return;
     }
@@ -649,8 +657,18 @@
       return;
     }
 
-    terminalApp.style.left = `${event.clientX - dragOffsetX}px`;
-    terminalApp.style.top = `${event.clientY - dragOffsetY}px`;
+    const margin = 8;
+    const taskbarHeight = 48;
+    const viewportWidth = window.innerWidth || 0;
+    const viewportHeight = window.innerHeight || 0;
+    const maxLeft = Math.max(margin, viewportWidth - margin - terminalApp.offsetWidth);
+    const maxTop = Math.max(margin, viewportHeight - taskbarHeight - margin - terminalApp.offsetHeight);
+
+    const nextLeft = Math.min(Math.max(event.clientX - dragOffsetX, margin), maxLeft);
+    const nextTop = Math.min(Math.max(event.clientY - dragOffsetY, margin), maxTop);
+
+    terminalApp.style.left = `${nextLeft}px`;
+    terminalApp.style.top = `${nextTop}px`;
   });
 
   const stopDrag = (event) => {
@@ -695,10 +713,28 @@
         return;
       }
 
-      const nextWidth = Math.max(360, resizeStartWidth + (event.clientX - resizeStartX));
-      const nextHeight = Math.max(240, resizeStartHeight + (event.clientY - resizeStartY));
+      const margin = 8;
+      const taskbarHeight = 48;
+      const viewportWidth = window.innerWidth || 0;
+      const viewportHeight = window.innerHeight || 0;
+
+      const minWidth = 360;
+      const minHeight = 240;
+      const maxWidth = Math.max(minWidth, viewportWidth - margin * 2);
+      const maxHeight = Math.max(minHeight, viewportHeight - taskbarHeight - margin * 2);
+
+      const nextWidth = Math.min(maxWidth, Math.max(minWidth, resizeStartWidth + (event.clientX - resizeStartX)));
+      const nextHeight = Math.min(maxHeight, Math.max(minHeight, resizeStartHeight + (event.clientY - resizeStartY)));
       terminalApp.style.width = `${nextWidth}px`;
       terminalApp.style.height = `${nextHeight}px`;
+
+      // If current position pushes controls off-screen after resize, clamp position.
+      const maxLeft = Math.max(margin, viewportWidth - margin - terminalApp.offsetWidth);
+      const maxTop = Math.max(margin, viewportHeight - taskbarHeight - margin - terminalApp.offsetHeight);
+      const clampedLeft = Math.min(Math.max(terminalApp.offsetLeft, margin), maxLeft);
+      const clampedTop = Math.min(Math.max(terminalApp.offsetTop, margin), maxTop);
+      terminalApp.style.left = `${clampedLeft}px`;
+      terminalApp.style.top = `${clampedTop}px`;
     });
 
     const stopResize = (event) => {

@@ -444,6 +444,7 @@
     <div id="cli-header">
       <button id="cli-accordion-toggle" class="cli-accordion-toggle" aria-expanded="true">cli@kevinos</button>
       <div class="cli-actions">
+        <button id="cli-close" aria-label="Close terminal">✕</button>
         <button id="cli-minimize" aria-label="Minimize terminal">—</button>
       </div>
     </div>
@@ -452,13 +453,16 @@
       <span class="cli-prompt">></span>
   <input type="text" id="cli-input" placeholder="Type a command (help)" autocomplete="off" />
     </div>
-    <div id="cli-resize-handle" aria-hidden="true"></div>
+    <div id="cli-resize-handle" class="cli-resize-handle cli-resize-handle--se" data-dir="se" aria-hidden="true"></div>
+    <div id="cli-resize-handle-sw" class="cli-resize-handle cli-resize-handle--sw" data-dir="sw" aria-hidden="true"></div>
+    <div id="cli-resize-handle-ne" class="cli-resize-handle cli-resize-handle--ne" data-dir="ne" aria-hidden="true"></div>
+    <div id="cli-resize-handle-nw" class="cli-resize-handle cli-resize-handle--nw" data-dir="nw" aria-hidden="true"></div>
   </div>
 
   <script src="scripts/modules/togglePanel.js" defer></script>
   <script src="scripts/modules/certificateModal.js" defer></script>
-  <script src="scripts/modules/cliWindow.js" defer></script>
-  <script src="scripts/modules/cliOnboarding.js" defer></script>
+  <script src="scripts/modules/cliWindow.js?v=20260307" defer></script>
+  <script src="scripts/modules/cliOnboarding.js?v=20260307" defer></script>
   <script src="scripts/modules/themeToggle.js" defer></script>
 
   <!-- Google Analytics Tag -->

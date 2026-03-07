@@ -1170,24 +1170,49 @@ body[data-theme='light'] {
     overflow: auto !important;
 }
 
-#cli-resize-handle {
+.cli-resize-handle {
     position: absolute;
-    right: 4px;
-    bottom: 4px;
-    width: 18px;
-    height: 18px;
-    cursor: nwse-resize;
-    border-right: 2px solid rgba(207, 212, 220, 0.85);
-    border-bottom: 2px solid rgba(207, 212, 220, 0.85);
-    background: linear-gradient(135deg, transparent 0 58%, rgba(207, 212, 220, 0.18) 58% 100%);
-    border-radius: 0 0 4px 0;
+    width: 22px;
+    height: 22px;
     z-index: 50;
-    opacity: 0.85;
+    opacity: 0;
     pointer-events: auto;
     touch-action: none;
 }
 
-#cli-window.is-minimized #cli-resize-handle {
+.cli-resize-handle--se {
+    right: 4px;
+    bottom: 4px;
+    cursor: nwse-resize;
+    border: none;
+    background: transparent;
+}
+
+.cli-resize-handle--sw {
+    left: 4px;
+    bottom: 4px;
+    cursor: nesw-resize;
+    border: none;
+    background: transparent;
+}
+
+.cli-resize-handle--ne {
+    right: 4px;
+    top: 4px;
+    cursor: nesw-resize;
+    border: none;
+    background: transparent;
+}
+
+.cli-resize-handle--nw {
+    left: 4px;
+    top: 4px;
+    cursor: nwse-resize;
+    border: none;
+    background: transparent;
+}
+
+#cli-window.is-minimized .cli-resize-handle {
     opacity: 0;
     pointer-events: none;
 }
