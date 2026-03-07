@@ -1142,8 +1142,7 @@ body[data-theme='light'] {
   width: 350px;
   height: 200px;
   background: rgba(17, 17, 17, 0.95);
-  /* window border uses CLI-specific accent variable */
-  border: 2px solid var(--cli-primary, var(--primary-color));
+    border: 2px solid #cfd4dc;
   border-radius: 5px;
   display: none;
   flex-direction: column;
@@ -1152,8 +1151,8 @@ body[data-theme='light'] {
   z-index: 1001;
   box-shadow: 0 0 10px var(--shadow-color);
   backdrop-filter: blur(8px);
-  /* allow resizing when expanded */
-  resize: none;
+    /* resizing is handled by JS for cross-browser consistency */
+    resize: none;
   overflow: hidden;
 }
 
@@ -1167,8 +1166,26 @@ body[data-theme='light'] {
     min-height: 260px;
     max-width: 95vw;
     max-height: 92vh;
-    resize: both !important;
+        resize: none !important;
     overflow: auto !important;
+}
+
+#cli-resize-handle {
+    position: absolute;
+    right: 6px;
+    bottom: 6px;
+    width: 14px;
+    height: 14px;
+    cursor: nwse-resize;
+    border-right: 2px solid rgba(207, 212, 220, 0.85);
+    border-bottom: 2px solid rgba(207, 212, 220, 0.85);
+    opacity: 0;
+    pointer-events: none;
+}
+
+#cli-window.is-expanded #cli-resize-handle {
+    opacity: 0.9;
+    pointer-events: auto;
 }
 
 #cli-header {
@@ -1179,7 +1196,8 @@ body[data-theme='light'] {
   background: #222;
   padding: 5px 10px;
   font-weight: bold;
-  border-bottom: 1px solid #0f0;
+    font-family: 'Fira Code', 'Consolas', 'Courier New', monospace;
+    border-bottom: 1px solid #cfd4dc;
 }
 
 #cli-header .cli-actions {
@@ -1192,9 +1210,10 @@ body[data-theme='light'] {
 #cli-header button {
   background: transparent;
   border: none;
-  color: #0f0;
+    color: #f5f7fa;
   cursor: pointer;
   font-size: 1rem;
+    font-family: 'Fira Code', 'Consolas', 'Courier New', monospace;
     width: 1.8rem;
     height: 1.8rem;
     border-radius: 4px;
@@ -1210,7 +1229,7 @@ body[data-theme='light'] {
   overflow-y: auto;
   white-space: pre-wrap;
   scrollbar-width: thin;
-  scrollbar-color: #0f0 #111;
+    scrollbar-color: #cfd4dc #111;
   font-family: 'Fira Code', 'Consolas', 'Courier New', monospace;
   font-size: 0.92rem;
   -webkit-user-select: text;
@@ -1230,71 +1249,71 @@ body[data-theme='light'] {
     align-items: flex-start;
     font-family: 'Fira Code', 'Consolas', 'Courier New', monospace;
     font-size: 0.92rem;
-    color: #c7f9cc;
+    color: #f1f3f5;
     margin-bottom: 4px;
 }
 
 .cli-prompt-label {
-    color: var(--cli-primary, var(--primary-color));
+    color: #f8fafc;
     white-space: pre;
     min-width: 19ch;
     flex-shrink: 0;
-    text-shadow: 0 0 6px rgba(0, 255, 0, 0.6);
+    text-shadow: none;
 }
 
 .cli-text {
     white-space: pre-wrap;
-    color: #e9ffe9;
+    color: #f5f7fa;
     flex: 1;
 }
 
 .cli-line--input .cli-text {
-    color: #8ef58e;
+    color: #ffffff;
 }
 
 .cli-line--system .cli-text {
-    color: #b7ffb7;
+    color: #e9ecef;
 }
 
 .cli-line--hint .cli-text {
-    color: #9ef5ff;
+    color: #ced4da;
 }
 
 [data-theme='light'] .cli-line {
-    color: #0b3d0b;
+    color: #111827;
 }
 
 [data-theme='light'] .cli-text {
-    color: #114b11;
+    color: #1f2937;
 }
 
 [data-theme='light'] .cli-line--input .cli-text {
-    color: #ff69b4;
+    color: #111827;
 }
 
 [data-theme='light'] .cli-line--system .cli-text {
-    color: #0c5a0c;
+    color: #1f2937;
 }
 
 [data-theme='light'] .cli-line--hint .cli-text {
-    color: #0f3c6a;
+    color: #4b5563;
 }
 
 [data-theme='light'] .cli-prompt-label {
-    color: #ff69b4;
+    color: #111827;
     text-shadow: none;
 }
 
 .cli-prompt {
   margin-right: 5px; /* spacing between > and input */
-  color: #0f0;
+  color: #f8fafc;
 }
 
 #cli-input {
   border: none;
   outline: none;
   background: transparent;
-  color: #0f0;
+    color: #f8fafc;
   font-family: monospace;
   flex: 1; /* take up remaining space */
   font-size: 0.9rem;
@@ -1312,7 +1331,7 @@ body[data-theme='light'] {
 }
 
 #cli-content::-webkit-scrollbar-thumb {
-  background-color: var(--cli-primary, #0f0);          /* scrollbar thumb color */
+    background-color: #cfd4dc;          /* scrollbar thumb color */
   border-radius: 3px;
   border: 1px solid #111;          /* optional: small border to separate thumb from track */
 }
@@ -2419,6 +2438,57 @@ body.app-ready #page-wrapper {
     #content, .support-cards, .project-showcase { overflow-x: hidden; }
     .banner-right { width: 100%; }
 
+    /* Final mobile header override: force centered stack and keep socials below title */
+    .banner {
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: center !important;
+        text-align: center !important;
+        gap: 10px !important;
+        padding: 14px 12px !important;
+    }
+
+    .banner-left {
+        width: 100% !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 10px !important;
+    }
+
+    .banner-info {
+        margin: 0 !important;
+        width: 100% !important;
+        text-align: center !important;
+        align-items: center !important;
+    }
+
+    .banner-info h1,
+    .banner-info p {
+        text-align: center !important;
+    }
+
+    .banner-right {
+        width: 100% !important;
+        margin: 0 !important;
+        position: static !important;
+        right: auto !important;
+        bottom: auto !important;
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+        order: 2 !important;
+    }
+
+    .banner-socials {
+        width: 100% !important;
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+        gap: 18px !important;
+    }
+
     #intro-card,
     #languages-card,
     #tools-card,
@@ -2543,7 +2613,7 @@ body.app-ready #page-wrapper {
 #cli-window.is-expanded {
     max-height: none !important;
     overflow: auto !important;
-    resize: both !important;
+    resize: none !important;
 }
 
 #cli-window.is-minimized {
@@ -2555,6 +2625,7 @@ body.app-ready #page-wrapper {
     border: none;
     color: var(--text-color);
     font-weight: 700;
+    font-family: 'Fira Code', 'Consolas', 'Courier New', monospace;
     letter-spacing: 0.01em;
     cursor: pointer;
     padding: 0;
@@ -2562,10 +2633,19 @@ body.app-ready #page-wrapper {
 
 .cli-plasma-frame {
     margin: 0;
-    color: #d6ffd6;
+    color: #f5f7fa;
     white-space: pre;
     line-height: 1.05;
     letter-spacing: 0.02em;
+}
+
+.cli-plasma-notes {
+    margin: 10px 0 0;
+    color: #dee2e6;
+    white-space: pre-wrap;
+    line-height: 1.35;
+    border-top: 1px dashed rgba(207, 212, 220, 0.45);
+    padding-top: 10px;
 }
 
 .career-inline-summary {

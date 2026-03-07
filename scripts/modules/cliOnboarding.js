@@ -16,8 +16,23 @@
   let currentHighlight = null;
   let highlightTimeout = null;
   let tourIndex = -1;
+  let commandHistory = [];
+  let historyIndex = -1;
+  let historyDraft = '';
   let plasmaIntervalId = null;
   let plasmaTimeoutId = null;
+  const plasmaNotes = [
+    'cool is it not?',
+    'i wanna win',
+    'lets build something cool',
+    "i'm here for the love of the game",
+    'I love building stuff like this cuz for once in my life I feel like what I want to happen happens',
+  ];
+
+  const pickRandomPlasmaNote = () => {
+    const index = Math.floor(Math.random() * plasmaNotes.length);
+    return plasmaNotes[index];
+  };
 
   const sectionDefinitions = {
     intro: {
@@ -58,6 +73,8 @@
     launch: 'open',
     quit: 'exit',
     close: 'exit',
+    flowera: 'flower a',
+    flowerb: 'flower b',
   };
 
   const revealPortfolio = () => {
@@ -554,7 +571,7 @@
       description: 'Change accent color; prefix with `site`/`global`/`all` to tint whole page, or `cli`/`term` for just the terminal (a=cyan,b=green,c=red,1=blue,2=magenta,3=yellow)',
       handler: ({ args }) => {
         const map = {
-          a: '#0ff', b: '#0f0', c: '#f00',
+          a: '#0ff', b: '#0f0', c: '#f00', d: '#b0b0b0',
           '1': '#00f', '2': '#f0f', '3': '#ff0',
         };
 
@@ -602,6 +619,16 @@
         enqueueMessage('resume opened in new tab', { className: 'cli-line--system' });
       },
     },
+    clr: {
+      description: 'Clear terminal output',
+      handler: () => {
+        stopPlasma();
+        if (cliAPI) {
+          cliAPI.clear();
+          cliAPI.focusInput();
+        }
+      },
+    },
     skull: {
       description: 'Draw a skull ASCII picture',
       handler: async () => {
@@ -642,9 +669,33 @@
       description: 'Play a heavy ascii plasma animation (requires confirm)',
       handler: ({ args }) => {
         stopPlasma();
+        clearScheduledTasks();
+        messageQueue = [];
+        isTyping = false;
         const win = cliAPI.elements.window;
         const palette = ' .,:;irsXA253hMHGS#9B&@';
         const argList = args.map((arg) => arg.toLowerCase());
+        const wantsHelp = argList.some((arg) => ['-h', '--help', '-help', 'help'].includes(arg));
+
+        if (wantsHelp) {
+          const patterns = [
+            'checkerboard', 'classic', 'diamond', 'interference', 'kaleidoscope',
+            'matrix', 'metaballs', 'moire', 'pulse', 'ripple',
+            'spiral', 'tunnel', 'vortex', 'warp', 'waves',
+          ];
+
+          enqueueMessage('plasma format :: plasma -a <style> --yes', { className: 'cli-line--system' });
+          enqueueMessage('==============================', { prompt: null, className: 'cli-line--system' });
+          enqueueMessage('arg           | Desc', { prompt: null, className: 'cli-line--system' });
+          enqueueMessage('==============================', { prompt: null, className: 'cli-line--system' });
+          patterns.forEach((name) => {
+            const label = name.padEnd(13, ' ');
+            enqueueMessage(`${label} | animation ${name}`, { prompt: null, className: 'cli-line--hint' });
+          });
+          enqueueMessage('==============================', { prompt: null, className: 'cli-line--system' });
+          return;
+        }
+
         const yes = argList.some((arg) => ['y', 'yes', '--yes', '-y', 'go', 'confirm'].includes(arg));
 
         let patternName = 'classic';
@@ -682,26 +733,30 @@
         plasmaFrameEl.className = 'cli-plasma-frame';
         contentEl.appendChild(plasmaFrameEl);
 
+        const notesEl = document.createElement('pre');
+        notesEl.className = 'cli-plasma-notes';
+        notesEl.textContent = `\n${pickRandomPlasmaNote()}`;
+        contentEl.appendChild(notesEl);
+
         const computed = window.getComputedStyle(contentEl);
-        const fontSize = Number.parseFloat(computed.fontSize || '14');
-        const lineHeight = Number.parseFloat(computed.lineHeight || `${fontSize * 1.4}`);
+        const fontSizeRaw = Number.parseFloat(computed.fontSize || '14');
+        const fontSize = Number.isFinite(fontSizeRaw) ? fontSizeRaw : 14;
+        const lineHeightRaw = Number.parseFloat(computed.lineHeight || '');
+        const lineHeight = Number.isFinite(lineHeightRaw) ? lineHeightRaw : (fontSize * 1.35);
         const charWidth = fontSize * 0.62;
         plasmaFrameEl.textContent = `loading plasma :: ${pattern}...`;
 
         const start = performance.now();
-        plasmaIntervalId = window.setInterval(() => {
-          const width = Math.max(40, Math.floor(contentEl.clientWidth / charWidth) - 2);
-          const height = Math.max(16, Math.floor(contentEl.clientHeight / lineHeight) - 1);
+        const drawFrame = () => {
+          const width = Math.min(130, Math.max(40, Math.floor(contentEl.clientWidth / charWidth) - 2));
+          const height = Math.min(42, Math.max(16, Math.floor((contentEl.clientHeight * 0.66) / lineHeight)));
           const time = (performance.now() - start) / 550;
           const frame = renderPlasmaFrame(pattern, time, width, height, palette);
           plasmaFrameEl.textContent = frame;
-          cliAPI.scrollToBottom();
-        }, 80);
+        };
 
-        plasmaTimeoutId = window.setTimeout(() => {
-          stopPlasma();
-          enqueueMessage('plasma animation complete', { className: 'cli-line--system' });
-        }, 6500);
+        drawFrame();
+        plasmaIntervalId = window.setInterval(drawFrame, 80);
       },
     },
     open: {
@@ -733,8 +788,19 @@
     }
 
     const parts = trimmed.split(/\s+/);
-    const key = parts[0].toLowerCase();
-    const commandKey = resolveCommandKey(key);
+    let commandKey = null;
+    let commandPartsLength = 0;
+
+    // Resolve the longest matching command key first to support multi-word commands.
+    for (let i = parts.length; i >= 1; i -= 1) {
+      const candidate = parts.slice(0, i).join(' ').toLowerCase();
+      const resolved = resolveCommandKey(candidate);
+      if (resolved) {
+        commandKey = resolved;
+        commandPartsLength = i;
+        break;
+      }
+    }
 
     if (!commandKey) {
       enqueueMessage(`command not found: '${trimmed}'. try 'help'.`, { className: 'cli-line--hint' });
@@ -743,7 +809,7 @@
 
     const command = COMMANDS[commandKey];
     if (command && typeof command.handler === 'function') {
-      command.handler({ raw: trimmed, args: parts.slice(1) });
+      command.handler({ raw: trimmed, args: parts.slice(commandPartsLength) });
     }
   };
 
@@ -755,6 +821,16 @@
     const { input } = cliAPI.elements;
 
     input.addEventListener('keydown', (event) => {
+      if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 'c') {
+        if (plasmaIntervalId) {
+          event.preventDefault();
+          stopPlasma();
+          enqueueMessage('^C plasma interrupted', { className: 'cli-line--system' });
+          input.value = '';
+          return;
+        }
+      }
+
       if (event.key === 'Enter') {
         const value = input.value;
         input.value = '';
@@ -763,8 +839,38 @@
           return;
         }
 
+        commandHistory.push(value);
+        historyIndex = commandHistory.length;
+        historyDraft = '';
+
         appendUserLine(value);
         handleCommand(value);
+      } else if (event.key === 'ArrowUp') {
+        if (!commandHistory.length) {
+          return;
+        }
+
+        event.preventDefault();
+
+        if (historyIndex === commandHistory.length) {
+          historyDraft = input.value;
+        }
+
+        historyIndex = Math.max(0, historyIndex - 1);
+        input.value = commandHistory[historyIndex] || '';
+      } else if (event.key === 'ArrowDown') {
+        if (!commandHistory.length) {
+          return;
+        }
+
+        event.preventDefault();
+        historyIndex = Math.min(commandHistory.length, historyIndex + 1);
+
+        if (historyIndex === commandHistory.length) {
+          input.value = historyDraft;
+        } else {
+          input.value = commandHistory[historyIndex] || '';
+        }
       } else if (event.key === 'Escape') {
         exitGuide();
       }

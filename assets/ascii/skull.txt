@@ -11,9 +11,9 @@
            '..  .  .. .   .       .  . .. . .. . .....:.::IHHB.
           .:. .  . .  . .   .  .  . . . ...:.:... .......:HIHMM.
          .:.... .   . ."::"'.. .   .  . .:.:.:II;,. .. ..:IHIMMA
-         ':.:..  ..::IHHHHHI::. . .  ...:.::::.,,,. . ....VIMMHM
-        .:::I. .AHHHHHHHHHHAI::. .:...,:IIHHHHHHMMMHHL:. . VMMMM
-       .:.:V.:IVHHHHHHHMHMHHH::..:" .:HIHHHHHHHHHHHHHMHHA. .VMMM.
+         ':.:..  ..::IHHHHHI::. . .  ...:.::::.,,,. . ....VIMMHM            memento mori
+        .:::I. .AHHHHHHHHHHAI::. .:...,:IIHHHHHHMMMHHL:. . VMMMM            what I build will outlive me
+       .:.:V.:IVHHHHHHHMHMHHH::..:" .:HIHHHHHHHHHHHHHMHHA. .VMMM.           
        :..V.:IVHHHHHMMHHHHHHHB... . .:VPHHMHHHMMHHHHHHHHHAI.:VMMI
        ::V..:VIHHHHHHMMMHHHHHH. .   .I":IIMHHMMHHHHHHHHHHHAPI:WMM
        ::". .:.HHHHHHHHMMHHHHHI.  . .:..I:MHMMHHHHHHHHHMHV:':H:WM
