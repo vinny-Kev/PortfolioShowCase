@@ -228,6 +228,35 @@ pre#cli-output {
   padding: 0;
   color: #90ff90;
 }
+
+/* Plasma rendering inside the faux terminal */
+#plasma-frame {
+  display: block;
+  white-space: pre;
+  line-height: 1.05;
+}
+
+/* Resize grip for the faux terminal window */
+#terminal-resize-handle {
+  position: absolute;
+  right: 6px;
+  bottom: 6px;
+  width: 18px;
+  height: 18px;
+  cursor: nwse-resize;
+  border-right: 2px solid var(--terminal-border);
+  border-bottom: 2px solid var(--terminal-border);
+  border-radius: 0 0 4px 0;
+  opacity: 0.9;
+  z-index: 3;
+  pointer-events: auto;
+  touch-action: none;
+}
+
+.terminal-window.hidden #terminal-resize-handle {
+  opacity: 0;
+  pointer-events: none;
+}
 /* Terminal app window */
 .terminal-window {
   position: absolute;

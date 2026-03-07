@@ -1172,20 +1172,24 @@ body[data-theme='light'] {
 
 #cli-resize-handle {
     position: absolute;
-    right: 6px;
-    bottom: 6px;
-    width: 14px;
-    height: 14px;
+    right: 4px;
+    bottom: 4px;
+    width: 18px;
+    height: 18px;
     cursor: nwse-resize;
     border-right: 2px solid rgba(207, 212, 220, 0.85);
     border-bottom: 2px solid rgba(207, 212, 220, 0.85);
-    opacity: 0;
-    pointer-events: none;
+    background: linear-gradient(135deg, transparent 0 58%, rgba(207, 212, 220, 0.18) 58% 100%);
+    border-radius: 0 0 4px 0;
+    z-index: 50;
+    opacity: 0.85;
+    pointer-events: auto;
+    touch-action: none;
 }
 
-#cli-window.is-expanded #cli-resize-handle {
-    opacity: 0.9;
-    pointer-events: auto;
+#cli-window.is-minimized #cli-resize-handle {
+    opacity: 0;
+    pointer-events: none;
 }
 
 #cli-header {

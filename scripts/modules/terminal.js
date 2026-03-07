@@ -4,6 +4,7 @@
   const terminalHeader = terminalApp?.querySelector('.terminal-header');
   const minimizeButton = terminalApp?.querySelector('.min-btn');
   const closeButton = terminalApp?.querySelector('.close-btn');
+  const terminalResizeHandle = document.getElementById('terminal-resize-handle');
   const output = document.getElementById('cli-output');
   const modal = document.querySelector('.modal');
   const confirmButton = document.querySelector('.btn-confirm');
@@ -59,10 +60,19 @@
   let historyIndex = -1;
   let historyDraft = '';
   let dragging = false;
+  let dragPointerId = null;
   let dragOffsetX = 0;
   let dragOffsetY = 0;
+
+  let resizing = false;
+  let resizePointerId = null;
+  let resizeStartX = 0;
+  let resizeStartY = 0;
+  let resizeStartWidth = 0;
+  let resizeStartHeight = 0;
   let tourIndex = -1;
   let plasmaIntervalId = null;
+  let plasmaAnimationFrameId = null;
 
   const escapeHtml = (value) => value
     .replaceAll('&', '&amp;')
@@ -100,6 +110,11 @@
     if (plasmaIntervalId) {
       window.clearInterval(plasmaIntervalId);
       plasmaIntervalId = null;
+    }
+
+    if (plasmaAnimationFrameId) {
+      window.cancelAnimationFrame(plasmaAnimationFrameId);
+      plasmaAnimationFrameId = null;
     }
   };
 
@@ -143,6 +158,7 @@
   };
 
   const minimizeTerminal = () => {
+    stopPlasma();
     terminalApp.classList.add('hidden');
   };
 
@@ -318,7 +334,7 @@
 
     noteEl.textContent = `\n\n${pickRandomPlasmaNote()}`;
 
-    const palette = ' .,:;irsXA253hMHGS#9B&@';
+    const palette = '.,:;irsXA253hMHGS#9B&@';
     const style = window.getComputedStyle(output);
     const fontSizeRaw = Number.parseFloat(style.fontSize || '15');
     const fontSize = Number.isFinite(fontSizeRaw) ? fontSizeRaw : 15;
@@ -327,12 +343,19 @@
     const charWidth = fontSize * 0.62;
 
     const start = performance.now();
-    plasmaIntervalId = window.setInterval(() => {
-      const width = Math.max(30, Math.floor(output.clientWidth / charWidth) - 2);
-      const height = Math.max(12, Math.floor((output.clientHeight * 0.66) / lineHeight));
-      const time = (performance.now() - start) / 550;
+    const drawFrame = (now) => {
+      const availableWidth = output.clientWidth || 0;
+      const availableHeight = output.clientHeight || 0;
+
+      const width = Math.min(110, Math.max(40, Math.floor(availableWidth / charWidth) - 2));
+      const height = Math.min(36, Math.max(16, Math.floor((availableHeight * 0.66) / lineHeight)));
+      const time = (now - start) / 550;
+
       frameEl.textContent = renderPlasmaFrame(pattern, time, width, height, palette);
-    }, 80);
+      plasmaAnimationFrameId = window.requestAnimationFrame(drawFrame);
+    };
+
+    drawFrame(performance.now());
   };
 
   const COMMANDS = {
@@ -465,6 +488,16 @@
         output.innerHTML = '';
       },
     },
+    diag: {
+      description: 'Show terminal diagnostics (sizes, plasma state)',
+      handler: () => {
+        const style = window.getComputedStyle(output);
+        printLine('diag :: terminal');
+        printLine(`  window: ${terminalApp.offsetWidth}x${terminalApp.offsetHeight} (left=${terminalApp.offsetLeft}, top=${terminalApp.offsetTop})`);
+        printLine(`  output: ${output.clientWidth}x${output.clientHeight} (font=${style.fontSize}, lineHeight=${style.lineHeight})`);
+        printLine(`  plasma running: ${Boolean(plasmaIntervalId || plasmaAnimationFrameId)}`);
+      },
+    },
     skull: {
       description: 'Draw a skull ASCII picture',
       handler: async () => renderAsciiFromFile('skull.txt'),
@@ -591,18 +624,28 @@
     newPrompt();
   });
 
-  terminalHeader.addEventListener('mousedown', (event) => {
+  terminalHeader.addEventListener('pointerdown', (event) => {
+    if (terminalApp.classList.contains('hidden')) {
+      return;
+    }
+
+    if (resizing) {
+      return;
+    }
+
+    if (typeof event.button === 'number' && event.button !== 0) {
+      return;
+    }
+
     dragging = true;
+    dragPointerId = event.pointerId;
     dragOffsetX = event.clientX - terminalApp.offsetLeft;
     dragOffsetY = event.clientY - terminalApp.offsetTop;
+    terminalHeader.setPointerCapture(event.pointerId);
   });
 
-  document.addEventListener('mouseup', () => {
-    dragging = false;
-  });
-
-  document.addEventListener('mousemove', (event) => {
-    if (!dragging) {
+  terminalHeader.addEventListener('pointermove', (event) => {
+    if (!dragging || dragPointerId !== event.pointerId) {
       return;
     }
 
@@ -610,8 +653,74 @@
     terminalApp.style.top = `${event.clientY - dragOffsetY}px`;
   });
 
+  const stopDrag = (event) => {
+    if (!dragging) {
+      return;
+    }
+
+    if (event && dragPointerId !== null && event.pointerId !== dragPointerId) {
+      return;
+    }
+
+    dragging = false;
+    dragPointerId = null;
+  };
+
+  terminalHeader.addEventListener('pointerup', stopDrag);
+  terminalHeader.addEventListener('pointercancel', stopDrag);
+
+  if (terminalResizeHandle) {
+    terminalResizeHandle.addEventListener('pointerdown', (event) => {
+      if (terminalApp.classList.contains('hidden')) {
+        return;
+      }
+
+      if (typeof event.button === 'number' && event.button !== 0) {
+        return;
+      }
+
+      event.preventDefault();
+      resizing = true;
+      resizePointerId = event.pointerId;
+      resizeStartX = event.clientX;
+      resizeStartY = event.clientY;
+      resizeStartWidth = terminalApp.offsetWidth;
+      resizeStartHeight = terminalApp.offsetHeight;
+      terminalResizeHandle.setPointerCapture(event.pointerId);
+      document.body.style.userSelect = 'none';
+    });
+
+    terminalResizeHandle.addEventListener('pointermove', (event) => {
+      if (!resizing || resizePointerId !== event.pointerId) {
+        return;
+      }
+
+      const nextWidth = Math.max(360, resizeStartWidth + (event.clientX - resizeStartX));
+      const nextHeight = Math.max(240, resizeStartHeight + (event.clientY - resizeStartY));
+      terminalApp.style.width = `${nextWidth}px`;
+      terminalApp.style.height = `${nextHeight}px`;
+    });
+
+    const stopResize = (event) => {
+      if (!resizing) {
+        return;
+      }
+
+      if (event && resizePointerId !== null && event.pointerId !== resizePointerId) {
+        return;
+      }
+
+      resizing = false;
+      resizePointerId = null;
+      document.body.style.userSelect = '';
+    };
+
+    terminalResizeHandle.addEventListener('pointerup', stopResize);
+    terminalResizeHandle.addEventListener('pointercancel', stopResize);
+  }
+
   document.addEventListener('keydown', (event) => {
-    if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 'c' && plasmaIntervalId) {
+    if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 'c' && (plasmaIntervalId || plasmaAnimationFrameId)) {
       event.preventDefault();
       stopPlasma();
       printLine('^C plasma interrupted');

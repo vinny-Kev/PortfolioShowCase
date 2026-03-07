@@ -21,6 +21,7 @@
 
   let isMinimized = false;
   let isResizing = false;
+  let resizePointerId = null;
   let resizeStartX = 0;
   let resizeStartY = 0;
   let resizeStartWidth = 0;
@@ -123,35 +124,56 @@
   }
 
   if (cliResizeHandle) {
-    cliResizeHandle.addEventListener('mousedown', (event) => {
-      if (!cliWindow.classList.contains('is-expanded') || isMinimized) {
+    cliResizeHandle.addEventListener('pointerdown', (event) => {
+      if (isMinimized) {
+        return;
+      }
+
+      if (typeof event.button === 'number' && event.button !== 0) {
         return;
       }
 
       event.preventDefault();
       isResizing = true;
+      resizePointerId = event.pointerId;
       resizeStartX = event.clientX;
       resizeStartY = event.clientY;
       resizeStartWidth = cliWindow.offsetWidth;
       resizeStartHeight = cliWindow.offsetHeight;
+      cliWindow.classList.add('is-expanded');
+      document.body.style.userSelect = 'none';
+      cliResizeHandle.setPointerCapture(event.pointerId);
     });
+
+    cliResizeHandle.addEventListener('pointermove', (event) => {
+      if (!isResizing || resizePointerId !== event.pointerId) {
+        return;
+      }
+
+      const nextWidth = Math.max(420, resizeStartWidth + (event.clientX - resizeStartX));
+      const nextHeight = Math.max(260, resizeStartHeight + (event.clientY - resizeStartY));
+
+      cliWindow.style.width = `${nextWidth}px`;
+      cliWindow.style.height = `${nextHeight}px`;
+    });
+
+    const stopResize = (event) => {
+      if (!isResizing) {
+        return;
+      }
+
+      if (event && resizePointerId !== null && event.pointerId !== resizePointerId) {
+        return;
+      }
+
+      isResizing = false;
+      resizePointerId = null;
+      document.body.style.userSelect = '';
+    };
+
+    cliResizeHandle.addEventListener('pointerup', stopResize);
+    cliResizeHandle.addEventListener('pointercancel', stopResize);
   }
-
-  document.addEventListener('mousemove', (event) => {
-    if (!isResizing) {
-      return;
-    }
-
-    const nextWidth = Math.max(420, resizeStartWidth + (event.clientX - resizeStartX));
-    const nextHeight = Math.max(260, resizeStartHeight + (event.clientY - resizeStartY));
-
-    cliWindow.style.width = `${nextWidth}px`;
-    cliWindow.style.height = `${nextHeight}px`;
-  });
-
-  document.addEventListener('mouseup', () => {
-    isResizing = false;
-  });
 
   const expand = () => {
     cliWindow.classList.add('is-expanded');

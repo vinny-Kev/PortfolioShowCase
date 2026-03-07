@@ -21,6 +21,7 @@
   let historyDraft = '';
   let plasmaIntervalId = null;
   let plasmaTimeoutId = null;
+  let plasmaAnimationFrameId = null;
   const plasmaNotes = [
     'cool is it not?',
     'i wanna win',
@@ -105,6 +106,10 @@
     if (plasmaTimeoutId) {
       window.clearTimeout(plasmaTimeoutId);
       plasmaTimeoutId = null;
+    }
+    if (plasmaAnimationFrameId) {
+      window.cancelAnimationFrame(plasmaAnimationFrameId);
+      plasmaAnimationFrameId = null;
     }
   };
 
@@ -629,6 +634,32 @@
         }
       },
     },
+    diag: {
+      description: 'Show CLI diagnostics (sizes, plasma state)',
+      handler: () => {
+        if (!cliAPI) {
+          return;
+        }
+
+        const win = cliAPI.elements.window;
+        const contentEl = cliAPI.elements.content;
+        const computed = window.getComputedStyle(contentEl);
+        const winComputed = win ? window.getComputedStyle(win) : null;
+        enqueueMessage('diag :: cli window', { className: 'cli-line--system' });
+        enqueueMessage(
+          `  window: ${win?.offsetWidth ?? 0}x${win?.offsetHeight ?? 0} (display=${winComputed ? winComputed.display : 'n/a'})`,
+          { prompt: null, className: 'cli-line--hint' }
+        );
+        enqueueMessage(
+          `  content: ${contentEl.clientWidth}x${contentEl.clientHeight} (font=${computed.fontSize}, lineHeight=${computed.lineHeight})`,
+          { prompt: null, className: 'cli-line--hint' }
+        );
+        enqueueMessage(
+          `  plasma running: ${Boolean(plasmaIntervalId || plasmaAnimationFrameId)}`,
+          { prompt: null, className: 'cli-line--hint' }
+        );
+      },
+    },
     skull: {
       description: 'Draw a skull ASCII picture',
       handler: async () => {
@@ -673,7 +704,7 @@
         messageQueue = [];
         isTyping = false;
         const win = cliAPI.elements.window;
-        const palette = ' .,:;irsXA253hMHGS#9B&@';
+        const palette = '.,:;irsXA253hMHGS#9B&@';
         const argList = args.map((arg) => arg.toLowerCase());
         const wantsHelp = argList.some((arg) => ['-h', '--help', '-help', 'help'].includes(arg));
 
@@ -753,10 +784,10 @@
           const time = (performance.now() - start) / 550;
           const frame = renderPlasmaFrame(pattern, time, width, height, palette);
           plasmaFrameEl.textContent = frame;
+          plasmaAnimationFrameId = window.requestAnimationFrame(drawFrame);
         };
 
         drawFrame();
-        plasmaIntervalId = window.setInterval(drawFrame, 80);
       },
     },
     open: {
@@ -822,7 +853,7 @@
 
     input.addEventListener('keydown', (event) => {
       if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 'c') {
-        if (plasmaIntervalId) {
+        if (plasmaIntervalId || plasmaAnimationFrameId) {
           event.preventDefault();
           stopPlasma();
           enqueueMessage('^C plasma interrupted', { className: 'cli-line--system' });
