@@ -1,10 +1,17 @@
 // Background Canvas Animation
-const canvas = document.getElementById("bg-canvas");
-const ctx = canvas.getContext("2d");
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
-let particles = [];
-const mouse = { x: null, y: null };
+// disable on narrow/mobile devices to save CPU and battery
+if (window.innerWidth < 768) {
+  const canvasEl = document.getElementById("bg-canvas");
+  if (canvasEl) {
+    canvasEl.style.display = "none";
+  }
+} else {
+  const canvas = document.getElementById("bg-canvas");
+  const ctx = canvas.getContext("2d");
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  let particles = [];
+  const mouse = { x: null, y: null };
 
 class Particle {
   constructor() {
