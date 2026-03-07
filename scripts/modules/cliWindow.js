@@ -39,7 +39,15 @@
 
   const hide = () => {
     setMinimized(true);
-    cliWindow.setAttribute('aria-hidden', 'false');
+    // collapse expanded state when hiding so it resets next show
+    cliWindow.classList.remove('is-expanded');
+    cliWindow.style.width = '';
+    cliWindow.style.height = '';
+    cliWindow.style.left = '';
+    cliWindow.style.top = '';
+    cliWindow.style.right = '';
+    cliWindow.style.bottom = '';
+    cliWindow.setAttribute('aria-hidden', 'true');
   };
 
   const setMinimized = (value) => {
@@ -107,6 +115,14 @@
     });
   }
 
+  const expand = () => {
+    cliWindow.classList.add('is-expanded');
+  };
+
+  const restore = () => {
+    cliWindow.classList.remove('is-expanded');
+  };
+
   window.cliWindowAPI = {
     elements: {
       window: cliWindow,
@@ -121,5 +137,7 @@
     appendLine,
     focusInput,
     scrollToBottom,
+    expand,
+    restore,
   };
 })();

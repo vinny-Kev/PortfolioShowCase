@@ -194,3 +194,19 @@ window.addEventListener("mouseleave", () => {
 // Initialize animation
 init();
 animate();
+} // end else for desktop
+
+// Event Listeners
+window.addEventListener("resize", () => {
+  if (window.innerWidth < 768) {
+    const canvasEl = document.getElementById("bg-canvas");
+    if (canvasEl) canvasEl.style.display = "none";
+    return;
+  } else {
+    const canvasEl = document.getElementById("bg-canvas");
+    if (canvasEl) canvasEl.style.display = "block";
+  }
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  init();
+});

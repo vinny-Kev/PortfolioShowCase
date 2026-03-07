@@ -4,6 +4,8 @@
 
 :root {
     --primary-color: #22d3ee;
+    /* CLI accent color defaults to the same primary color but can be overridden */
+    --cli-primary: var(--primary-color);
     --shadow-color: rgba(34, 211, 238, 0.2);
     --border-color: #374151;
     --text-color: #e5e7eb;
@@ -19,6 +21,7 @@
 
 [data-theme='light'] {
     --primary-color: #0f766e;
+    --cli-primary: var(--primary-color);
     --shadow-color: rgba(15, 118, 110, 0.18);
     --border-color: #99f6e4;
     --text-color: #0f172a;
@@ -1139,7 +1142,8 @@ body[data-theme='light'] {
   width: 350px;
   height: 200px;
   background: rgba(17, 17, 17, 0.95);
-  border: 2px solid var(--primary-color);
+  /* window border uses CLI-specific accent variable */
+  border: 2px solid var(--cli-primary, var(--primary-color));
   border-radius: 5px;
   display: none;
   flex-direction: column;
@@ -1148,16 +1152,41 @@ body[data-theme='light'] {
   z-index: 1001;
   box-shadow: 0 0 10px var(--shadow-color);
   backdrop-filter: blur(8px);
+  /* allow resizing when expanded */
+  resize: none;
+  overflow: hidden;
+}
+
+#cli-window.is-expanded {
+    width: 90vw;
+    height: 80vh;
+    bottom: 5vh;
+    right: 5vw;
+    left: auto;
+    min-width: 420px;
+    min-height: 260px;
+    max-width: 95vw;
+    max-height: 92vh;
+    resize: both !important;
+    overflow: auto !important;
 }
 
 #cli-header {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
+  position: relative;
   background: #222;
   padding: 5px 10px;
   font-weight: bold;
   border-bottom: 1px solid #0f0;
+}
+
+#cli-header .cli-actions {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
 }
 
 #cli-header button {
@@ -1166,6 +1195,13 @@ body[data-theme='light'] {
   color: #0f0;
   cursor: pointer;
   font-size: 1rem;
+    width: 1.8rem;
+    height: 1.8rem;
+    border-radius: 4px;
+}
+
+#cli-header button:hover {
+    background: rgba(255, 255, 255, 0.08);
 }
 
 #cli-content {
@@ -1199,7 +1235,7 @@ body[data-theme='light'] {
 }
 
 .cli-prompt-label {
-    color: var(--primary-color);
+    color: var(--cli-primary, var(--primary-color));
     white-space: pre;
     min-width: 19ch;
     flex-shrink: 0;
@@ -1276,7 +1312,7 @@ body[data-theme='light'] {
 }
 
 #cli-content::-webkit-scrollbar-thumb {
-  background-color: #0f0;          /* scrollbar thumb color */
+  background-color: var(--cli-primary, #0f0);          /* scrollbar thumb color */
   border-radius: 3px;
   border: 1px solid #111;          /* optional: small border to separate thumb from track */
 }
@@ -1360,6 +1396,9 @@ body[data-theme='light'] {
         border-bottom: 2px solid var(--border-color);
         border-radius: 0;
     }
+    /* mobile header social reposition */
+    .banner-right { justify-content: center; order: 2; margin-top: 8px; }
+    .banner-left { order: 1; }
 
     .banner-left, .banner-right {
         position: static;
@@ -2501,6 +2540,12 @@ body.app-ready #page-wrapper {
     transition: max-height 0.25s ease, box-shadow 0.2s ease;
 }
 
+#cli-window.is-expanded {
+    max-height: none !important;
+    overflow: auto !important;
+    resize: both !important;
+}
+
 #cli-window.is-minimized {
     max-height: 46px;
 }
@@ -2513,6 +2558,14 @@ body.app-ready #page-wrapper {
     letter-spacing: 0.01em;
     cursor: pointer;
     padding: 0;
+}
+
+.cli-plasma-frame {
+    margin: 0;
+    color: #d6ffd6;
+    white-space: pre;
+    line-height: 1.05;
+    letter-spacing: 0.02em;
 }
 
 .career-inline-summary {

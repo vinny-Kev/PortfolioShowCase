@@ -1,0 +1,7 @@
+      /\_/\      visitor@portfolio
+     ( o.o )     OS: PortfolioOS 1.0
+      > ^ <      Host: Kevin's Portfolio
+                 Shell: faux-cli
+                 Theme: cyber-tech
+                 Resolution: responsive
+                 IG: vinny_ndr

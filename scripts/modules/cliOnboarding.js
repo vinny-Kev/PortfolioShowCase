@@ -6,6 +6,7 @@
   const USER_PROMPT = 'visitor@portfolio:~$ ';
   const GUIDE_PROMPT = 'guide@portfolio:~$ ';
   const PROMPT_SPACER = `${' '.repeat(Math.max(0, GUIDE_PROMPT.length - 2))}↳ `;
+  const ASCII_DIR = 'assets/ascii';
 
   let cliAPI = null;
   let isGuideOpen = false;
@@ -15,6 +16,8 @@
   let currentHighlight = null;
   let highlightTimeout = null;
   let tourIndex = -1;
+  let plasmaIntervalId = null;
+  let plasmaTimeoutId = null;
 
   const sectionDefinitions = {
     intro: {
@@ -75,6 +78,17 @@
   const clearScheduledTasks = () => {
     activeTimeouts.forEach((id) => window.clearTimeout(id));
     activeTimeouts = [];
+  };
+
+  const stopPlasma = () => {
+    if (plasmaIntervalId) {
+      window.clearInterval(plasmaIntervalId);
+      plasmaIntervalId = null;
+    }
+    if (plasmaTimeoutId) {
+      window.clearTimeout(plasmaTimeoutId);
+      plasmaTimeoutId = null;
+    }
   };
 
   const clearHighlight = () => {
@@ -214,6 +228,191 @@
     typeChar();
   };
 
+  const renderAsciiFromFile = async (fileName) => {
+    if (!cliAPI) {
+      return;
+    }
+
+    stopPlasma();
+
+    const win = cliAPI.elements.window;
+    if (typeof cliAPI.show === 'function') {
+      cliAPI.show();
+    }
+    if (typeof cliAPI.setMinimized === 'function') {
+      cliAPI.setMinimized(false);
+    }
+    if (win) {
+      win.classList.add('is-expanded');
+    }
+
+    cliAPI.clear();
+
+    try {
+      const urls = [
+        `${ASCII_DIR}/${fileName}`,
+        `./${ASCII_DIR}/${fileName}`,
+        `/assets/ascii/${fileName}`,
+      ];
+
+      let text = '';
+      let lastError = null;
+
+      for (const url of urls) {
+        try {
+          const response = await fetch(url);
+          if (!response.ok) {
+            throw new Error(`status ${response.status}`);
+          }
+          text = await response.text();
+          if (text) {
+            break;
+          }
+        } catch (error) {
+          lastError = error;
+        }
+      }
+
+      if (!text) {
+        if (window.location.protocol === 'file:') {
+          throw new Error('file protocol blocked fetch :: use a local server');
+        }
+        throw lastError || new Error('file not found');
+      }
+
+      if (!text.trim()) {
+        enqueueMessage('ascii file is empty :: add content to the txt file.', { className: 'cli-line--hint' });
+        return;
+      }
+
+      text.replace(/\r\n/g, '\n').split('\n').forEach((line) => {
+        cliAPI.appendLine(line);
+      });
+    } catch (error) {
+      enqueueMessage(`ascii load failed :: ${error.message}`, { className: 'cli-line--hint' });
+      if (window.location.protocol === 'file:') {
+        enqueueMessage('tip :: run a local server (e.g. `python -m http.server`) and open main-page.html from http://localhost', { className: 'cli-line--hint' });
+      }
+    }
+  };
+
+  const clamp01 = (value) => Math.max(0, Math.min(1, value));
+
+  const resolvePlasmaPattern = (rawName) => {
+    if (!rawName) {
+      return 'classic';
+    }
+
+    const normalized = rawName.toLowerCase();
+    const map = {
+      checkerboard: 'checkerboard',
+      classic: 'classic',
+      diamond: 'diamond',
+      interference: 'interference',
+      kaleidoscope: 'kaleidoscope',
+      matrix: 'matrix',
+      metaballs: 'metaballs',
+      moire: 'moire',
+      pulse: 'pulse',
+      ripple: 'ripple',
+      spiral: 'spiral',
+      tunnel: 'tunnel',
+      vortex: 'vortex',
+      warp: 'warp',
+      waves: 'waves',
+    };
+
+    return map[normalized] || 'classic';
+  };
+
+  const computePlasmaValue = (pattern, x, y, t, width, height) => {
+    const cx = width / 2;
+    const cy = height / 2;
+    const dx = x - cx;
+    const dy = y - cy;
+    const r = Math.sqrt(dx * dx + dy * dy) + 0.001;
+    const angle = Math.atan2(dy, dx);
+
+    switch (pattern) {
+      case 'checkerboard': {
+        const waves = Math.sin(x * 0.4 + t) + Math.sin(y * 0.4 - t);
+        const checker = (Math.floor(x / 2) + Math.floor(y / 2)) % 2 === 0 ? 1 : -1;
+        return clamp01((waves * 0.35 + checker * 0.35) + 0.5);
+      }
+      case 'diamond': {
+        const manhattan = Math.abs(dx) + Math.abs(dy);
+        return clamp01((Math.sin(manhattan * 0.35 - t) + 1) / 2);
+      }
+      case 'interference': {
+        const d1 = Math.sqrt((dx + 8 * Math.cos(t * 0.7)) ** 2 + (dy + 6 * Math.sin(t * 0.7)) ** 2);
+        const d2 = Math.sqrt((dx - 8 * Math.sin(t * 0.5)) ** 2 + (dy - 6 * Math.cos(t * 0.5)) ** 2);
+        return clamp01((Math.sin(d1 * 0.45 - t) + Math.sin(d2 * 0.45 + t)) * 0.25 + 0.5);
+      }
+      case 'kaleidoscope': {
+        const sym = Math.abs(Math.sin(angle * 4 + t * 0.3));
+        return clamp01((Math.sin(r * 0.35 + sym * 6 + t) + 1) / 2);
+      }
+      case 'matrix': {
+        const rain = Math.sin(y * 0.8 + t * 3) + Math.sin(x * 0.12 + t * 0.8);
+        return clamp01(rain * 0.25 + 0.5);
+      }
+      case 'metaballs': {
+        const p1 = 1 / (Math.sqrt((dx - 6 * Math.cos(t)) ** 2 + (dy - 5 * Math.sin(t)) ** 2) + 0.8);
+        const p2 = 1 / (Math.sqrt((dx + 6 * Math.sin(t * 0.8)) ** 2 + (dy + 5 * Math.cos(t * 0.6)) ** 2) + 0.8);
+        const p3 = 1 / (Math.sqrt((dx + 4 * Math.cos(t * 0.4)) ** 2 + (dy - 7 * Math.sin(t * 0.7)) ** 2) + 0.8);
+        return clamp01((p1 + p2 + p3) * 0.55);
+      }
+      case 'moire': {
+        const rings = Math.sin(r * 0.6 + t) + Math.sin(r * 0.63 - t * 1.1);
+        return clamp01(rings * 0.25 + 0.5);
+      }
+      case 'pulse': {
+        return clamp01((Math.sin(r * 0.6 - t * 2.4) + 1) / 2);
+      }
+      case 'ripple': {
+        const ripple = Math.sin(r * 0.8 - t * 2.8) / (1 + r * 0.05);
+        return clamp01(ripple * 0.5 + 0.5);
+      }
+      case 'spiral': {
+        return clamp01((Math.sin(r * 0.3 + angle * 3 - t) + 1) / 2);
+      }
+      case 'tunnel': {
+        const tunnel = Math.sin(r * 0.7 - t * 3.5 + angle * 2);
+        return clamp01(tunnel * 0.5 + 0.5);
+      }
+      case 'vortex': {
+        return clamp01((Math.sin(r * 0.45 + angle * 4 + t * 1.4) + 1) / 2);
+      }
+      case 'warp': {
+        const warp = Math.sin((dx * dx + dy * dy) * 0.02 - t * 3);
+        return clamp01(warp * 0.5 + 0.5);
+      }
+      case 'waves': {
+        const waves = Math.sin(y * 0.5 + t * 2) + Math.sin((y + x * 0.2) * 0.25 + t);
+        return clamp01(waves * 0.25 + 0.5);
+      }
+      case 'classic':
+      default: {
+        const val = Math.sin(x * 0.3 + t) + Math.sin(y * 0.3 - t) + Math.sin((x + y) * 0.2 + t * 0.7);
+        return clamp01(val * 0.18 + 0.5);
+      }
+    }
+  };
+
+  const renderPlasmaFrame = (pattern, time, width, height, palette) => {
+    const rows = [];
+    for (let y = 0; y < height; y += 1) {
+      let row = '';
+      for (let x = 0; x < width; x += 1) {
+        const value = computePlasmaValue(pattern, x, y, time, width, height);
+        const index = Math.floor(value * (palette.length - 1));
+        row += palette[index];
+      }
+      rows.push(row);
+    }
+    return rows.join('\n');
+  };
+
   const showSection = (key) => {
     const definition = sectionDefinitions[key];
     if (!definition) {
@@ -351,6 +550,160 @@
       description: 'Close this guide',
       handler: () => exitGuide(),
     },
+    color: {
+      description: 'Change accent color; prefix with `site`/`global`/`all` to tint whole page, or `cli`/`term` for just the terminal (a=cyan,b=green,c=red,1=blue,2=magenta,3=yellow)',
+      handler: ({ args }) => {
+        const map = {
+          a: '#0ff', b: '#0f0', c: '#f00',
+          '1': '#00f', '2': '#f0f', '3': '#ff0',
+        };
+
+        let target = 'both';
+        let codeArgIndex = 0;
+        const first = args[0] ? args[0].toLowerCase() : '';
+        if (['site', 'global', 'page', 'all'].includes(first)) {
+          target = 'root';
+          codeArgIndex = 1;
+        } else if (['cli', 'term', 'terminal'].includes(first)) {
+          target = 'cli';
+          codeArgIndex = 1;
+        }
+
+        const code = args[codeArgIndex] ? args[codeArgIndex].toLowerCase() : '';
+        const color = map[code] || null;
+        if (color) {
+          if (target === 'root' || target === 'both') {
+            document.documentElement.style.setProperty('--primary-color', color);
+          }
+          if (target === 'cli' || target === 'both') {
+            const win = document.getElementById('cli-window');
+            if (win) {
+              win.style.setProperty('--cli-primary', color);
+            }
+          }
+          let msg = `color set to ${code}`;
+          if (target === 'both') {
+            msg += ' (global+terminal)';
+          }
+          enqueueMessage(msg, { className: 'cli-line--system' });
+        } else {
+          enqueueMessage('invalid color code; try a b c 1 2 3', { className: 'cli-line--hint' });
+        }
+      },
+    },
+    pdf: {
+      description: 'Download resume PDF',
+      handler: () => {
+        enqueueMessage('downloading resume...', { className: 'cli-line--system' });
+        const a = document.createElement('a');
+        a.href = 'assets/Kevin%20Maglaqui%20Resume.pdf';
+        a.download = 'KevinRoyMaglaqui_Resume.pdf';
+        a.click();
+        enqueueMessage('resume opened in new tab', { className: 'cli-line--system' });
+      },
+    },
+    skull: {
+      description: 'Draw a skull ASCII picture',
+      handler: async () => {
+        await renderAsciiFromFile('skull.txt');
+      },
+    },
+    "flower a": {
+      description: 'Draw a blossoming flower (A)',
+      handler: async () => {
+        await renderAsciiFromFile('flower-a.txt');
+      },
+    },
+    "flower b": {
+      description: 'Draw a blossoming flower (B)',
+      handler: async () => {
+        await renderAsciiFromFile('flower-b.txt');
+      },
+    },
+    shape: {
+      description: 'Draw a geometric shape',
+      handler: async () => {
+        await renderAsciiFromFile('shape.txt');
+      },
+    },
+    impossible: {
+      description: 'Draw an impossible figure',
+      handler: async () => {
+        await renderAsciiFromFile('impossible.txt');
+      },
+    },
+    neofetch: {
+      description: 'Show faux system info (neofetch style)',
+      handler: async () => {
+        await renderAsciiFromFile('neofetch.txt');
+      },
+    },
+    plasma: {
+      description: 'Play a heavy ascii plasma animation (requires confirm)',
+      handler: ({ args }) => {
+        stopPlasma();
+        const win = cliAPI.elements.window;
+        const palette = ' .,:;irsXA253hMHGS#9B&@';
+        const argList = args.map((arg) => arg.toLowerCase());
+        const yes = argList.some((arg) => ['y', 'yes', '--yes', '-y', 'go', 'confirm'].includes(arg));
+
+        let patternName = 'classic';
+        const artIndex = argList.findIndex((arg) => arg === '-a' || arg === '--art');
+        if (artIndex >= 0 && args[artIndex + 1]) {
+          patternName = args[artIndex + 1];
+        } else if (args[0] && !args[0].startsWith('-') && !['yes', 'y', 'go', 'confirm'].includes(argList[0])) {
+          patternName = args[0];
+        }
+
+        const pattern = resolvePlasmaPattern(patternName);
+
+        if (!yes) {
+          enqueueMessage(
+            `plasma command is heavy :: run "plasma -a ${patternName} --yes" to proceed`,
+            { className: 'cli-line--hint' }
+          );
+          return;
+        }
+
+        if (typeof cliAPI.show === 'function') {
+          cliAPI.show();
+        }
+        if (typeof cliAPI.setMinimized === 'function') {
+          cliAPI.setMinimized(false);
+        }
+        if (win) {
+          win.classList.add('is-expanded');
+        }
+
+        const contentEl = cliAPI.elements.content;
+        contentEl.innerHTML = '';
+
+        const plasmaFrameEl = document.createElement('pre');
+        plasmaFrameEl.className = 'cli-plasma-frame';
+        contentEl.appendChild(plasmaFrameEl);
+
+        const computed = window.getComputedStyle(contentEl);
+        const fontSize = Number.parseFloat(computed.fontSize || '14');
+        const lineHeight = Number.parseFloat(computed.lineHeight || `${fontSize * 1.4}`);
+        const charWidth = fontSize * 0.62;
+        plasmaFrameEl.textContent = `loading plasma :: ${pattern}...`;
+
+        const start = performance.now();
+        plasmaIntervalId = window.setInterval(() => {
+          const width = Math.max(40, Math.floor(contentEl.clientWidth / charWidth) - 2);
+          const height = Math.max(16, Math.floor(contentEl.clientHeight / lineHeight) - 1);
+          const time = (performance.now() - start) / 550;
+          const frame = renderPlasmaFrame(pattern, time, width, height, palette);
+          plasmaFrameEl.textContent = frame;
+          cliAPI.scrollToBottom();
+        }, 80);
+
+        plasmaTimeoutId = window.setTimeout(() => {
+          stopPlasma();
+          enqueueMessage('plasma animation complete', { className: 'cli-line--system' });
+        }, 6500);
+      },
+    },
     open: {
       description: 'Open the main portfolio view',
       handler: () => {
@@ -379,8 +732,9 @@
       return;
     }
 
-    const normalized = trimmed.toLowerCase();
-    const commandKey = resolveCommandKey(normalized);
+    const parts = trimmed.split(/\s+/);
+    const key = parts[0].toLowerCase();
+    const commandKey = resolveCommandKey(key);
 
     if (!commandKey) {
       enqueueMessage(`command not found: '${trimmed}'. try 'help'.`, { className: 'cli-line--hint' });
@@ -389,7 +743,7 @@
 
     const command = COMMANDS[commandKey];
     if (command && typeof command.handler === 'function') {
-      command.handler({});
+      command.handler({ raw: trimmed, args: parts.slice(1) });
     }
   };
 
