@@ -3,162 +3,53 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta property="og:title" content="Kevin Roy Maglaqui – Portfolio" />
-  <meta property="og:description" content="My software development portfolio showcasing projects, skills, and achievements." />
-  <meta property="og:image" content="https://kevinroymaglaqui.is-a.dev/assets/favicon.jfif" />
-  <meta property="og:url" content="https://kevinroymaglaqui.is-a.dev/main-page.html" />
-  <meta property="og:type" content="website" />
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Kevin Roy Maglaqui – Portfolio" />
-  <meta name="twitter:description" content="Check out my portfolio showcasing projects, skills, and achievements." />
-  <meta name="twitter:image" content="https://kevinroymaglaqui.is-a.dev/assets/favicon.jfif" />
-  <title>Kevin OS</title>
+  <meta name="description" content="Kevin Roy Maglaqui, Junior Software Engineer at Paynamics and BSIT Graduate.">
+  <meta name="robots" content="index, follow">
+  <meta name="author" content="Kevin Roy V. Maglaqui">
+  <link rel="canonical" href="https://kevinroymaglaqui.is-a.dev/">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Kevin Roy Maglaqui - Junior Software Engineer">
+  <meta property="og:description" content="Contact Kevin Roy Maglaqui, Junior Software Engineer at Paynamics and BSIT Graduate.">
+  <meta property="og:url" content="https://kevinroymaglaqui.is-a.dev/">
+  <meta property="og:image" content="https://kevinroymaglaqui.is-a.dev/assets/kevin-pfp.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Kevin Roy Maglaqui - Junior Software Engineer">
+  <meta name="twitter:description" content="Contact Kevin Roy Maglaqui, Junior Software Engineer at Paynamics and BSIT Graduate.">
+  <meta name="twitter:image" content="https://kevinroymaglaqui.is-a.dev/assets/kevin-pfp.jpg">
+  <title>Kevin Roy Maglaqui - Junior Software Engineer</title>
   <link rel="icon" type="image/x-icon" href="assets/favicon.jfif">
-  <link rel="preload" href="style/landing-page.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-  <noscript><link rel="stylesheet" href="style/landing-page.css"></noscript>
-  <meta name="google-site-verification" content="0gt0xxR-71Xn2MDeR4G1uCxt_BmqEpjQqM88d1wGvlI" />
+  <link rel="stylesheet" href="style/style.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Kevin Roy V. Maglaqui",
+    "jobTitle": "Junior Software Engineer",
+    "worksFor": { "@type": "Organization", "name": "Paynamics" },
+    "url": "https://kevinroymaglaqui.is-a.dev/",
+    "sameAs": [
+      "https://github.com/vinny-Kev",
+      "https://www.linkedin.com/in/kevin-roy-maglaqui-1664352b7/"
+    ],
+    "email": "kevinroymaglaqui29@gmail.com",
+    "telephone": "09708158167"
+  }
+  </script>
 </head>
 <body>
-  <div id="landing">
-    <canvas id="bg-canvas"></canvas>
-    <div id="desktop"></div>
-    <!-- CLI app window -->
-    <div class="terminal-window" id="terminal-app">
-      <div class="terminal-header">
-        <div class="term-title">bash</div>
-        <div class="term-buttons">
-          <span class="min-btn">—</span>
-          <span class="close-btn">✕</span>
-        </div>
-      </div>
-      <div class="terminal-body">
-        <pre id="cli-output"></pre>
-      </div>
-      <div id="terminal-resize-handle" aria-hidden="true"></div>
-    </div>
-    <!-- Taskbar -->
-    <div class="taskbar">
-      <div class="taskbar-icon" id="terminal-icon">
-        <img src="assets/terminal-icon-2.jpg" alt="CLI" width="22" height="22" loading="eager" decoding="async">
-      </div>
-      <div class="taskbar-icon" id="notepad-icon" aria-label="Notepad">TXT</div>
-      <div class="taskbar-icon" id="calculator-icon" aria-label="Calculator">CALC</div>
-      <div class="taskbar-icon" id="explorer-icon" aria-label="File Explorer">FILES</div>
-      <div class="taskbar-systemtray">
-        <button id="nav-toggle" title="Switch to Portfolio View" onclick="window.location.href='main-page.html'">Portfolio</button>
-        <button id="theme-toggle" title="Toggle theme">Theme</button>
-        <div id="datetime"></div>
-      </div>
-    </div>
-    <!-- UAC Modal -->
-    <div class="modal hidden">
-      <div class="modal-window">
-        <div class="modal-header">
-          <span class="modal-title">User Account Control</span>
-          <span class="modal-close">✕</span>
-        </div>
-        <div class="modal-body">
-          <img src="assets/shield.png" alt="Shield" width="44" height="44" loading="lazy" decoding="async">
-          <p>Do you want to allow this app to make changes to your device?</p>
-        </div>
-        <div class="modal-footer">
-          <button class="btn btn-confirm">Yes</button>
-          <button class="btn btn-cancel">No</button>
-        </div>
-      </div>
-    </div>
-    <!-- Notepad App -->
-    <div id="notepad-app" class="window hidden">
-      <div class="window-header">
-        <span>Notepad - instructions.txt</span>
-        <div class="menu-bar">
-          <div class="menu">
-            File ▾
-            <div class="dropdown hidden">
-              <div class="dropdown-item" id="save-option">Save</div>
-              <div class="dropdown-item" id="saveas-option">Save As</div>
-            </div>
-          </div>
-        </div>
-        <button class="close-btn">✖</button>
-      </div>
-      <div class="window-body">
-        <pre contenteditable="true">
-Hello If You're Having Trouble!
-
-If you don’t know what to do:
-1. Click the Terminal app
-2. Press ENTER
-3. or Type "kevin --about" and hit ENTER
-4. Click the file on the bottom right to go straight to the portfolio.
-        </pre>
-      </div>
-    </div>
-
-    <!-- Calculator App -->
-    <div id="calculator-app" class="window hidden" aria-label="Calculator application">
-      <div class="calc-header">
-        <span class="calc-title">Calculator</span>
-        <div class="calc-buttons-right">
-          <button class="calc-min" id="calculator-min" aria-label="Minimize calculator">—</button>
-          <button class="calc-close" id="calculator-close" aria-label="Close calculator">Close</button>
-        </div>
-      </div>
-      <div class="calc-body">
-        <div class="calc-display">
-          <div class="calc-previous" id="calc-previous"></div>
-          <div class="calc-current" id="calc-current">0</div>
-        </div>
-        <div class="calc-buttons" id="calc-buttons">
-          <button class="calc-btn" data-action="clear">AC</button>
-          <button class="calc-btn" data-action="delete">DEL</button>
-          <button class="calc-btn" data-action="operation" data-value="%">%</button>
-          <button class="calc-btn" data-action="operation" data-value="/">÷</button>
-          <button class="calc-btn" data-action="number" data-value="7">7</button>
-          <button class="calc-btn" data-action="number" data-value="8">8</button>
-          <button class="calc-btn" data-action="number" data-value="9">9</button>
-          <button class="calc-btn" data-action="operation" data-value="*">×</button>
-          <button class="calc-btn" data-action="number" data-value="4">4</button>
-          <button class="calc-btn" data-action="number" data-value="5">5</button>
-          <button class="calc-btn" data-action="number" data-value="6">6</button>
-          <button class="calc-btn" data-action="operation" data-value="-">−</button>
-          <button class="calc-btn" data-action="number" data-value="1">1</button>
-          <button class="calc-btn" data-action="number" data-value="2">2</button>
-          <button class="calc-btn" data-action="number" data-value="3">3</button>
-          <button class="calc-btn" data-action="operation" data-value="+">+</button>
-          <button class="calc-btn span-2" data-action="number" data-value="0">0</button>
-          <button class="calc-btn" data-action="decimal">.</button>
-          <button class="calc-btn" data-action="equals">=</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- File Explorer App -->
-    <div id="explorer-app" class="window hidden" aria-label="File explorer application">
-      <div class="window-header explorer-header">
-        <span>File Explorer</span>
-        <button id="explorer-close" class="explorer-close-btn" aria-label="Close file explorer">Close</button>
-      </div>
-      <div class="window-body explorer-body">
-        <p class="explorer-path">This PC / Portfolio Projects</p>
-        <ul class="explorer-list">
-          <li><a href="https://github.com/vinny-Kev/Reservatory" target="_blank" rel="noopener">Reservatory</a></li>
-          <li><a href="https://github.com/vinny-Kev/CryptoGraphers" target="_blank" rel="noopener">Cryptographers</a></li>
-          <li><a href="https://github.com/vinny-Kev/DungeonCrawlers" target="_blank" rel="noopener">Godot Game (In Development)</a></li>
-          <li><a href="https://github.com/vinny-Kev/Fintech-API-Sentiment-Analysis-Microservice" target="_blank" rel="noopener">Sentiment Analysis Microservice</a></li>
-        </ul>
-      </div>
-    </div>
-  </div>
-
-  <!-- Module Scripts -->
-  <script src="scripts/modules/backgroundAnimation.js?v=20260307"></script>
-  <script src="scripts/modules/terminal.js?v=20260307"></script>
-  <script src="scripts/modules/notepad.js"></script>
-  <script src="scripts/modules/calculator.js"></script>
-  <script src="scripts/modules/fileExplorer.js"></script>
-  <script src="scripts/modules/themeToggle.js"></script>
-  <script src="scripts/modules/utils.js"></script>
-  <script src="scripts/modules/touchInteractions.js"></script>
+  <main class="contact-card" itemscope itemtype="https://schema.org/Person">
+    <p class="eyebrow">Software Engineer</p>
+    <h1 itemprop="name">Kevin Roy Maglaqui</h1>
+    <p class="role" itemprop="jobTitle">Junior Software Engineer</p>
+    <p class="company">at Paynamics</p>
+    <p class="details">BSIT Graduate <span aria-hidden="true">·</span> 26 <span aria-hidden="true">·</span> Since July 26</p>
+    <a class="phone" href="tel:09708158167" itemprop="telephone">09708158167</a>
+    <a class="email" href="mailto:kevinroymaglaqui29@gmail.com" itemprop="email"><img src="assets/gmaillogo.webp" alt="Email" title="Email"></a>
+    <nav class="social-links" aria-label="Social links">
+      <a href="https://www.linkedin.com/in/kevin-roy-maglaqui-1664352b7/" target="_blank" rel="noreferrer" aria-label="LinkedIn" title="LinkedIn"><img src="assets/linkedinlogo.webp" alt=""></a>
+      <a href="https://github.com/vinny-Kev" target="_blank" rel="noreferrer" aria-label="GitHub" title="GitHub"><img src="assets/githublogo.webp" alt=""></a>
+    </nav>
+    <p class="slogan">I can make it happen.</p>
+  </main>
 </body>
 </html>
