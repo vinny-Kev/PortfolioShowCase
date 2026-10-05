@@ -1,0 +1,18 @@
+{
+  "roles": [
+    {
+      "date": "July 2026 - Present",
+      "title": "Junior Software Engineer",
+      "company": "Paynamics",
+      "description": "Built a full CRUD module on the backend of a B2B digital payments platform, owning the backend implementation end to end with audit-logged user actions. Currently developing and shipping validation and security patches, and hardening endpoints so the data each one accepts is clean and sanitized before it reaches the system.",
+      "current": true
+    },
+    {
+      "date": "January 2026 - June 2026",
+      "title": "Software Engineer Intern",
+      "company": "Global Transco ICT Solutions",
+      "description": "Served as the main DevOps engineer for an aviation platform migration while also covering database management, network administration, and backend development. Built the entire report generation module (OTP and flight reports) from scratch on the migrated system, and rebuilt the legacy pipeline, cutting generation time from ~5 minutes to under 1 second (98.6%). Architected and deployed the 3-node Proxmox HA cluster hosting the new system, and raised company web performance scores from ~30 to 70-100 on Lighthouse.",
+      "current": false
+    }
+  ]
+}

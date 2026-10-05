@@ -79,6 +79,28 @@ h1 {
   font-weight: 500;
 }
 
+.role-trigger {
+  padding: 0;
+  border: 0;
+  border-bottom: 1px dashed var(--accent);
+  color: inherit;
+  font: inherit;
+  background: transparent;
+  cursor: pointer;
+  transition: color 160ms ease, border-color 160ms ease;
+}
+
+.role-trigger:hover,
+.role-trigger:focus-visible {
+  color: var(--accent);
+  border-color: currentColor;
+}
+
+.role-trigger:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 5px;
+}
+
 .company {
   margin: 0 0 14px;
   color: var(--muted);
@@ -173,6 +195,148 @@ h1 {
   font-family: 'Playfair Display', Georgia, serif;
   font-size: 0.95rem;
   font-style: italic;
+}
+
+.career-modal[hidden] {
+  display: none;
+}
+
+.career-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+}
+
+.career-modal__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(31, 36, 33, 0.42);
+  backdrop-filter: blur(3px);
+}
+
+.career-modal__window {
+  position: relative;
+  width: min(100%, 460px);
+  max-height: min(720px, calc(100vh - 48px));
+  overflow-y: auto;
+  padding: 34px clamp(24px, 6vw, 42px) 38px;
+  background: var(--paper);
+  border: 1px solid rgba(31, 36, 33, 0.12);
+  box-shadow: 0 22px 60px rgba(31, 36, 33, 0.24);
+  animation: career-modal-in 180ms ease-out both;
+}
+
+.career-modal__window h2 {
+  margin: 0 0 28px;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(1.8rem, 5vw, 2.35rem);
+  font-weight: 600;
+  line-height: 1.1;
+}
+
+.career-modal__close {
+  position: absolute;
+  top: 14px;
+  right: 16px;
+  width: 32px;
+  height: 32px;
+  border: 0;
+  color: var(--muted);
+  font-size: 1.45rem;
+  line-height: 1;
+  background: transparent;
+  cursor: pointer;
+}
+
+.career-modal__close:hover,
+.career-modal__close:focus-visible {
+  color: var(--ink);
+}
+
+.career-modal__close:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.career-timeline {
+  position: relative;
+  display: grid;
+  gap: 26px;
+  margin: 0;
+  padding: 0 0 0 24px;
+  list-style: none;
+}
+
+.career-timeline::before {
+  position: absolute;
+  top: 5px;
+  bottom: 8px;
+  left: 4px;
+  width: 1px;
+  background: var(--line);
+  content: '';
+}
+
+.career-timeline__item {
+  position: relative;
+}
+
+.career-timeline__item::before {
+  position: absolute;
+  top: 5px;
+  left: -24px;
+  width: 9px;
+  height: 9px;
+  border: 2px solid var(--paper);
+  border-radius: 50%;
+  background: var(--muted);
+  box-shadow: 0 0 0 1px var(--line);
+  content: '';
+}
+
+.career-timeline__item--current::before {
+  background: var(--accent);
+  box-shadow: 0 0 0 1px var(--accent);
+}
+
+.career-timeline__date {
+  color: var(--accent);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.career-timeline h3 {
+  margin: 5px 0 3px;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.career-timeline p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.career-timeline__description {
+  margin-top: 10px !important;
+  color: var(--ink) !important;
+}
+
+.career-timeline__status {
+  padding: 18px 0;
+  color: var(--muted);
+  list-style: none;
+}
+
+@keyframes career-modal-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 @media (max-width: 480px) {
