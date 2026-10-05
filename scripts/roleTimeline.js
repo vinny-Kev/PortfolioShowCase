@@ -1,15 +1,18 @@
 const roleTrigger = document.querySelector('.role-trigger');
 const careerModal = document.querySelector('#career-modal');
 const careerTimeline = document.querySelector('#career-timeline');
+const careerNavigation = document.querySelector('#career-timeline-navigation');
 const careerCloseButtons = document.querySelectorAll('[data-career-close]');
 const rolesDataUrl = 'data/roles.json';
 
 const renderRoles = (roles) => {
 	careerTimeline.replaceChildren();
+	careerNavigation.replaceChildren();
 
-	roles.forEach((role) => {
+	roles.forEach((role, index) => {
 		const item = document.createElement('li');
 		item.className = `career-timeline__item${role.current ? ' career-timeline__item--current' : ''}`;
+		item.id = `career-role-${index + 1}`;
 
 		const date = document.createElement('span');
 		date.className = 'career-timeline__date';
@@ -31,7 +34,56 @@ const renderRoles = (roles) => {
 		}
 
 		careerTimeline.append(item);
+
+		const navigationButton = document.createElement('button');
+		navigationButton.className = 'career-timeline__dot';
+		navigationButton.type = 'button';
+		navigationButton.setAttribute('aria-label', `View ${role.title} at ${role.company}`);
+		navigationButton.setAttribute('aria-controls', item.id);
+		navigationButton.addEventListener('click', () => {
+			item.scrollIntoView({ behavior: 'smooth', block: 'start' });
+		});
+		careerNavigation.append(navigationButton);
 	});
+
+	const firstItem = careerTimeline.querySelector('.career-timeline__item');
+	if (firstItem) {
+		const syncTimelineHeight = () => {
+			careerTimeline.style.height = `${firstItem.offsetHeight}px`;
+		};
+
+		syncTimelineHeight();
+		new ResizeObserver(syncTimelineHeight).observe(firstItem);
+	}
+};
+
+const observeActiveRole = () => {
+	const roleItems = careerTimeline.querySelectorAll('.career-timeline__item');
+	const navigationButtons = careerNavigation.querySelectorAll('.career-timeline__dot');
+
+	if (!roleItems.length) {
+		return;
+	}
+
+	const observer = new IntersectionObserver((entries) => {
+		entries.forEach((entry) => {
+			if (!entry.isIntersecting) {
+				return;
+			}
+
+			const activeIndex = [...roleItems].indexOf(entry.target);
+			navigationButtons.forEach((button, index) => {
+				const isActive = index === activeIndex;
+				button.classList.toggle('career-timeline__dot--active', isActive);
+				button.setAttribute('aria-current', isActive ? 'true' : 'false');
+			});
+		});
+	}, {
+		root: careerTimeline,
+		threshold: 0.55
+	});
+
+	roleItems.forEach((item) => observer.observe(item));
 };
 
 const loadRoles = async () => {
@@ -44,6 +96,7 @@ const loadRoles = async () => {
 
 		const data = await response.json();
 		renderRoles(Array.isArray(data.roles) ? data.roles : []);
+		observeActiveRole();
 	} catch (error) {
 		careerTimeline.replaceChildren();
 		const errorMessage = document.createElement('li');
@@ -54,7 +107,7 @@ const loadRoles = async () => {
 	}
 };
 
-if (roleTrigger && careerModal && careerTimeline) {
+if (roleTrigger && careerModal && careerTimeline && careerNavigation) {
 	let previousFocusedElement;
 	let rolesLoaded = false;
 	let rolesLoading;
