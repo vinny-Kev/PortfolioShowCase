@@ -5,6 +5,14 @@ const careerNavigation = document.querySelector('#career-timeline-navigation');
 const careerCloseButtons = document.querySelectorAll('[data-career-close]');
 const rolesDataUrl = 'data/roles.json';
 
+document.addEventListener('contextmenu', (event) => {
+	event.preventDefault();
+});
+
+document.addEventListener('selectstart', (event) => {
+	event.preventDefault();
+});
+
 const renderRoles = (roles) => {
 	careerTimeline.replaceChildren();
 	careerNavigation.replaceChildren();
