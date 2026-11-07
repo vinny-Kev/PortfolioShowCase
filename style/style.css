@@ -6,6 +6,10 @@
   --paper: #fffefa;
   --line: #d9ddd7;
   --accent: #285943;
+  --bean-forest: #123c32;
+  --bean-forest-raised: #1b4a3e;
+  --bean-signal: #65d6c0;
+  --bean-ink: #dcebe4;
 }
 
 * {
@@ -21,16 +25,23 @@ body {
 
 body {
   display: grid;
+  grid-template-rows: auto 1fr;
+  gap: 16px;
   min-height: 100vh;
   place-items: center;
   padding: 24px;
   color: var(--ink);
   font-family: 'DM Sans', sans-serif;
-  background-color: #e9ece7;
-  background-image:
-    radial-gradient(rgba(31, 36, 33, 0.09) 0.7px, transparent 0.7px),
-    repeating-linear-gradient(115deg, transparent 0, transparent 7px, rgba(255, 255, 255, 0.16) 8px, transparent 9px);
-  background-size: 7px 7px, 17px 17px;
+  background-color: #ffffff;
+}
+
+.orb-network {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
 }
 
 .contact-card {
@@ -362,9 +373,358 @@ h1 {
   list-style: none;
 }
 
+.site-nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2px 10px;
+  width: 100%;
+  min-width: 0;
+}
+
+.site-nav a {
+  padding: 10px 8px;
+  color: var(--ink);
+  font-size: 0.82rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: color 160ms ease;
+}
+
+.site-nav a:hover,
+.site-nav a:focus-visible {
+  color: var(--accent);
+}
+
+.site-nav a:focus-visible,
+.text-link:focus-visible,
+.button-link:focus-visible,
+.initiative-card summary:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.portfolio,
+.portfolio * {
+  user-select: text;
+}
+
+.portfolio {
+  display: block;
+  padding: 0 24px 24px;
+}
+
+.portfolio .site-nav {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  width: auto;
+  margin: 0 -24px 24px;
+  padding: 6px 24px;
+  background: var(--paper);
+  border-bottom: 1px solid var(--line);
+}
+
+.portfolio-sheet {
+  width: min(100%, 760px);
+  margin: 0 auto;
+  padding: clamp(36px, 7vw, 64px) clamp(24px, 7vw, 64px);
+  background: var(--paper);
+  border: 1px solid rgba(31, 36, 33, 0.12);
+  box-shadow: 0 18px 45px rgba(31, 36, 33, 0.12), 0 2px 5px rgba(31, 36, 33, 0.05);
+}
+
+.portfolio-header {
+  text-align: center;
+}
+
+.portfolio-header .slogan {
+  margin-top: 14px;
+}
+
+.portfolio-section {
+  margin-top: 44px;
+  padding-top: 36px;
+  border-top: 1px solid var(--line);
+  scroll-margin-top: 84px;
+}
+
+.portfolio-section h2 {
+  margin: 0 0 16px;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(1.6rem, 4vw, 2rem);
+  font-weight: 600;
+  line-height: 1.15;
+}
+
+.portfolio-section > p {
+  margin: 0 0 12px;
+  line-height: 1.6;
+}
+
+.portfolio-section .portfolio-section__intro {
+  margin-bottom: 20px;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.portfolio-status {
+  color: var(--muted);
+}
+
+.portfolio-section--contact {
+  text-align: center;
+}
+
+.portfolio-section--contact .phone {
+  margin-top: 4px;
+}
+
+.portfolio-section--contact > p {
+  margin: 22px 0 0;
+}
+
+.career-timeline--page {
+  height: auto;
+  max-height: none;
+  margin-bottom: 22px;
+  padding: 0;
+  overflow: visible;
+  scroll-snap-type: none;
+}
+
+.text-link {
+  color: var(--accent);
+  font-size: 0.92rem;
+  font-weight: 500;
+  overflow-wrap: anywhere;
+}
+
+.text-link:hover {
+  color: var(--ink);
+}
+
+.initiative-card {
+  overflow: hidden;
+  border: 1px solid rgba(18, 60, 50, 0.22);
+  border-radius: 14px;
+  background: rgba(240, 250, 246, 0.72);
+  box-shadow: 0 12px 30px rgba(18, 60, 50, 0.12);
+}
+
+.initiative-card__header {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  padding: clamp(20px, 4vw, 28px);
+  color: var(--bean-ink);
+  background: linear-gradient(135deg, var(--bean-forest), var(--bean-forest-raised));
+}
+
+.initiative-card__mark {
+  flex: none;
+  border-radius: 12px;
+  box-shadow: 0 0 0 1px rgba(101, 214, 192, 0.28);
+}
+
+.initiative-card h3 {
+  margin: 0;
+  color: #ffffff;
+  font-size: 1.2rem;
+  font-weight: 500;
+  line-height: 1.3;
+}
+
+.initiative-card__label {
+  margin: 0 0 6px;
+  color: var(--bean-signal);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.initiative-card__role {
+  margin: 4px 0 0;
+  font-size: 0.9rem;
+}
+
+.initiative-card__status {
+  margin: 10px 0 0;
+  font-size: 0.9rem;
+}
+
+.initiative-card__details {
+  padding: 4px clamp(20px, 4vw, 28px);
+  interpolate-size: allow-keywords;
+}
+
+/* Browsers without ::details-content or interpolate-size simply open instantly. */
+.initiative-card__details::details-content {
+  block-size: 0;
+  overflow: clip;
+  transition: block-size 320ms cubic-bezier(0.2, 0, 0, 1), content-visibility 320ms allow-discrete;
+}
+
+.initiative-card__details[open]::details-content {
+  block-size: auto;
+}
+
+.initiative-card summary {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  width: fit-content;
+  min-height: 44px;
+  color: var(--accent);
+  font-size: 0.92rem;
+  font-weight: 500;
+  list-style: none;
+  cursor: pointer;
+}
+
+.initiative-card summary::-webkit-details-marker {
+  display: none;
+}
+
+.initiative-card summary::after {
+  content: '';
+  width: 7px;
+  height: 7px;
+  margin-top: -3px;
+  border-right: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+  transform: rotate(45deg);
+  transition: transform 220ms ease, margin-top 220ms ease;
+}
+
+.initiative-card__details[open] summary::after {
+  margin-top: 3px;
+  transform: rotate(-135deg);
+}
+
+.initiative-card__body {
+  display: grid;
+  gap: 18px;
+  padding: 8px 0 22px;
+}
+
+.initiative-card__block h4 {
+  margin: 0 0 6px;
+  color: var(--accent);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.initiative-card__block p,
+.initiative-card__stack {
+  margin: 0;
+  font-size: 0.92rem;
+  line-height: 1.55;
+}
+
+.initiative-card__stack {
+  color: var(--muted);
+}
+
+.initiative-card__capabilities {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 4px 20px;
+  margin: 0;
+  padding-left: 18px;
+  font-size: 0.92rem;
+  line-height: 1.5;
+}
+
+.initiative-card__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.button-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0 18px;
+  border: 1px solid var(--bean-forest);
+  border-radius: 10px;
+  color: var(--bean-forest);
+  font-size: 0.92rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: color 160ms ease, background-color 160ms ease;
+}
+
+.button-link:first-child,
+.button-link:hover {
+  color: #ffffff;
+  background: var(--bean-forest);
+}
+
+.button-link:first-child:hover {
+  background: var(--bean-forest-raised);
+}
+
+.project-list {
+  display: grid;
+  gap: 26px;
+}
+
+.project-item h3 {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.project-item__tech {
+  margin: 3px 0 8px;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.project-item ul {
+  margin: 0 0 8px;
+  padding-left: 18px;
+  font-size: 0.92rem;
+  line-height: 1.55;
+}
+
+.project-item li + li {
+  margin-top: 4px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .initiative-card__details::details-content,
+  .initiative-card summary::after {
+    transition: none;
+  }
+}
+
 @keyframes career-modal-in {
   from { opacity: 0; transform: translateY(8px); }
   to { opacity: 1; transform: translateY(0); }
+}
+
+/* Roles outgrow the modal here, and mandatory snapping would pin them to their top edge. */
+@media (max-width: 640px), (max-height: 760px) {
+  .career-timeline {
+    scroll-snap-type: y proximity;
+  }
+
+  .career-timeline__item {
+    scroll-snap-stop: normal;
+  }
 }
 
 @media (max-width: 480px) {
@@ -374,5 +734,27 @@ h1 {
 
   .contact-card {
     padding-inline: 20px;
+  }
+
+  .portfolio {
+    padding: 0 12px 16px;
+  }
+
+  .portfolio .site-nav {
+    margin: 0 -12px 16px;
+    padding: 4px 8px;
+    gap: 0 2px;
+  }
+
+  .portfolio-sheet {
+    padding-inline: 20px;
+  }
+
+  .initiative-card__capabilities {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .button-link {
+    flex: 1 1 100%;
   }
 }

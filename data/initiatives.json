@@ -1,0 +1,34 @@
+{
+  "initiatives": [
+    {
+      "featured": true,
+      "mark": "assets/bean-mark.svg",
+      "name": "Bean Enterprise Management System",
+      "organization": "Bean Enterprise System Solutions",
+      "role": "Founder & Technical Lead",
+      "overview": "Building a multi-tenant enterprise management platform designed to centralize business operations, connecting inventory, sales, branch management, and internal ticketing through a unified system.",
+      "contribution": "Architected and developed the majority of the backend using Node.js, Express, and PostgreSQL, implementing authentication, email-verified registration, role-based permissions, PostgreSQL-backed sessions, and audit logging.",
+      "status": "Developing the platform toward pilot deployment.",
+      "statusNote": "Pilot applications are not open yet.",
+      "capabilities": [
+        "Multi-tenant organizations",
+        "Inventory",
+        "Sales",
+        "Branch management",
+        "Internal ticketing",
+        "Role-based permissions",
+        "Email-verified registration",
+        "Audit logging"
+      ],
+      "stack": ["Node.js", "Express 5", "PostgreSQL"],
+      "repository": {
+        "text": "github.com/vinny-Kev/bean-backend-public-v1",
+        "url": "https://github.com/vinny-Kev/bean-backend-public-v1"
+      },
+      "links": [
+        { "label": "Visit Website", "url": "https://bean.enterprises/" },
+        { "label": "Explore Pilot", "url": "https://bean.enterprises/coming-soon/" }
+      ]
+    }
+  ]
+}

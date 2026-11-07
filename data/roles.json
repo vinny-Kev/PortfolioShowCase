@@ -3,15 +3,15 @@
     {
       "date": "July 2026 - Present",
       "title": "Junior Software Engineer",
-      "company": "Paynamics",
-      "description": "Built a full CRUD module on the backend of a B2B digital payments platform, owning the backend implementation end to end with audit-logged user actions. Currently developing and shipping validation and security patches, and hardening endpoints so the data each one accepts is clean and sanitized before it reaches the system.",
+      "company": "Paynamics Technologies Inc.",
+      "description": "Developed and deployed a backend module for a B2B digital payments platform, implementing CRUD REST endpoints, audit logging, and a postback integration to synchronize database operations across backend systems. Strengthened API security by addressing security testing findings through input validation and sanitization, preventing malformed and unsafe data from entering application workflows. Tested API endpoints and integration flows and shipped changes through Git-based merge requests across QA, staging, and UAT.",
       "current": true
     },
     {
       "date": "January 2026 - June 2026",
-      "title": "Software Engineer Intern",
+      "title": "Software / IT Support Engineer Intern",
       "company": "Global Transco ICT Solutions",
-      "description": "Served as the main DevOps engineer for an aviation platform migration while also covering database management, network administration, and backend development. Built the entire report generation module (OTP and flight reports) from scratch on the migrated system, and rebuilt the legacy pipeline, cutting generation time from ~5 minutes to under 1 second (98.6%). Architected and deployed the 3-node Proxmox HA cluster hosting the new system, and raised company web performance scores from ~30 to 70-100 on Lighthouse.",
+      "description": "Developed OTP and Standard Flight Report modules for a migrated aviation flight-information system, implementing REST endpoints, MVC controllers, and data-access logic. Rebuilt the legacy OTP report generator using FPDF, reducing document generation time from approximately 5 minutes to under 1 second while meeting CAA documentation standards. Designed and deployed a 3-node Proxmox high-availability cluster with quorum, node fencing, live LXC migration, and storage replication. Improved Lighthouse performance scores from approximately 30 to 70–100 across 26+ company web pages through asset optimization, caching, and removal of render-blocking resources.",
       "current": false
     }
   ]

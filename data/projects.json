@@ -1,0 +1,28 @@
+{
+  "projects": [
+    {
+      "title": "BTC Forecast API",
+      "tech": "Python, FastAPI, CatBoost, scikit-learn, MongoDB, Docker",
+      "bullets": [
+        { "t": "Built a forecasting service end to end: Binance market data ingestion, feature engineering, and a weighted ensemble of CatBoost, Random Forest, and Logistic Regression models served through a versioned REST API." },
+        { "t": "Added bcrypt-hashed API keys, rate limiting, and health checks, plus model evaluation (ROC AUC, precision, recall), drift metrics, and a retraining flow with before-and-after metric review ahead of deployment." },
+        { "t": "Split a Keras transformer model into its own Docker service to isolate TensorFlow dependencies from the main API.", "full": true }
+      ]
+    },
+    {
+      "title": "E-Commerce Platform & Admin App",
+      "tech": "Laravel, TypeScript, MySQL",
+      "link": { "text": "github.com/vinny-Kev/ecommerce-backend", "url": "https://github.com/vinny-Kev/ecommerce-backend" },
+      "bullets": [
+        { "t": "Laravel REST API with a TypeScript storefront and a mobile-wrapped admin app for inventory, orders, and RBAC." }
+      ]
+    },
+    {
+      "title": "CCA Ticketing System",
+      "tech": "Express, Prisma, React",
+      "bullets": [
+        { "t": "Ticket management system for SLU CCA events, deployed on university servers. Led requirements gathering, stakeholder communication, and UI/UX design." }
+      ]
+    }
+  ]
+}
