@@ -4,7 +4,7 @@
       "date": "July 2026 - Present",
       "title": "Junior Software Engineer",
       "company": "Paynamics Technologies Inc.",
-      "description": "Developed and deployed a backend module for a B2B digital payments platform, implementing CRUD REST endpoints, audit logging, and a postback integration to synchronize database operations across backend systems. Strengthened API security by addressing security testing findings through input validation and sanitization, preventing malformed and unsafe data from entering application workflows. Tested API endpoints and integration flows and shipped changes through Git-based merge requests across QA, staging, and UAT.",
+      "description": "Developed and deployed a backend module for a B2B digital payments platform, implementing CRUD REST endpoints, audit logging, and a postback integration to synchronize database operations across backend systems. Strengthened API security by addressing security testing findings through input validation and sanitization, preventing malformed and unsafe data from entering application workflows. Tested API endpoints and integration flows and shipped changes through Git-based merge requests across staging environments.",
       "current": true
     },
     {

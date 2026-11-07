@@ -1,6 +1,5 @@
 const experienceList = document.querySelector('#experience-list');
 const initiativesList = document.querySelector('#initiatives-list');
-const projectsList = document.querySelector('#projects-list');
 
 const createElement = (tag, className, text) => {
 	const element = document.createElement(tag);
@@ -28,8 +27,10 @@ const createList = (items, className) => {
 	return list;
 };
 
+const sentence = (text) => (/[.!?]$/.test(text) ? text : `${text}.`);
+
 const createInitiativeCard = (initiative) => {
-	const card = createElement('article', 'initiative-card');
+	const card = createElement('article', initiative.theme ? `initiative-card initiative-card--${initiative.theme}` : 'initiative-card');
 	const header = createElement('div', 'initiative-card__header');
 
 	if (initiative.mark) {
@@ -43,8 +44,10 @@ const createInitiativeCard = (initiative) => {
 
 	const heading = createElement('div');
 
-	if (initiative.featured) {
-		heading.append(createElement('p', 'initiative-card__label', 'Featured initiative'));
+	const label = initiative.label ?? (initiative.featured ? 'Featured initiative' : '');
+
+	if (label) {
+		heading.append(createElement('p', 'initiative-card__label', label));
 	}
 
 	heading.append(
@@ -61,6 +64,14 @@ const createInitiativeCard = (initiative) => {
 
 	const actions = createElement('div', 'initiative-card__actions');
 	initiative.links.forEach((link) => {
+		// A link with an empty url is a placeholder: show it inert rather than ship a dead link.
+		if (!link.url) {
+			const pending = createElement('span', 'button-link button-link--pending', `${link.label} (link coming soon)`);
+			pending.setAttribute('aria-disabled', 'true');
+			actions.append(pending);
+			return;
+		}
+
 		const action = createElement('a', 'button-link', link.label);
 		action.href = link.url;
 		action.target = '_blank';
@@ -72,33 +83,25 @@ const createInitiativeCard = (initiative) => {
 		createDetail('Product overview', createElement('p', '', initiative.overview)),
 		createDetail('My role', createElement('p', '', initiative.contribution)),
 		createDetail('Core capabilities', createList(initiative.capabilities, 'initiative-card__capabilities')),
-		createDetail('Current status', createElement('p', '', `${initiative.status} ${initiative.statusNote}`)),
-		createElement('p', 'initiative-card__stack', `Stack: ${initiative.stack.join(', ')}`),
+		createDetail('Current status', createElement('p', '', [initiative.status, initiative.statusNote].filter(Boolean).map(sentence).join(' '))),
 		actions
 	);
+
+	if (initiative.stack) {
+		body.insertBefore(createElement('p', 'initiative-card__stack', `Stack: ${initiative.stack.join(', ')}`), actions);
+	}
+
+	if (initiative.repository) {
+		const repository = createElement('a', 'text-link', initiative.repository.text);
+		repository.href = initiative.repository.url;
+		repository.target = '_blank';
+		repository.rel = 'noreferrer';
+		body.append(repository);
+	}
 
 	details.append(summary, body);
 	card.append(details);
 	return card;
-};
-
-const createProject = (project) => {
-	const item = createElement('article', 'project-item');
-	item.append(
-		createElement('h3', '', project.title),
-		createElement('p', 'project-item__tech', project.tech),
-		createList(project.bullets.map((bullet) => bullet.t))
-	);
-
-	if (project.link) {
-		const link = createElement('a', 'text-link', project.link.text);
-		link.href = project.link.url;
-		link.target = '_blank';
-		link.rel = 'noreferrer';
-		item.append(link);
-	}
-
-	return item;
 };
 
 const fetchList = async (url, key) => {
@@ -125,8 +128,7 @@ const fillSection = async (container, loadItems, createItem, statusTag, label) =
 const loadPortfolio = async () => {
 	await Promise.all([
 		fillSection(experienceList, fetchRoles, createRoleItem, 'li', 'Experience'),
-		fillSection(initiativesList, () => fetchList('data/initiatives.json', 'initiatives'), createInitiativeCard, 'p', 'Initiatives'),
-		fillSection(projectsList, () => fetchList('data/projects.json', 'projects'), createProject, 'p', 'Projects')
+		fillSection(initiativesList, () => fetchList('data/initiatives.json', 'initiatives'), createInitiativeCard, 'p', 'Initiatives')
 	]);
 
 	// Sections above the target grow once data arrives, so land on deep links again.

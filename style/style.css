@@ -14,7 +14,6 @@
 
 * {
   box-sizing: border-box;
-  user-select: none;
 }
 
 html,
@@ -404,11 +403,6 @@ h1 {
   outline-offset: 2px;
 }
 
-.portfolio,
-.portfolio * {
-  user-select: text;
-}
-
 .portfolio {
   display: block;
   padding: 0 24px 24px;
@@ -670,32 +664,89 @@ h1 {
   background: var(--bean-forest-raised);
 }
 
-.project-list {
+#initiatives-list {
   display: grid;
-  gap: 26px;
+  gap: 20px;
 }
 
-.project-item h3 {
-  margin: 0;
-  font-size: 1rem;
-  font-weight: 500;
+/* Tangerine theme for the shared initiative card. Values come from the Tangerine frontend tokens:
+   mandarin #f26b1d / dirty white #efebe3 / acid lime #c4f000 on its dark ink surface. */
+.initiative-card--tangerine {
+  --bean-forest: #1f1d1a;
+  --bean-forest-raised: #292622;
+  --bean-signal: #ff7a2b;
+  --bean-ink: #f1ede4;
+  --accent: #a8400a;
+  border-color: rgba(31, 29, 26, 0.22);
+  background: #efebe3;
+  box-shadow: 0 12px 30px rgba(31, 29, 26, 0.12);
 }
 
-.project-item__tech {
-  margin: 3px 0 8px;
+.initiative-card--tangerine .initiative-card__mark {
+  box-shadow: 0 0 0 1px rgba(196, 240, 0, 0.45);
+}
+
+.initiative-card--tangerine .initiative-card__status {
+  color: #c8ff2e;
+}
+
+.initiative-card--tangerine .button-link:first-child {
+  border-color: #f26b1d;
+  color: #1f1d1a;
+  background: #f26b1d;
+}
+
+.initiative-card--tangerine .button-link:first-child:hover {
+  background: #ff7a2b;
+}
+
+/* SLU CCA theme. Maroon and gold are the logo colours; the accent gold and white main surface are fixed by the brief. */
+.initiative-card--cca {
+  --bean-forest: #6b3333;
+  --bean-forest-raised: #804040;
+  --bean-signal: #f1b15e;
+  --bean-ink: #ffffff;
+  --accent: #804040;
+  border-color: rgba(128, 64, 64, 0.28);
+  background: #ffffff;
+  box-shadow: 0 12px 30px rgba(128, 64, 64, 0.14);
+}
+
+.initiative-card--cca .initiative-card__mark {
+  box-shadow: 0 0 0 1px rgba(241, 177, 94, 0.6);
+}
+
+.initiative-card--cca .initiative-card__status {
+  color: #f1b15e;
+}
+
+.initiative-card--cca .button-link:first-child {
+  border-color: #f1b15e;
+  color: #4a2020;
+  background: #f1b15e;
+}
+
+.initiative-card--cca .button-link:first-child:hover {
+  background: #f6c07a;
+}
+
+.button-link--pending {
+  border-style: dashed;
   color: var(--muted);
-  font-size: 0.85rem;
+  cursor: default;
 }
 
-.project-item ul {
-  margin: 0 0 8px;
-  padding-left: 18px;
-  font-size: 0.92rem;
-  line-height: 1.55;
+.button-link--pending:first-child,
+.button-link--pending:hover {
+  color: var(--muted);
+  background: transparent;
 }
 
-.project-item li + li {
-  margin-top: 4px;
+.initiative-card--tangerine .button-link--pending:first-child,
+.initiative-card--tangerine .button-link--pending:first-child:hover {
+  border-color: #b9b2a3;
+  color: #4d4942;
+  background: transparent;
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -706,8 +757,13 @@ h1 {
 
 @media (prefers-reduced-motion: reduce) {
   .initiative-card__details::details-content,
-  .initiative-card summary::after {
+  .initiative-card summary::after,
+  .showcase-card {
     transition: none;
+  }
+
+  .showcase-card:hover {
+    transform: none;
   }
 }
 
@@ -756,5 +812,17 @@ h1 {
 
   .button-link {
     flex: 1 1 100%;
+  }
+
+  .showcase-card__header {
+    flex-wrap: wrap;
+  }
+
+  .showcase-card__status {
+    margin-left: 0;
+  }
+
+  .showcase-card__action {
+    width: 100%;
   }
 }

@@ -84,7 +84,7 @@
     "@context": "https://schema.org",
     "@type": "WebSite",
     "name": "Kevin Roy Maglaqui",
-    "description": "Portfolio of Kevin Roy Maglaqui: experience, initiatives, selected projects, and contact details.",
+    "description": "Portfolio of Kevin Roy Maglaqui: experience, initiatives, and contact details.",
     "url": "https://kevinroymaglaqui.is-a.dev/",
     "author": {
       "@type": "Person",
@@ -101,10 +101,8 @@
 </head>
 <body class="portfolio">
   <nav class="site-nav" aria-label="Portfolio sections">
-    <a href="#about">About Me</a>
-    <a href="#experience">Experience</a>
     <a href="#initiatives">My Initiatives</a>
-    <a href="#projects">Selected Projects</a>
+    <a href="#experience">Experience</a>
     <a href="#contact">Contact</a>
   </nav>
 
@@ -115,11 +113,13 @@
       <p class="slogan">I make it happen.</p>
     </header>
 
-    <section class="portfolio-section" id="about" aria-labelledby="about-title">
-      <h2 id="about-title">About Me</h2>
-      <p>I'm a software engineer who works across backend systems and infrastructure, and I also architect systems and build products of my own.</p>
-      <p>At <span itemprop="worksFor">Paynamics Technologies Inc.</span> I work as a <span itemprop="jobTitle">Junior Software Engineer</span> on the backend of a B2B digital payments platform. Outside of employment I'm building Bean as its founder and technical lead, and I build machine learning services in Python. I graduated from Saint Louis University with a B.S. in Information Technology.</p>
-      <noscript><p>The sections below load with JavaScript. My <a class="text-link" href="assets/Kevin%20Maglaqui%20Resume.pdf">resume (PDF)</a> covers the same experience and projects.</p></noscript>
+    <section class="portfolio-section" id="initiatives" aria-labelledby="initiatives-title">
+      <h2 id="initiatives-title">My Initiatives</h2>
+      <p class="portfolio-section__intro">Products and systems I've built or led, separate from my employment.</p>
+      <noscript><p>This page loads with JavaScript. My <a class="text-link" href="assets/Kevin%20Maglaqui%20Resume.pdf">resume (PDF)</a> covers the same experience and initiatives.</p></noscript>
+      <div id="initiatives-list">
+        <p class="portfolio-status">Loading initiatives...</p>
+      </div>
     </section>
 
     <section class="portfolio-section" id="experience" aria-labelledby="experience-title">
@@ -128,22 +128,6 @@
         <li class="career-timeline__status">Loading roles...</li>
       </ol>
       <a class="text-link" href="assets/Kevin%20Maglaqui%20Resume.pdf" download="KevinRoyMaglaqui_Resume.pdf">Download resume (PDF)</a>
-    </section>
-
-    <section class="portfolio-section" id="initiatives" aria-labelledby="initiatives-title">
-      <h2 id="initiatives-title">My Initiatives</h2>
-      <p class="portfolio-section__intro">Products I'm building as a founder, separate from my employment.</p>
-      <div id="initiatives-list">
-        <p class="portfolio-status">Loading initiatives...</p>
-      </div>
-    </section>
-
-    <section class="portfolio-section" id="projects" aria-labelledby="projects-title">
-      <h2 id="projects-title">Selected Projects</h2>
-      <p class="portfolio-section__intro">Independent and academic work.</p>
-      <div class="project-list" id="projects-list">
-        <p class="portfolio-status">Loading projects...</p>
-      </div>
     </section>
 
     <section class="portfolio-section portfolio-section--contact" id="contact" aria-labelledby="contact-title">

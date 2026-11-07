@@ -29,6 +29,55 @@
         { "label": "Visit Website", "url": "https://bean.enterprises/" },
         { "label": "Explore Pilot", "url": "https://bean.enterprises/coming-soon/" }
       ]
+    },
+    {
+      "theme": "tangerine",
+      "mark": "assets/tangerine-mark.svg",
+      "label": "Quantitative Trading / Software Engineering",
+      "name": "Tangerine",
+      "organization": "Independent project",
+      "role": "Creator & Engineer",
+      "overview": "An actively developed quantitative cryptocurrency trading platform exploring market-data infrastructure, systematic research, model evaluation, risk governance, and controlled execution. It treats research, evaluation, risk controls, and execution as one auditable system rather than a generic trading bot.",
+      "contribution": "Designing and building the platform end to end: backend services, a persistence layer with versioned migrations, a model-evaluation workflow, and a frontend for research and monitoring.",
+      "status": "In Development",
+      "statusNote": "Not a finished commercial product. The source code is private; a separate showcase site previews the interface and engineering scope.",
+      "capabilities": [
+        "Market-data ingestion",
+        "Data processing and validation",
+        "Quantitative research",
+        "Model training and evaluation",
+        "Forecasting infrastructure",
+        "Risk governance",
+        "Controlled execution",
+        "Historical records and persistence",
+        "Monitoring and safeguards",
+        "Automated testing"
+      ],
+      "links": [
+        {
+          "label": "Explore Tangerine",
+          "url": ""
+        }
+      ]
+    },
+    {
+      "theme": "cca",
+      "mark": "assets/slu-cca-mark.svg",
+      "label": "Web Application / University Project",
+      "name": "SLU CCA Ticketing System",
+      "organization": "Saint Louis University CCA",
+      "role": "Requirements Analyst & QA",
+      "overview": "A ticket management system for SLU CCA events, deployed on university servers.",
+      "contribution": "Main requirements analyst and QA: requirements gathering, stakeholder communication, and testing.",
+      "status": "Deployed",
+      "statusNote": "The production system runs on university servers and is not publicly accessible. The website link is a demo.",
+      "capabilities": [
+        "Event ticket management"
+      ],
+      "stack": ["Express", "Prisma", "React"],
+      "links": [
+        { "label": "View Demo", "url": "https://slu-cca.vercel.app/login" }
+      ]
     }
   ]
 }

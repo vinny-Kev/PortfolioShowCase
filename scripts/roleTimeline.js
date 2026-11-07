@@ -4,14 +4,6 @@ const careerTimeline = document.querySelector('#career-timeline');
 const careerNavigation = document.querySelector('#career-timeline-navigation');
 const careerCloseButtons = document.querySelectorAll('[data-career-close]');
 
-document.addEventListener('contextmenu', (event) => {
-	event.preventDefault();
-});
-
-document.addEventListener('selectstart', (event) => {
-	event.preventDefault();
-});
-
 const renderRoles = (roles) => {
 	careerTimeline.replaceChildren();
 	careerNavigation.replaceChildren();
@@ -77,6 +69,7 @@ const loadRoles = async () => {
 	try {
 		renderRoles(await fetchRoles());
 		observeActiveRole();
+		return true;
 	} catch (error) {
 		careerTimeline.replaceChildren();
 		const errorMessage = document.createElement('li');
@@ -84,6 +77,7 @@ const loadRoles = async () => {
 		errorMessage.textContent = 'Roles could not be loaded. Check data/roles.json.';
 		careerTimeline.append(errorMessage);
 		console.error(error);
+		return false;
 	}
 };
 
@@ -99,14 +93,15 @@ if (roleTrigger && careerModal && careerTimeline && careerNavigation) {
 	};
 
 	const openCareerModal = async () => {
-		if (!careerModal.hidden) {
-			return;
-		}
-
 		if (!rolesLoaded) {
 			rolesLoading ??= loadRoles();
-			await rolesLoading;
-			rolesLoaded = true;
+			rolesLoaded = await rolesLoading;
+			rolesLoading = undefined;
+		}
+
+		// Checked after the await so a hover and a click racing each other open it once.
+		if (!careerModal.hidden) {
+			return;
 		}
 
 		previousFocusedElement = document.activeElement;
