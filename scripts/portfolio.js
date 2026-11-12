@@ -21,9 +21,19 @@ const createDetail = (heading, ...children) => {
 	return block;
 };
 
+// A capability is a plain string or a named cluster: { name, items }.
 const createList = (items, className) => {
 	const list = createElement('ul', className);
-	items.forEach((item) => list.append(createElement('li', '', item)));
+	items.forEach((item) => {
+		if (typeof item === 'string') {
+			list.append(createElement('li', '', item));
+			return;
+		}
+
+		const cluster = createElement('li');
+		cluster.append(createElement('strong', '', `${item.name}:`), ` ${item.items.join(', ')}`);
+		list.append(cluster);
+	});
 	return list;
 };
 
@@ -53,6 +63,7 @@ const createInitiativeCard = (initiative) => {
 	heading.append(
 		createElement('h3', '', initiative.name),
 		createElement('p', 'initiative-card__role', `${initiative.role}, ${initiative.organization}`),
+		createElement('p', 'initiative-card__highlight', initiative.highlight),
 		createElement('p', 'initiative-card__status', initiative.status)
 	);
 	header.append(heading);
@@ -120,7 +131,11 @@ const fillSection = async (container, loadItems, createItem, statusTag, label) =
 		const items = await loadItems();
 		container.replaceChildren(...items.map(createItem));
 	} catch (error) {
-		container.replaceChildren(createElement(statusTag, 'portfolio-status', `${label} could not be loaded.`));
+		const status = createElement(statusTag, 'portfolio-status', `${label} couldn’t load. Reload the page, or get the same details from the `);
+		const resume = createElement('a', 'text-link', 'résumé (PDF)');
+		resume.href = 'assets/Kevin%20Maglaqui%20Resume.pdf';
+		status.append(resume, '.');
+		container.replaceChildren(status);
 		console.error(error);
 	}
 };

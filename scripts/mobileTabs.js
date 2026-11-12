@@ -34,6 +34,8 @@ tabLinks.forEach((link) => {
 
 		showTab(link.hash.slice(1));
 		window.scrollTo(0, 0);
+		// Move focus to the new section's heading so screen readers announce the tab change.
+		document.querySelector(`${link.hash} h2`)?.focus({ preventScroll: true });
 	});
 });
 

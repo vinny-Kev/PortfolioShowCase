@@ -4,14 +4,23 @@
       "date": "July 2026 - Present",
       "title": "Junior Software Engineer",
       "company": "Paynamics Technologies Inc.",
-      "description": "Developed and deployed a backend module for a B2B digital payments platform, implementing CRUD REST endpoints, audit logging, and a postback integration to synchronize database operations across backend systems. Strengthened API security by addressing security testing findings through input validation and sanitization, preventing malformed and unsafe data from entering application workflows. Tested API endpoints and integration flows and shipped changes through Git-based merge requests across staging environments.",
+      "highlights": [
+        "Built and deployed a backend module for a B2B digital payments platform: CRUD REST endpoints, audit logging, and a postback flow that keeps database writes in sync across backend systems.",
+        "Closed security-testing findings with input validation and sanitization, so malformed or unsafe data is rejected at the API.",
+        "Tested endpoints and integration flows, and shipped changes through Git merge requests across staging environments."
+      ],
       "current": true
     },
     {
       "date": "January 2026 - June 2026",
       "title": "Software / IT Support Engineer Intern",
       "company": "Global Transco ICT Solutions",
-      "description": "Developed OTP and Standard Flight Report modules for a migrated aviation flight-information system, implementing REST endpoints, MVC controllers, and data-access logic. Rebuilt the legacy OTP report generator using FPDF, reducing document generation time from approximately 5 minutes to under 1 second while meeting CAA documentation standards. Designed and deployed a 3-node Proxmox high-availability cluster with quorum, node fencing, live LXC migration, and storage replication. Improved Lighthouse performance scores from approximately 30 to 70–100 across 26+ company web pages through asset optimization, caching, and removal of render-blocking resources.",
+      "highlights": [
+        "Cut OTP report generation from about 5 minutes to under 1 second by rebuilding the legacy generator with FPDF, within CAA documentation standards.",
+        "Built the OTP and Standard Flight Report modules for a migrated aviation flight-information system: REST endpoints, MVC controllers, and data access.",
+        "Designed and deployed a 3-node Proxmox high-availability cluster with quorum, node fencing, live LXC migration, and storage replication.",
+        "Raised Lighthouse scores from about 30 to 70–100 across 26+ company web pages through asset optimization, caching, and removing render-blocking resources."
+      ],
       "current": false
     }
   ]

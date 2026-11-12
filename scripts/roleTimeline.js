@@ -1,125 +1,63 @@
+// The career link opens a native modal <dialog>: showModal() traps focus, makes the page inert and closes on Escape.
+// Without JavaScript the link simply goes to the Experience section of the portfolio page.
 const roleTrigger = document.querySelector('.role-trigger');
 const careerModal = document.querySelector('#career-modal');
 const careerTimeline = document.querySelector('#career-timeline');
-const careerNavigation = document.querySelector('#career-timeline-navigation');
-const careerCloseButtons = document.querySelectorAll('[data-career-close]');
 
-const renderRoles = (roles) => {
-	careerTimeline.replaceChildren();
-	careerNavigation.replaceChildren();
+const showRolesError = () => {
+	const item = document.createElement('li');
+	item.className = 'career-timeline__status';
 
-	roles.forEach((role, index) => {
-		const item = createRoleItem(role);
-		item.id = `career-role-${index + 1}`;
+	const link = document.createElement('a');
+	link.className = 'text-link';
+	link.href = 'main-page.html#experience';
+	link.textContent = 'see Experience on the portfolio page';
 
-		careerTimeline.append(item);
-
-		const navigationButton = document.createElement('button');
-		navigationButton.className = 'career-timeline__dot';
-		navigationButton.type = 'button';
-		navigationButton.setAttribute('aria-label', `View ${role.title} at ${role.company}`);
-		navigationButton.setAttribute('aria-controls', item.id);
-		navigationButton.addEventListener('click', () => {
-			item.scrollIntoView({ behavior: 'smooth', block: 'start' });
-		});
-		careerNavigation.append(navigationButton);
-	});
-
-	const firstItem = careerTimeline.querySelector('.career-timeline__item');
-	if (firstItem) {
-		const syncTimelineHeight = () => {
-			careerTimeline.style.height = `${firstItem.offsetHeight}px`;
-		};
-
-		syncTimelineHeight();
-		new ResizeObserver(syncTimelineHeight).observe(firstItem);
-	}
-};
-
-const observeActiveRole = () => {
-	const roleItems = careerTimeline.querySelectorAll('.career-timeline__item');
-	const navigationButtons = careerNavigation.querySelectorAll('.career-timeline__dot');
-
-	if (!roleItems.length) {
-		return;
-	}
-
-	const observer = new IntersectionObserver((entries) => {
-		entries.forEach((entry) => {
-			if (!entry.isIntersecting) {
-				return;
-			}
-
-			const activeIndex = [...roleItems].indexOf(entry.target);
-			navigationButtons.forEach((button, index) => {
-				const isActive = index === activeIndex;
-				button.classList.toggle('career-timeline__dot--active', isActive);
-				button.setAttribute('aria-current', isActive ? 'true' : 'false');
-			});
-		});
-	}, {
-		root: careerTimeline,
-		rootMargin: '-50% 0px'
-	});
-
-	roleItems.forEach((item) => observer.observe(item));
+	item.append('Career history couldn’t load. Close and try again, or ', link, '.');
+	careerTimeline.replaceChildren(item);
 };
 
 const loadRoles = async () => {
 	try {
-		renderRoles(await fetchRoles());
-		observeActiveRole();
+		careerTimeline.replaceChildren(...(await fetchRoles()).map(createRoleItem));
 		return true;
 	} catch (error) {
-		careerTimeline.replaceChildren();
-		const errorMessage = document.createElement('li');
-		errorMessage.className = 'career-timeline__status';
-		errorMessage.textContent = 'Roles could not be loaded. Check data/roles.json.';
-		careerTimeline.append(errorMessage);
+		showRolesError();
 		console.error(error);
 		return false;
 	}
 };
 
-if (roleTrigger && careerModal && careerTimeline && careerNavigation) {
-	let previousFocusedElement;
+if (roleTrigger && careerModal?.showModal && careerTimeline) {
 	let rolesLoaded = false;
-	let rolesLoading;
 
-	const closeCareerModal = () => {
-		careerModal.hidden = true;
-		document.body.style.overflow = '';
-		previousFocusedElement?.focus();
-	};
+	roleTrigger.addEventListener('click', async (event) => {
+		event.preventDefault();
 
-	const openCareerModal = async () => {
-		if (!rolesLoaded) {
-			rolesLoading ??= loadRoles();
-			rolesLoaded = await rolesLoading;
-			rolesLoading = undefined;
-		}
-
-		// Checked after the await so a hover and a click racing each other open it once.
-		if (!careerModal.hidden) {
+		if (careerModal.open) {
 			return;
 		}
 
-		previousFocusedElement = document.activeElement;
-		careerModal.hidden = false;
+		careerModal.showModal();
 		document.body.style.overflow = 'hidden';
-		careerModal.querySelector('.career-modal__close').focus();
-	};
 
-	roleTrigger.addEventListener('click', openCareerModal);
-	roleTrigger.addEventListener('mouseenter', openCareerModal);
-
-	careerCloseButtons.forEach((closeButton) => {
-		closeButton.addEventListener('click', closeCareerModal);
+		// A failed load is retried on the next open.
+		if (!rolesLoaded) {
+			rolesLoaded = await loadRoles();
+		}
 	});
 
-	document.addEventListener('keydown', (event) => {
-		if (event.key === 'Escape' && !careerModal.hidden) {
-			closeCareerModal();
+	careerModal.addEventListener('close', () => {
+		document.body.style.overflow = '';
+		roleTrigger.focus();
+	});
+
+	careerModal.querySelector('.career-modal__close').addEventListener('click', () => careerModal.close());
+
+	// A click on the dialog element itself is a click on the backdrop, outside the window.
+	careerModal.addEventListener('click', (event) => {
+		if (event.target === careerModal) {
+			careerModal.close();
 		}
 	});
 }
