@@ -27,11 +27,15 @@ const createRoleItem = (role) => {
 
 	item.append(date, title, company);
 
-	if (role.description) {
-		const description = document.createElement('p');
-		description.className = 'career-timeline__description';
-		description.textContent = role.description;
-		item.append(description);
+	if (role.highlights?.length) {
+		const highlights = document.createElement('ul');
+		highlights.className = 'career-timeline__highlights';
+		role.highlights.forEach((text) => {
+			const highlight = document.createElement('li');
+			highlight.textContent = text;
+			highlights.append(highlight);
+		});
+		item.append(highlights);
 	}
 
 	return item;

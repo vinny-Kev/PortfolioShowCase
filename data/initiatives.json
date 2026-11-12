@@ -4,21 +4,17 @@
       "featured": true,
       "mark": "assets/bean-mark.svg",
       "name": "Bean Enterprise Management System",
-      "organization": "Bean Enterprise System Solutions",
+      "organization": "Bean Enterprise Solutions",
       "role": "Founder & Technical Lead",
       "overview": "Building a multi-tenant enterprise management platform designed to centralize business operations, connecting inventory, sales, branch management, and internal ticketing through a unified system.",
       "contribution": "Architected and developed the majority of the backend using Node.js, Express, and PostgreSQL, implementing authentication, email-verified registration, role-based permissions, PostgreSQL-backed sessions, and audit logging.",
+      "highlight": "Wrote most of the multi-tenant backend: authentication, role-based permissions, PostgreSQL-backed sessions, and audit logging.",
       "status": "Developing the platform toward pilot deployment.",
       "statusNote": "Pilot applications are not open yet.",
       "capabilities": [
-        "Multi-tenant organizations",
-        "Inventory",
-        "Sales",
-        "Branch management",
-        "Internal ticketing",
-        "Role-based permissions",
-        "Email-verified registration",
-        "Audit logging"
+        { "name": "Operations", "items": ["Inventory", "Sales", "Branch management", "Internal ticketing"] },
+        { "name": "Tenancy and access", "items": ["Multi-tenant organizations", "Role-based permissions", "Email-verified registration"] },
+        { "name": "Accountability", "items": ["Audit logging"] }
       ],
       "stack": ["Node.js", "Express 5", "PostgreSQL"],
       "repository": {
@@ -39,19 +35,14 @@
       "role": "Creator & Engineer",
       "overview": "An actively developed quantitative cryptocurrency trading platform exploring market-data infrastructure, systematic research, model evaluation, risk governance, and controlled execution. It treats research, evaluation, risk controls, and execution as one auditable system rather than a generic trading bot.",
       "contribution": "Designing and building the platform end to end: backend services, a persistence layer with versioned migrations, a model-evaluation workflow, and a frontend for research and monitoring.",
+      "highlight": "One auditable pipeline from market data through model evaluation to risk-governed, controlled execution.",
       "status": "In Development",
       "statusNote": "Not a finished commercial product. The source code is private; a separate showcase site previews the interface and engineering scope.",
       "capabilities": [
-        "Market-data ingestion",
-        "Data processing and validation",
-        "Quantitative research",
-        "Model training and evaluation",
-        "Forecasting infrastructure",
-        "Risk governance",
-        "Controlled execution",
-        "Historical records and persistence",
-        "Monitoring and safeguards",
-        "Automated testing"
+        { "name": "Data", "items": ["Market-data ingestion", "Processing and validation", "Historical records and persistence"] },
+        { "name": "Research and models", "items": ["Quantitative research", "Model training and evaluation", "Forecasting infrastructure"] },
+        { "name": "Risk and execution", "items": ["Risk governance", "Controlled execution"] },
+        { "name": "Reliability", "items": ["Monitoring and safeguards", "Automated testing"] }
       ],
       "links": [
         {
@@ -69,6 +60,7 @@
       "role": "Requirements Analyst & QA",
       "overview": "A ticket management system for SLU CCA events, deployed on university servers.",
       "contribution": "Main requirements analyst and QA: requirements gathering, stakeholder communication, and testing.",
+      "highlight": "Deployed on university servers, handling ticketing for SLU CCA events.",
       "status": "Deployed",
       "statusNote": "The production system runs on university servers and is not publicly accessible. The website link is a demo.",
       "capabilities": [
