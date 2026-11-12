@@ -77,7 +77,8 @@ const createInitiativeCard = (initiative) => {
 	initiative.links.forEach((link) => {
 		// A link with an empty url is a placeholder: show it inert rather than ship a dead link.
 		if (!link.url) {
-			const pending = createElement('span', 'button-link button-link--pending', `${link.label} (link coming soon)`);
+			const label = link.placeholderText || (link.label.toLowerCase().includes('soon') ? link.label : `${link.label} (link coming soon)`);
+			const pending = createElement('span', 'button-link button-link--pending', label);
 			pending.setAttribute('aria-disabled', 'true');
 			actions.append(pending);
 			return;

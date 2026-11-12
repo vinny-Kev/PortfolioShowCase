@@ -108,18 +108,26 @@
     <a href="#initiatives"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.5"/></svg><span>Initiatives</span></a>
     <a href="#experience"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="7.5" width="17" height="12" rx="2"/><path d="M9 7.5V6a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v1.5M3.5 13h17"/></svg><span>Experience</span></a>
     <a href="#contact"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8.5" r="3.5"/><path d="M5 20c.8-3.6 3.6-5.5 7-5.5s6.2 1.9 7 5.5"/></svg><span>Contact</span></a>
+    <div class="scroll-progress" aria-hidden="true"></div>
   </nav>
 
   <main itemscope itemtype="https://schema.org/Person">
     <header class="portfolio-header">
+      <span class="section-index" aria-hidden="true">01 — About</span>
       <img class="portfolio-header__avatar" src="assets/kevin-pfp.jpg" alt="" width="96" height="96">
       <h1 itemprop="name">Kevin Roy Maglaqui</h1>
       <p class="eyebrow">Software Engineer | Backend &amp; Infrastructure | ML Engineer</p>
-      <p class="details">Payments backend <span aria-hidden="true">·</span> Proxmox HA cluster <span aria-hidden="true">·</span> Quant trading platform</p>
-      <p class="slogan">I make it happen.</p>
+      <div class="hero-split">
+        <div class="hero-meta">
+          <p class="details">Payments backend <span aria-hidden="true">·</span> Proxmox HA cluster <span aria-hidden="true">·</span> Quant trading platform</p>
+          <p class="slogan">I make it happen.</p>
+        </div>
+        <p class="hero-bio">A software engineer working across backend systems, infrastructure, and mobile engineering. Currently building payments infrastructure at Paynamics Technologies Inc., while engineering Clementine BOS (an offline-resilient Android retail operating system), Bean Enterprise Management System, and Tangerine.</p>
+      </div>
     </header>
 
-    <section class="portfolio-section" id="initiatives" aria-labelledby="initiatives-title">
+    <section class="portfolio-section" id="initiatives" aria-labelledby="initiatives-title" data-reveal>
+      <span class="section-index" aria-hidden="true">02 — Initiatives</span>
       <h2 id="initiatives-title" tabindex="-1">My Initiatives</h2>
       <p class="portfolio-section__intro">Products and systems I've built or led, separate from my employment.</p>
       <noscript><p>This page loads with JavaScript. My <a class="text-link" href="assets/Kevin%20Maglaqui%20Resume.pdf">resume (PDF)</a> covers the same experience and initiatives.</p></noscript>
@@ -128,7 +136,8 @@
       </div>
     </section>
 
-    <section class="portfolio-section" id="experience" aria-labelledby="experience-title">
+    <section class="portfolio-section" id="experience" aria-labelledby="experience-title" data-reveal>
+      <span class="section-index" aria-hidden="true">03 — Experience</span>
       <h2 id="experience-title" tabindex="-1">Experience</h2>
       <ol class="career-timeline career-timeline--page" id="experience-list">
         <li class="career-timeline__status">Loading roles...</li>
@@ -136,9 +145,11 @@
       <a class="text-link" href="assets/Kevin%20Maglaqui%20Resume.pdf" download="KevinRoyMaglaqui_Resume.pdf">Download resume (PDF)</a>
     </section>
 
-    <section class="portfolio-section portfolio-section--contact" id="contact" aria-labelledby="contact-title">
+    <section class="portfolio-section portfolio-section--contact" id="contact" aria-labelledby="contact-title" data-reveal>
+      <span class="section-index" aria-hidden="true">04 — Contact</span>
       <h2 id="contact-title" tabindex="-1">Contact</h2>
       <p class="portfolio-section__intro">Open to backend and infrastructure roles.</p>
+      <p class="contact-coordinates" aria-hidden="true">14.60° N, 120.98° E — Philippines</p>
       <div class="contact-actions">
         <a class="button-link" href="mailto:kevinroymaglaqui29@gmail.com" itemprop="email">Email kevinroymaglaqui29@gmail.com</a>
         <a class="button-link" href="assets/Kevin%20Maglaqui%20Resume.pdf" download="KevinRoyMaglaqui_Resume.pdf">Download resume (PDF)</a>
@@ -160,5 +171,6 @@
   <script src="scripts/roles.js"></script>
   <script src="scripts/portfolio.js"></script>
   <script src="scripts/mobileTabs.js"></script>
+  <script src="scripts/scrollReveal.js"></script>
 </body>
 </html>

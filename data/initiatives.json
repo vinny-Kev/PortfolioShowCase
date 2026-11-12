@@ -27,6 +27,30 @@
       ]
     },
     {
+      "theme": "clementine",
+      "mark": "assets/clementine-mark.svg",
+      "label": "Retail POS & Business Operating System",
+      "name": "Clementine BOS",
+      "organization": "Bean Enterprise Solutions",
+      "role": "Creator & Lead Engineer",
+      "overview": "A mission-critical retail Business Operating System engineered for neighbourhood shops and micro-retailers. Built to power counter sales, barcode scanning, append-only stock ledgers, and cashier governance with high resilience on unreliable networks.",
+      "contribution": "Architected and engineered the Android cashier application in Kotlin and Jetpack Compose with on-device ML Kit barcode scanning and crash-safe cart persistence. Designed the Spring Boot REST backend with Flyway migrations, pessimistic row-level locking for zero-race-condition transactions, and idempotent sales handling.",
+      "highlight": "Native Android POS with on-device ML barcode scanning and an idempotent Spring Boot backend with append-only inventory ledgers.",
+      "status": "Pre-Release / UAT Pilot",
+      "statusNote": "Targeting production deployment and Google Play Store distribution.",
+      "capabilities": [
+        { "name": "Counter checkout", "items": ["Atomic checkout transactions", "Idempotency replay protection", "Fail-closed pending payment recovery", "Offline cart persistence"] },
+        { "name": "Hardware & scanning", "items": ["On-device barcode scanning via CameraX & Google ML Kit", "Modern native UI with Jetpack Compose & Material 3"] },
+        { "name": "Inventory & governance", "items": ["Append-only stock ledger (deliveries, adjustments, counts)", "Pessimistic locking (FOR UPDATE) for concurrency safety", "Strict role-based permissions (Owner vs Cashier)"] },
+        { "name": "Analytics & audits", "items": ["Owner metrics dashboard via read-only database role", "Full audit logging & stock override tracking"] }
+      ],
+      "stack": ["Android (Kotlin)", "Jetpack Compose", "Spring Boot", "PostgreSQL", "Google ML Kit", "Flyway", "Docker"],
+      "links": [
+        { "label": "Coming to Google Play Store soon", "url": "", "placeholderText": "Coming to Google Play Store soon" },
+        { "label": "Visit Product Page", "url": "https://bean.enterprises/products/clementine/" }
+      ]
+    },
+    {
       "theme": "tangerine",
       "mark": "assets/tangerine-mark.svg",
       "label": "Quantitative Trading / Software Engineering",
