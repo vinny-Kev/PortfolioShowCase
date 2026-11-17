@@ -1,7 +1,7 @@
 const rolesDataUrl = 'data/roles.json';
 
 const fetchRoles = async () => {
-	const response = await fetch(rolesDataUrl);
+	const response = await fetch(rolesDataUrl, { cache: 'no-cache' });
 
 	if (!response.ok) {
 		throw new Error(`Could not load roles: ${response.status}`);

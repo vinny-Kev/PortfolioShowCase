@@ -40,6 +40,10 @@
 			if (entry.isIntersecting) {
 				entry.target.classList.add('revealed');
 				observer.unobserve(entry.target);
+				const sectionIndex = entry.target.querySelector('.section-index');
+				if (sectionIndex && window.typewriteTerminal) {
+					window.typewriteTerminal(sectionIndex, null, 1);
+				}
 			}
 		});
 	}, { threshold: 0.06, rootMargin: '0px 0px -50px 0px' });

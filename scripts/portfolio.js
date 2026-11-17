@@ -21,6 +21,38 @@ const createDetail = (heading, ...children) => {
 	return block;
 };
 
+// A capability rendered as a Docker Compose terminal box.
+const createDockerComposeList = (items, initiativeName) => {
+	const composeBox = createElement('div', 'docker-compose-terminal');
+	const header = createElement('div', 'docker-compose-header');
+	const prompt = createElement('span', 'docker-cli-prompt', '$ docker compose up -d');
+	const status = createElement('span', 'docker-status-tag', `[+] Running ${items.length}/${items.length}`);
+	header.append(prompt, status);
+
+	const list = createElement('ul', 'docker-compose-list');
+	const prefix = (initiativeName || 'app').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '').slice(0, 10);
+
+	items.forEach((item) => {
+		const row = createElement('li', 'docker-compose-row');
+		const icon = createElement('span', 'docker-icon', '✔');
+		const kind = createElement('span', 'docker-kind', 'Container');
+
+		const rawName = typeof item === 'string' ? item : item.name;
+		const slug = `${prefix}-${rawName.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '').slice(0, 15)}`;
+		const name = createElement('span', 'docker-slug', slug);
+		const state = createElement('span', 'docker-state', 'Started');
+
+		const descText = typeof item === 'string' ? item : item.items.join(', ');
+		const desc = createElement('span', 'docker-desc', descText);
+
+		row.append(icon, kind, name, state, desc);
+		list.append(row);
+	});
+
+	composeBox.append(header, list);
+	return composeBox;
+};
+
 // A capability is a plain string or a named cluster: { name, items }.
 const createList = (items, className) => {
 	const list = createElement('ul', className);
@@ -94,7 +126,7 @@ const createInitiativeCard = (initiative) => {
 	body.append(
 		createDetail('Product overview', createElement('p', '', initiative.overview)),
 		createDetail('My role', createElement('p', '', initiative.contribution)),
-		createDetail('Core capabilities', createList(initiative.capabilities, 'initiative-card__capabilities')),
+		createDetail('Core capabilities', createDockerComposeList(initiative.capabilities, initiative.name)),
 		createDetail('Current status', createElement('p', '', [initiative.status, initiative.statusNote].filter(Boolean).map(sentence).join(' '))),
 		actions
 	);
@@ -112,12 +144,80 @@ const createInitiativeCard = (initiative) => {
 	}
 
 	details.append(summary, body);
+
+	details.addEventListener('toggle', () => {
+		const overviewP = body.querySelector('.initiative-card__block:nth-child(1) p');
+		const roleP = body.querySelector('.initiative-card__block:nth-child(2) p');
+		const statusP = body.querySelector('.initiative-card__block:nth-child(4) p');
+		const dockerRows = body.querySelectorAll('.docker-compose-row');
+
+		if (!details.open) {
+			// If closed mid-animation, immediately restore full text so next open is complete
+			if (overviewP?.dataset.fullText) overviewP.textContent = overviewP.dataset.fullText;
+			if (roleP?.dataset.fullText) roleP.textContent = roleP.dataset.fullText;
+			if (statusP?.dataset.fullText) statusP.textContent = statusP.dataset.fullText;
+			dockerRows.forEach((r) => r.classList.add('docker-row--active'));
+			return;
+		}
+
+		if (details.open && !details.dataset.terminalDone) {
+			details.dataset.terminalDone = 'true';
+
+			if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+				dockerRows.forEach((r) => r.classList.add('docker-row--active'));
+				return;
+			}
+
+			// Immediately store and clear all animated texts so they don't sit visible while prior ones type
+			if (overviewP) {
+				overviewP.dataset.fullText = overviewP.textContent.trim();
+				overviewP.textContent = '';
+			}
+			if (roleP) {
+				roleP.dataset.fullText = roleP.textContent.trim();
+				roleP.textContent = '';
+			}
+			if (statusP) {
+				statusP.dataset.fullText = statusP.textContent.trim();
+				statusP.textContent = '';
+			}
+
+			const triggerDockerRows = () => {
+				dockerRows.forEach((row, i) => {
+					setTimeout(() => {
+						row.classList.add('docker-row--active');
+					}, i * 80);
+				});
+			};
+
+			if (window.typewriteTerminal && overviewP) {
+				window.typewriteTerminal(overviewP, () => {
+					if (roleP) {
+						window.typewriteTerminal(roleP, () => {
+							if (statusP) {
+								window.typewriteTerminal(statusP, triggerDockerRows, 4);
+							} else {
+								triggerDockerRows();
+							}
+						});
+					} else {
+						triggerDockerRows();
+					}
+				});
+			} else {
+				if (overviewP?.dataset.fullText) overviewP.textContent = overviewP.dataset.fullText;
+				if (roleP?.dataset.fullText) roleP.textContent = roleP.dataset.fullText;
+				if (statusP?.dataset.fullText) statusP.textContent = statusP.dataset.fullText;
+				triggerDockerRows();
+			}
+		}
+	});
 	card.append(details);
 	return card;
 };
 
 const fetchList = async (url, key) => {
-	const response = await fetch(url);
+	const response = await fetch(url, { cache: 'no-cache' });
 
 	if (!response.ok) {
 		throw new Error(`Could not load ${url}: ${response.status}`);

@@ -7,10 +7,10 @@
       "organization": "Bean Enterprise Solutions",
       "role": "Founder & Technical Lead",
       "overview": "Building a multi-tenant enterprise management platform designed to centralize business operations, connecting inventory, sales, branch management, and internal ticketing through a unified system.",
-      "contribution": "Architected and developed the majority of the backend using Node.js, Express, and PostgreSQL, implementing authentication, email-verified registration, role-based permissions, PostgreSQL-backed sessions, and audit logging.",
-      "highlight": "Wrote most of the multi-tenant backend: authentication, role-based permissions, PostgreSQL-backed sessions, and audit logging.",
-      "status": "Developing the platform toward pilot deployment.",
-      "statusNote": "Pilot applications are not open yet.",
+      "contribution": "Architected and developed the majority of the backend using Node.js, Express, and PostgreSQL, implementing authentication, email-verified registration, role-based permissions, PostgreSQL-backed sessions, and audit logging. Also own the DevOps side of the startup: setting up staging, UAT, and production environments and configuring domains and subdomains.",
+      "highlight": "Built most of the multi-tenant backend and run the startup infrastructure across staging, UAT, and production, including domain and subdomain configuration.",
+      "status": "Pilot Live",
+      "statusNote": "Active pilot deployment live at pilot.bean.enterprises/operations.",
       "capabilities": [
         { "name": "Operations", "items": ["Inventory", "Sales", "Branch management", "Internal ticketing"] },
         { "name": "Tenancy and access", "items": ["Multi-tenant organizations", "Role-based permissions", "Email-verified registration"] },
@@ -23,7 +23,7 @@
       },
       "links": [
         { "label": "Visit Website", "url": "https://bean.enterprises/" },
-        { "label": "Explore Pilot", "url": "https://bean.enterprises/coming-soon/" }
+        { "label": "Explore Pilot", "url": "https://pilot.bean.enterprises/operations" }
       ]
     },
     {
@@ -73,6 +73,34 @@
           "label": "Explore Tangerine",
           "url": "https://tangerine-showcase.vercel.app/overview"
         }
+      ]
+    },
+    {
+      "theme": "coldfriend",
+      "mark": "assets/coldfriend-mark.svg",
+      "label": "Survival Horror Game / 3D Engine Architecture",
+      "name": "Cold Friend, Come In",
+      "organization": "Open-Source Project",
+      "role": "Creator & Lead Engine Developer",
+      "overview": "A first-person atmospheric winter survival horror game built in Java 21 with jMonkeyEngine 3.9. Features a deterministic procedural wilderness generation pipeline, real-time diurnal lighting, and topologically verified reachability across a 1.5 km² winter expanse.",
+      "contribution": "Architected the game as a zero-warning modular monolith with strict domain isolation (zero engine dependencies in simulation packages). Implemented the seeded world generator (noise, hydraulic river carving, 40,000+ instanced environmental entities) and thermodynamic survival mechanics.",
+      "highlight": "Deterministic 1.5 km² procedural world generator with topological reachability validation, running at ~600 FPS on Java 21.",
+      "status": "In Development / Open-Source",
+      "statusNote": "Foundation and procedural world generator complete; preparing for itch.io release.",
+      "capabilities": [
+        { "name": "World generation", "items": ["Seeded deterministic terrain (1.5 km²)", "Hydraulic river carving and downhill descent", "40,000+ instanced trees, rocks & foliage"] },
+        { "name": "Engine architecture", "items": ["Zero-warning Java 21 modular monolith (-Werror)", "Engine-agnostic domain models (world, time, survival)", "Strict one-way dependency boundaries"] },
+        { "name": "Topology & physics", "items": ["Automated path reachability validation", "Custom walkability rules & collision grids", "River fords and path networks"] },
+        { "name": "Simulation & systems", "items": ["Real-time diurnal clock & dynamic sky lighting", "Thermodynamic stove & warmth attenuation", "Vitals tracking (warmth, hydration, health)"] }
+      ],
+      "stack": ["Java 21", "jMonkeyEngine 3.9", "LWJGL 3", "Gradle", "JUnit 5", "SLF4J"],
+      "repository": {
+        "text": "github.com/vinny-Kev/Cold-Friend-Come-In",
+        "url": "https://github.com/vinny-Kev/Cold-Friend-Come-In"
+      },
+      "links": [
+        { "label": "Coming to Itch.io soon", "url": "", "placeholderText": "Coming to Itch.io soon" },
+        { "label": "View on GitHub", "url": "https://github.com/vinny-Kev/Cold-Friend-Come-In" }
       ]
     },
     {

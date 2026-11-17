@@ -18,7 +18,7 @@ A personal portfolio at kevinroymaglaqui.is-a.dev that earns the interview. Succ
 
 Founder-engineer. Kevin builds and ships systems on his own: he is founder and technical lead of Bean, and he created Tangerine. He also works as a software engineer on a payments backend. The lead story is the builder; employment is supporting credibility, not the headline.
 
-Headline: "Software Engineer | Backend & Infrastructure | ML Engineer". Not presented as DevOps-only, and not as a fresh graduate.
+Headline: "Software / DevOps Engineer". The portfolio should communicate both product engineering and hands-on startup infrastructure ownership.
 
 ## Operating Context
 
