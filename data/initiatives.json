@@ -142,12 +142,12 @@
       ],
       "stack": ["Java 21", "jMonkeyEngine 3.9", "LWJGL 3", "Gradle", "JUnit 5", "SLF4J"],
       "repository": {
-        "text": "github.com/vinny-Kev/Cold-Friend-Come-In",
-        "url": "https://github.com/vinny-Kev/Cold-Friend-Come-In"
+        "text": "github.com/vinny-Kev/Cold-Friend-Come-In.",
+        "url": "https://github.com/vinny-Kev/Cold-Friend-Come-In."
       },
       "links": [
         { "label": "Coming to Itch.io soon", "url": "", "placeholderText": "Coming to Itch.io soon" },
-        { "label": "View on GitHub", "url": "https://github.com/vinny-Kev/Cold-Friend-Come-In" }
+        { "label": "View on GitHub", "url": "https://github.com/vinny-Kev/Cold-Friend-Come-In." }
       ]
     },
     {
