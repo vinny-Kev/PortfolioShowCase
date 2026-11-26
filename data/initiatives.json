@@ -102,14 +102,16 @@
       "name": "claude-harness",
       "organization": "Open-Source Project",
       "role": "Author",
-      "overview": "A Claude Code plugin of skills and validators that keeps coding agents inside a project's declared architecture and hardens request/response paths.",
-      "contribution": "Wrote the architecture skill and a registry of four architecture styles (MVC, Layered, Hexagonal, Service–Middleware–Aggregate), the request/response hardening skill with inbound and outbound checklists, and the CI validators.",
-      "highlight": "CI checks every skill and architecture spec, and scans for secrets, on every push.",
-      "status": "In Development / Open-Source",
-      "statusNote": "Phases 1–2 of 5 complete. The /switch handoff, Project Dam and QA report generator are planned.",
+      "overview": "A Claude Code plugin of skills, commands and hooks that keeps coding agents inside a project's declared architecture, hardens request/response paths, hands work between sessions, slices big tasks into gated milestones and produces evidence-based QA reports.",
+      "contribution": "Built all five planned phases: the architecture skill and style registry, the request/response hardening skill, the /switch context handoff with hooks, Project Dam for incremental milestones, and a QA report generator with redaction. Added a debug protocol and an always-on knowledge-placement rule, plus the CI validators and tests.",
+      "highlight": "CI validates every skill and spec, runs the unit tests, and diffs a generated QA report against a golden file on every push.",
+      "status": "Complete / Open-Source",
+      "statusNote": "All five phases done, plus the debug protocol and knowledge placement. Free (MIT).",
       "capabilities": [
-        { "name": "Built", "items": ["Architecture skill and style registry", "Request/response hardening skill", "Secret scan and spec validators in CI"] },
-        { "name": "Planned", "items": ["/switch context handoff", "Project Dam milestones", "QA report generator"] }
+        { "name": "Architecture & hardening", "items": ["Architecture skill and style registry", "Request/response hardening skill"] },
+        { "name": "Workflow", "items": ["/switch context handoff and hooks", "Project Dam gated milestones"] },
+        { "name": "Quality", "items": ["QA report generator (Markdown, optional .docx) with redaction", "Debug protocol: reproduce, isolate, fix with proof"] },
+        { "name": "Guardrails", "items": ["Knowledge-placement rule and guard", "Secret scan, validators and tests in CI"] }
       ],
       "stack": ["Claude Code plugins", "Python", "Shell", "GitHub Actions"],
       "repository": {
