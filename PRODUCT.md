@@ -45,7 +45,7 @@ Headline: "Software / DevOps Engineer". The portfolio should communicate both pr
 
 - **Paynamics:** a backend module (CRUD endpoints, audit logging, postback sync) and remediation of security-testing findings. The source is private, so there are no screenshots or code.
 - **Global Transco:** OTP report generation cut from about 5 minutes to under 1 second; a 3-node Proxmox HA cluster; Lighthouse scores raised from about 30 to 70-100 across 26+ pages.
-- **Bean:** public backend repo `github.com/vinny-Kev/bean-backend-public-v1` and the website `bean.enterprises`. The platform is in development toward a pilot.
+- **Bean:** private backend repo; the website is `bean.enterprises`. Public patterns demo: `github.com/vinny-Kev/reliable-ledger`. The platform is in development toward a pilot.
 - **Tangerine:** private source, with a showcase site at `tangerine-showcase.vercel.app`. In development.
 - **SLU CCA Ticketing System:** deployed on university servers, with a demo at `slu-cca.vercel.app`. Kevin was the requirements analyst and QA.
 - **Absences:** there are no testimonials, user counts, revenue, client logos or production metrics for Bean or Tangerine. Do not fabricate them.

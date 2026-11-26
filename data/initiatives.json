@@ -17,13 +17,10 @@
         { "name": "Accountability", "items": ["Audit logging"] }
       ],
       "stack": ["Node.js", "Express 5", "PostgreSQL"],
-      "repository": {
-        "text": "github.com/vinny-Kev/bean-backend-public-v1",
-        "url": "https://github.com/vinny-Kev/bean-backend-public-v1"
-      },
       "links": [
         { "label": "Visit Website", "url": "https://bean.enterprises/" },
-        { "label": "Explore Pilot", "url": "https://pilot.bean.enterprises/operations" }
+        { "label": "Explore Pilot", "url": "https://pilot.bean.enterprises/operations" },
+        { "label": "See the patterns: reliable-ledger", "url": "https://github.com/vinny-Kev/reliable-ledger" }
       ]
     },
     {
@@ -76,6 +73,54 @@
       ]
     },
     {
+      "label": "Open-Source Reference / Payment Correctness",
+      "name": "reliable-ledger",
+      "organization": "Open-Source Project",
+      "role": "Author",
+      "overview": "A reference payment ledger in Express 5 and PostgreSQL, built from scratch to show the correctness patterns behind my commercial work without exposing that work's code.",
+      "contribution": "Designed and implemented idempotent transfers with request hashing and response replay, ordered row locking, a double-entry ledger, an append-only audit log enforced by database triggers, and a transactional outbox worker. Documented each decision in an ADR.",
+      "highlight": "20 concurrent duplicate requests produce exactly one transfer, and 50 parallel withdrawals never overdraw. Both are tested against real PostgreSQL in CI.",
+      "status": "Complete / Open-Source",
+      "statusNote": "21 integration tests pass in CI on every push. Known limitations are listed in the README.",
+      "capabilities": [
+        { "name": "Idempotency", "items": ["Per-tenant Idempotency-Key", "Request hash with response replay", "Concurrent duplicates serialized by primary key"] },
+        { "name": "Transaction safety", "items": ["FOR UPDATE locks in fixed order", "No overdraft, no deadlock under concurrency", "CHECK (balance >= 0) backstop"] },
+        { "name": "Auditability", "items": ["Append-only audit log (UPDATE, DELETE, TRUNCATE rejected)", "Ledger invariant: balance = sum of entries"] },
+        { "name": "Delivery", "items": ["Transactional outbox", "SKIP LOCKED workers, exponential backoff, dead-letter"] }
+      ],
+      "stack": ["Node.js 22", "Express 5", "PostgreSQL 16", "node:test", "GitHub Actions"],
+      "repository": {
+        "text": "github.com/vinny-Kev/reliable-ledger",
+        "url": "https://github.com/vinny-Kev/reliable-ledger"
+      },
+      "links": [
+        { "label": "View on GitHub", "url": "https://github.com/vinny-Kev/reliable-ledger" }
+      ]
+    },
+    {
+      "label": "Developer Tooling / AI Agents",
+      "name": "claude-harness",
+      "organization": "Open-Source Project",
+      "role": "Author",
+      "overview": "A Claude Code plugin of skills and validators that keeps coding agents inside a project's declared architecture and hardens request/response paths.",
+      "contribution": "Wrote the architecture skill and a registry of four architecture styles (MVC, Layered, Hexagonal, Service–Middleware–Aggregate), the request/response hardening skill with inbound and outbound checklists, and the CI validators.",
+      "highlight": "CI checks every skill and architecture spec, and scans for secrets, on every push.",
+      "status": "In Development / Open-Source",
+      "statusNote": "Phases 1–2 of 5 complete. The /switch handoff, Project Dam and QA report generator are planned.",
+      "capabilities": [
+        { "name": "Built", "items": ["Architecture skill and style registry", "Request/response hardening skill", "Secret scan and spec validators in CI"] },
+        { "name": "Planned", "items": ["/switch context handoff", "Project Dam milestones", "QA report generator"] }
+      ],
+      "stack": ["Claude Code plugins", "Python", "Shell", "GitHub Actions"],
+      "repository": {
+        "text": "github.com/vinny-Kev/claude-harness",
+        "url": "https://github.com/vinny-Kev/claude-harness"
+      },
+      "links": [
+        { "label": "View on GitHub", "url": "https://github.com/vinny-Kev/claude-harness" }
+      ]
+    },
+    {
       "theme": "coldfriend",
       "mark": "assets/coldfriend-mark.svg",
       "label": "Survival Horror Game / 3D Engine Architecture",
@@ -95,12 +140,12 @@
       ],
       "stack": ["Java 21", "jMonkeyEngine 3.9", "LWJGL 3", "Gradle", "JUnit 5", "SLF4J"],
       "repository": {
-        "text": "github.com/vinny-Kev/Cold-Friend-Come-In",
-        "url": "https://github.com/vinny-Kev/Cold-Friend-Come-In"
+        "text": "github.com/vinny-Kev/Cold-Friend-Come-In.",
+        "url": "https://github.com/vinny-Kev/Cold-Friend-Come-In."
       },
       "links": [
         { "label": "Coming to Itch.io soon", "url": "", "placeholderText": "Coming to Itch.io soon" },
-        { "label": "View on GitHub", "url": "https://github.com/vinny-Kev/Cold-Friend-Come-In" }
+        { "label": "View on GitHub", "url": "https://github.com/vinny-Kev/Cold-Friend-Come-In." }
       ]
     },
     {
