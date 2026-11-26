@@ -1426,3 +1426,24 @@ body.portfolio {
     display: none;
   }
 }
+
+/* Terminal glow: a soft phosphor halo on the monospace, terminal-style text. text-shadow inherits,
+   so everything inside the compose terminal glows too. */
+:root {
+  --terminal-glow: 0 0 3px rgba(92, 194, 147, 0.7), 0 0 12px rgba(63, 163, 122, 0.45);
+}
+
+.section-index,
+.cta-eyebrow,
+.contact-coordinates,
+.phone,
+.docker-compose-terminal,
+.techpack__core,
+.techpack figcaption span,
+.techpack b {
+  text-shadow: var(--terminal-glow);
+}
+
+.terminal-box-cursor {
+  box-shadow: 0 0 6px rgba(92, 194, 147, 0.7), 0 0 14px rgba(63, 163, 122, 0.35);
+}
