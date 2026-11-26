@@ -543,6 +543,11 @@ h2 {
   padding: 32px 0 20px;
 }
 
+/* Cards without a mark: give the heading the full width instead of the 56px mark column. */
+.initiative-card__header:not(:has(.initiative-card__mark)) {
+  grid-template-columns: minmax(0, 1fr);
+}
+
 .initiative-card__mark {
   width: 56px;
   height: 56px;
