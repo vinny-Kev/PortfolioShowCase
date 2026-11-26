@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>~*~ I LOVE OPEN SOURCE!!! ~*~ Kevin's Page</title>
+<meta name="description" content="A small, very ugly page about why I love open source.">
+<link rel="icon" type="image/x-icon" href="assets/favicon.jfif">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap">
+<style>
+  body {
+    margin: 0;
+    padding: 12px;
+    font-family: "Comic Sans MS", "Comic Sans", "Comic Neue", "Chalkboard SE", cursive;
+    color: #000080;
+    background-color: #ffff00;
+  }
+  #page {
+    width: 780px;
+    background: #fffacd;
+    border: 6px ridge #0000ff;
+    outline: 4px dashed #00ff00;
+    outline-offset: 4px;
+    padding: 6px 14px 20px 22px;
+  }
+  h1 {
+    font-size: 64px;
+    margin: 4px 0;
+    text-align: center;
+    color: #0000ff;
+    text-shadow: 3px 3px 0 #00cc00, 6px 6px 0 #000080;
+    letter-spacing: -2px;
+  }
+  h2 {
+    font-size: 40px;
+    margin: 28px 0 6px -10px;
+    padding: 4px 10px;
+    color: #ffff00;
+    background: linear-gradient(90deg, #0000ff, #00aa00, #e6e600, #00aa00, #0000ff);
+    border: 4px outset #00cc00;
+    text-shadow: 2px 2px 0 #000;
+  }
+  h3 { font-size: 26px; color: #0000cc; margin: 14px 0 4px; text-decoration: underline wavy #00cc00; }
+  p { font-size: 17px; line-height: 1.35; margin: 8px 0; }
+  a { color: #0000ff; font-weight: bold; }
+  a:visited { color: #800080; }
+  a:hover { color: #ffff00; background: #0000ff; }
+  hr {
+    height: 8px;
+    border: 0;
+    background: repeating-linear-gradient(90deg, #ffff00 0 20px, #00cc00 20px 40px, #0000ff 40px 60px);
+  }
+.blink { animation: blink 0.9s steps(2, start) infinite; }
+  @keyframes blink { to { visibility: hidden; } }
+.rainbow { animation: rainbow 2s linear infinite; }
+  @keyframes rainbow { 0% { color: #0000ff; } 33% { color: #00aa00; } 66% { color: #b3b300; } 100% { color: #0000ff; } }
+.marquee { overflow: hidden; white-space: nowrap; border: 3px double #0000ff; background: #000; color: #00ff00; font-size: 20px; padding: 2px 0; font-family: "Courier New", monospace; }
+.marquee span { display: inline-block; padding-left: 100%; animation: scroll 14s linear infinite; }
+.marquee.slow span { animation-duration: 22s; color: #ffff00; }
+  @keyframes scroll { to { transform: translateX(-100%); } }
+.spin { display: inline-block; animation: spin 3s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+.counter { display: inline-block; background: #000; color: #00ff00; font-family: "Courier New", monospace; font-size: 26px; padding: 2px 6px; border: 3px inset #888; letter-spacing: 4px; }
+.box { border: 3px dotted #0000ff; background: #ccffff; padding: 6px 10px; margin: 10px 0; }
+.box.yellow { background: #ffff66; border: 4px dashed #0000ff; }
+.box.green { background: #ccffcc; border: 5px groove #008000; }
+.thing { border: 4px outset #c0c0c0; background: #ffffff; margin: 12px 0 12px 30px; padding: 6px 10px; width: 620px; }
+.thing:nth-child(even) { margin-left: 60px; background: #ffffcc; border-color: #00cc00; }
+  .logo { float: left; width: 56px; height: 56px; margin: 0 12px 4px 0; padding: 4px; border: 3px outset #0000ff; background: #ffffff; }
+  .logo-text { font: bold 28px/56px "Arial Black", Impact, sans-serif; text-align: center; background: #ffff00; color: #00aa00; text-shadow: 2px 2px 0 #0000ff; }
+.tag { font-size: 13px; background: #0000ff; color: #ffff00; padding: 1px 4px; border: 1px solid #000; }
+.tag.mine { background: #008000; }
+.clear { clear: both; }
+.badges { margin: 18px 0; }
+.badge { display: inline-block; width: 88px; height: 31px; margin: 2px; font: bold 10px/13px Verdana, sans-serif; text-align: center; border: 1px solid #000; vertical-align: middle; box-sizing: border-box; padding: 2px 1px; }
+.b1 { background: #000; color: #0f0; }
+.b2 { background: linear-gradient(#00ff00, #008000); color: #ffff00; }
+.b3 { background: #0000aa; color: #ffff00; }
+.b4 { background: #ffff00; color: #0000ff; border: 2px solid #0000ff; }
+.b5 { background: repeating-linear-gradient(90deg, #00f 0 8px, #ff0 8px 16px); color: #000; text-shadow: 0 0 2px #fff, 0 0 2px #fff; }
+.diagram { font-family: "Courier New", monospace; font-size: 12px; background: #000; color: #00ff00; padding: 8px; border: 4px ridge #00ff00; white-space: pre; line-height: 1.25; }
+  table.guestbook { border: 3px outset #888; background: #c0c0c0; margin-top: 10px; }
+  table.guestbook td { border: 2px inset #888; padding: 4px 8px; background: #fff; font-size: 14px; }
+.footer { text-align: center; font-size: 12px; margin-top: 26px; color: #444; }
+.lefty { text-align: left; }
+.centered { text-align: center; }
+.smol { font-size: 12px; }
+  @media (prefers-reduced-motion: reduce) {
+.blink,.rainbow,.spin,.marquee span { animation: none; }
+.marquee span { padding-left: 0; }
+  }
+</style>
+</head>
+<body>
+<div id="page">
+
+<p class="smol"><a href="main-page.html">&lt;&lt; back to the serious website</a></p>
+
+<div class="marquee"><span>*** WELCOME TO MY WEB SITE!!! *** sign my guestbook!!! *** this page is best viewed with your eyes closed *** no adults allowed (jk) *** WELCOME TO MY WEB SITE!!! ***</span></div>
+
+<h1><span class="spin">*</span> I LOVE <span class="rainbow">OPEN SOURCE</span> <span class="spin">*</span></h1>
+
+<p class="centered"><span class="blink">NEW!!!</span> &nbsp; you are visitor number <span class="counter">000013</span> <span class="smol">(this counter is fake. i don't have a database for this page lol)</span></p>
+
+<hr>
+
+<h2>I WAS A LITTLE PIRATE</h2>
+
+<p>ok so as a kid i pirated <b>practically everything.</b> music. movies. games. software. <span class="rainbow"><b>EVERYTHING.</b></span></p>
+
+<p>i downloaded a pirated copy of <u>Microsoft Word</u> just so i could do my <b>schoolwork.</b> (yes really. homework was the reason.)</p>
+
+<p>i played Minecraft through knockoff launchers and downloaded mods from places i should NOT have been downloading mods from.</p>
+
+<div class="box">
+  <p>my dad wasn't really interested in spending money on software or games and as a kid i obviously didn't have a credit card or any way to buy this stuff myself.</p>
+</div>
+
+<p>so i spent an <b>unreasonable</b> amount of time troubleshooting malware, viruses, broken installs, and whatever else i accidentally downloaded that day.</p>
+
+<p>the computer my dad bought me became my <span class="rainbow"><b>playground</b></span> and my personal <span class="blink"><b>DISASTER ZONE</b></span>.</p>
+
+<hr>
+
+<h2>BUT I WAS MISSING OUT</h2>
+
+<p>ok this part is a little less funny. i want to be honest about it.</p>
+
+<div class="box yellow">
+  <p>i didn't get to experience some of the things my friends did.</p>
+  <p>i couldn't play legit Minecraft multiplayer with them. i couldn't join certain online games.</p>
+  <p>i remember being stuck playing campaign mode in <b>Call of Duty: Black Ops</b> by myself while everyone else was playing multiplayer together.</p>
+  <p>as a kid, that genuinely hurt.</p>
+  <p><b>i wasn't just missing out on software. i was missing out on experiences and memories with other people.</b></p>
+</div>
+
+<hr>
+
+<h2>&gt;&gt; FAST FORWARD &gt;&gt;</h2>
+
+<p>that kid eventually became a <b>software developer.</b> (crazy, i know)</p>
+
+<p>the same curiosity that made me troubleshoot broken games and sketchy installers turned into an interest in <b>engineering.</b></p>
+
+<p>i started making websites, messing around with Linux, building apps, poking at infrastructure, and eventually making my own open-source projects.</p>
+
+<div class="box green">
+  <p> <b>FULL DISCLAIMER:</b> i pay for my software now. i am a functioning adult. <i>mostly.</i></p>
+</div>
+
+<p>but i never forgot what it felt like to want access to something and not have the means to get it.</p>
+
+<p>that's part of why i love open source. i love that people build things, share them, let others learn from them, change them, and make whole new things on top of them.</p>
+
+<p><b>i want to be part of that.</b></p>
+
+<hr>
+
+<h2>THINGS I LOVE</h2>
+
+<p class="smol"><b> IMPORTANT:</b> these are projects i <b>USE</b> and love. <span class="tag">I USE IT</span> means i use it. i did NOT write these and i'm not claiming i contribute code to them. my own stuff is further down with a <span class="tag mine">I MADE IT</span> tag.</p>
+
+<div>
+  <div class="thing">
+    <img class="logo" src="assets/oss-logos/is-a-dev.png" width="56" height="56" alt="is-a.dev logo">
+    <h3><a href="https://is-a.dev" target="_blank" rel="noreferrer">is-a.dev</a> <span class="tag">I USE IT</span></h3>
+    <p>this free developer domain registry genuinely inspired me. i was making random personal websites, trying to build a portfolio and land an internship. having my own domain with my name on it (<b>kevinroymaglaqui.is-a.dev</b>!!) made me realize i could own and build things on the internet. it made me take my own work seriously.</p>
+    <div class="clear"></div>
+</div>
+
+  <div class="thing">
+    <img class="logo" src="assets/oss-logos/firefoxbrowser.svg" width="56" height="56" alt="Firefox logo">
+    <h3><a href="https://www.mozilla.org/firefox/" target="_blank" rel="noreferrer">Firefox</a> <span class="tag">I USE IT</span></h3>
+    <p>my browser of choice. i'm also experimenting with my own modified Firefox-based browser in a private repo. it's NOT released yet, so no link, sorry!! but it's another example of how much i like being able to open up and change the tools i use.</p>
+    <div class="clear"></div>
+</div>
+
+  <div class="thing">
+    <img class="logo" src="assets/oss-logos/ubuntu.svg" width="56" height="56" alt="Ubuntu logo">
+    <h3><a href="https://ubuntu.com" target="_blank" rel="noreferrer">Ubuntu</a> <span class="tag">I USE IT</span></h3>
+    <p>my favorite open-source operating system.</p>
+    <div class="clear"></div>
+</div>
+
+  <div class="thing">
+    <img class="logo" src="assets/oss-logos/vscode.png" width="56" height="56" alt="Visual Studio Code logo">
+    <h3><a href="https://code.visualstudio.com" target="_blank" rel="noreferrer">Visual Studio Code</a> <span class="tag">I USE IT</span></h3>
+    <p>what is a developer without a code editor??? (built on the open-source <a href="https://github.com/microsoft/vscode" target="_blank" rel="noreferrer">Code - OSS</a>)</p>
+    <div class="clear"></div>
+</div>
+
+  <div class="thing">
+    <img class="logo" src="assets/oss-logos/qwen.png" width="56" height="56" alt="Qwen logo">
+    <h3><a href="https://github.com/QwenLM" target="_blank" rel="noreferrer">Qwen</a> <span class="tag">I USE IT</span></h3>
+    <p>i love experimenting with local language models and getting a bunch of models to do different jobs together on my own machine.</p>
+    <div class="clear"></div>
+</div>
+
+  <div class="thing">
+    <img class="logo" src="assets/oss-logos/proxmox.svg" width="56" height="56" alt="Proxmox logo">
+    <h3><a href="https://www.proxmox.com/en/products/proxmox-virtual-environment/overview" target="_blank" rel="noreferrer">Proxmox</a> <span class="tag">I USE IT</span></h3>
+    <p>i enjoy building and managing my own homelab. it is loud. it is mine.</p>
+    <div class="clear"></div>
+</div>
+
+  <div class="thing">
+    <img class="logo" src="assets/oss-logos/docker.svg" width="56" height="56" alt="Docker logo">
+    <h3><a href="https://www.docker.com" target="_blank" rel="noreferrer">Docker</a> <span class="tag">I USE IT</span></h3>
+    <p>a big part of how i develop and deploy software.</p>
+    <div class="clear"></div>
+</div>
+
+  <div class="thing">
+    <img class="logo" src="assets/oss-logos/itchdotio.svg" width="56" height="56" alt="itch.io logo">
+    <h3>free game asset libraries <span class="tag">I USE IT</span></h3>
+    <p>i use freely shared assets to build my personal games, including COLD FRIEND, COME IN. huge thank you to the people who make these and give them away:</p>
+    <p>* <a href="https://kaylousberg.itch.io/kaykit-forest" target="_blank" rel="noreferrer">KayKit Forest</a> &amp; <a href="https://kaylousberg.itch.io/kaykit-adventurers" target="_blank" rel="noreferrer">KayKit Adventurers</a> (Kay Lousberg)<br>
+       * <a href="https://quaternius.itch.io/stylized-nature-megakit" target="_blank" rel="noreferrer">Stylized Nature MegaKit</a> (Quaternius)<br>
+       * <a href="https://elegantcrow.itch.io/retro-house-pack" target="_blank" rel="noreferrer">Retro House Pack</a> &amp; <a href="https://venturon.itch.io/house-with-thatched-roof" target="_blank" rel="noreferrer">House with Thatched Roof</a><br>
+       * <a href="https://kirrifant.itch.io/footsteps-in-snow" target="_blank" rel="noreferrer">Footsteps in Snow</a><br>
+       * <a href="https://som-natalino.itch.io/red-suv" target="_blank" rel="noreferrer">Red SUV, PSX style</a></p>
+    <div class="clear"></div>
+</div>
+</div>
+
+<hr>
+
+<h2>THINGS I'VE PUT INTO THE WORLD</h2>
+
+<div class="thing">
+  <img class="logo" src="assets/coldfriend-mark.svg" width="56" height="56" alt="Cold Friend, Come In logo">
+  <h3><a href="https://github.com/vinny-Kev/Cold-Friend-Come-In." target="_blank" rel="noreferrer">COLD FRIEND, COME IN.</a> <span class="tag mine">I MADE IT</span></h3>
+  <p>a first-person winter survival horror game i'm making in Java 21 with jMonkeyEngine. right now there's a seeded, procedurally generated winter wilderness with rivers, forest, a cabin and a village site that you can walk around in. there's no survival gameplay yet. it's early!!</p>
+  <div class="box">
+    <p><b>it's going to be free.</b> i made it free because i remember being the kid who couldn't afford the games everyone else was playing. i wanted to make something people can experience without worrying about paying for it.</p>
+</div>
+  <p>code: <a href="https://github.com/vinny-Kev/Cold-Friend-Come-In." target="_blank" rel="noreferrer">github.com/vinny-Kev/Cold-Friend-Come-In.</a><br>
+     itch.io: <span class="blink"><b>COMING SOON!!!</b></span> (no link yet because it's not up yet)</p>
+  <p class="smol">screenshots: also coming soon. right now it's mostly snow, and snow is just white.</p>
+  <div class="clear"></div>
+</div>
+
+<div class="thing">
+  <span class="logo logo-text">CH</span>
+  <h3><a href="https://github.com/vinny-Kev/claude-harness" target="_blank" rel="noreferrer">CLAUDE HARNESS</a> <span class="tag mine">I MADE IT</span></h3>
+  <p>my open-source Claude Code development harness. it's a collection of skills and workflows to make AI-assisted engineering more disciplined, structured and reliable. basically: keep the robot inside the lines.</p>
+  <p><b>ALL FIVE PHASES ARE DONE!!!</b> plus two extra skills. everything in it is free (MIT).</p>
+  <div class="diagram">  +------------------+      +---------------------------------+
+  |   YOUR PROJECT   | ---> |  architecture skill + registry  |  DONE :)
+  +------------------+      |  req/res hardening skill        |  DONE :)
+           |                |  /switch handoff + hooks        |  DONE :)
+           v                |  project dam (milestones)       |  DONE :)
+     ( claude code )        |  QA report generator            |  DONE :)
+                            |  debug protocol                 |  DONE :)
+                            |  knowledge placement            |  DONE :)
+                            +---------------------------------+
+        CI runs the validators and tests on every push.</div>
+  <p>code: <a href="https://github.com/vinny-Kev/claude-harness" target="_blank" rel="noreferrer">github.com/vinny-Kev/claude-harness</a></p>
+  <div class="clear"></div>
+</div>
+
+<hr>
+
+<div class="badges centered">
+  <span class="badge b1">BEST VIEWED IN<br>FIREFOX</span>
+  <span class="badge b2">HANDMADE<br>HTML!!</span>
+  <span class="badge b3">POWERED BY<br>CURIOSITY</span>
+  <span class="badge b4">0% CORPORATE<br>100% ME</span>
+  <span class="badge b5">GEOCITIES<br>SPIRIT</span>
+</div>
+
+<table class="guestbook" align="center">
+  <tr><td colspan="2"><b> GUESTBOOK</b></td></tr>
+  <tr><td> nobody</td><td>this guestbook doesn't work. nice try though!!</td></tr>
+</table>
+
+<div class="marquee slow"><span>thanks for visiting!!! *** come back soon!!! *** go build something and share it *** thanks for visiting!!! ***</span></div>
+
+<p class="footer">this page was inspired by 13 year old me's design styling</p>
+
+</div>
+</body>
+</html>
