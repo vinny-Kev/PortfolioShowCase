@@ -1,9 +1,7 @@
-// Terminal effects: Text hover scramble, typewriter with box cursor, and scroll typing.
+// Terminal effects: typewriter with box cursor for the hero. Hover effects are CSS only (glow and underline sweep).
 // Respects prefers-reduced-motion and accessibility standards.
 (() => {
 	const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-	const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
-	const chars = '01ABCDEF_/#><*!%';
 
 	// ── Typewriter with Box Cursor ──
 	const typewriteTerminal = (element, callback, customSpeed) => {
@@ -44,79 +42,8 @@
 
 	window.typewriteTerminal = typewriteTerminal;
 
-	// ── Text Hover Scramble ──
-	const scrambleText = (element) => {
-		if (reducedMotion.matches || isTouchDevice || element.dataset.scrambling === 'true') {
-			return;
-		}
-
-		const original = element.dataset.originalText || element.textContent;
-		if (!element.dataset.originalText) {
-			element.dataset.originalText = original;
-		}
-
-		element.dataset.scrambling = 'true';
-		let iteration = 0;
-		const totalLength = original.length;
-
-		const interval = setInterval(() => {
-			element.textContent = original
-				.split('')
-				.map((char, index) => {
-					if (char === ' ' || char === '\n' || char === '—' || char === '·' || char === '/') return char;
-					if (index < iteration) return original[index];
-					return chars[Math.floor(Math.random() * chars.length)];
-				})
-				.join('');
-
-			iteration += Math.max(1, Math.floor(totalLength / 14));
-
-			if (iteration >= totalLength) {
-				clearInterval(interval);
-				element.textContent = original;
-				element.dataset.scrambling = 'false';
-			}
-		}, 24);
-	};
-
-	// Attach hover scramble to interactive and display text
-	const attachHoverEffects = () => {
-		if (reducedMotion.matches || isTouchDevice) return;
-
-		const selectors = [
-			'.section-index',
-			'.slogan',
-			'h1',
-			'h2:not(#initiatives-title):not(#experience-title):not(#contact-title)',
-			'.cta-eyebrow',
-			'.button-link',
-			'.role-trigger',
-			'.site-nav a'
-		];
-
-		document.querySelectorAll(selectors.join(',')).forEach((el) => {
-			if (!el.dataset.hoverReady) {
-				el.dataset.hoverReady = 'true';
-				el.addEventListener('mouseenter', () => scrambleText(el));
-			}
-		});
-
-		// Also watch dynamically created initiative headings
-		const container = document.querySelector('#initiatives-list');
-		if (container) {
-			new MutationObserver(() => {
-				container.querySelectorAll('h3:not([data-hover-ready])').forEach((el) => {
-					el.dataset.hoverReady = 'true';
-					el.addEventListener('mouseenter', () => scrambleText(el));
-				});
-			}).observe(container, { childList: true });
-		}
-	};
-
 	// ── Initial Hero Typing on Page Load ──
 	window.addEventListener('DOMContentLoaded', () => {
-		attachHoverEffects();
-
 		if (!reducedMotion.matches) {
 			const heroIndex = document.querySelector('.portfolio-header .section-index');
 			const slogan = document.querySelector('.portfolio-header .slogan');
