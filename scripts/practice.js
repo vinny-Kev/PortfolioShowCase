@@ -1,15 +1,16 @@
 // Engineering Fundamentals section (the files keep their original "practice" names).
-// Renders data/practice.json into #practice-content.
-// Uses createElement from portfolio.js, so load this script after it.
+// Renders data/practice.json (LeetCode snapshot, repository, area descriptions) and the journal index
+// data/problems.json into #practice-content. Uses createElement from portfolio.js, so load this after it.
 //
 // Data honesty rules, enforced here and by scripts/check-data.js:
-//  - Counts are computed from the exercise lists, never typed in by hand.
-//  - Only exercises with status "documented" count as completed, and each must link to its write-up.
-//  - "in-progress" and "planned" are always labelled as such and never counted as completed.
+//  - Counts are computed from the journal index, never typed in by hand.
+//  - "Documented" means a published journal article exists for the entry. "In progress" and "planned" are
+//    always labelled as such and never counted as documented.
 //  - The LeetCode figures are a dated, hand-copied snapshot, and the section says so.
 
 const practiceContent = document.querySelector('#practice-content');
 const practiceDataUrl = 'data/practice.json';
+const journalIndexUrl = 'data/problems.json';
 
 const externalLink = (url, text, className = 'text-link') => {
 	const link = createElement('a', className, text);
@@ -26,56 +27,55 @@ const repositoryUrl = (data, path) => {
 	return base ? `${base.replace(/\/$/, '')}/tree/main/${path}` : null;
 };
 
-// One row per exercise: title (linked when it has a write-up), then a meta line.
-const createExerciseRow = (exercise) => {
-	const row = createElement('li', `practice-row practice-row--${exercise.status}`);
-	const title = exercise.solutionUrl ? externalLink(exercise.solutionUrl, exercise.title) : createElement('span', '', exercise.title);
-	title.classList.add('practice-row__title');
+// One row per journal entry. Entries with an article link to it; planned ones are plain text.
+const createExerciseRow = (entry) => {
+	const row = createElement('li', `practice-row practice-row--${entry.status}`);
+	let title;
 
-	const meta = [exercise.source, exercise.difficulty, exercise.topic].filter(Boolean);
-
-	if (exercise.status === 'documented' && exercise.completedOn) {
-		meta.push(formatDate(exercise.completedOn));
+	if (entry.article && entry.status !== 'planned') {
+		title = createElement('a', '', entry.title);
+		title.href = `journal.html?p=${encodeURIComponent(entry.slug)}`;
+	} else {
+		title = createElement('span', '', entry.title);
 	}
 
-	if (exercise.status === 'in-progress') {
+	title.classList.add('practice-row__title');
+	const meta = [entry.platform, entry.difficulty, entry.language].filter(Boolean);
+
+	if (entry.status === 'documented' && entry.date) {
+		meta.push(formatDate(entry.date));
+	}
+
+	if (entry.status === 'in-progress') {
 		meta.push('In progress');
 	}
 
 	row.append(title, createElement('span', 'practice-row__meta', meta.join(' · ')));
-
-	if (exercise.complexity && exercise.status === 'documented') {
-		row.append(createElement('span', 'practice-row__meta', `Complexity: ${exercise.complexity}`));
-	}
-
 	return row;
 };
 
-const createExerciseList = (exercises, className) => {
+const createExerciseList = (entries, className) => {
 	const list = createElement('ul', className);
-	list.append(...exercises.map(createExerciseRow));
+	list.append(...entries.map(createExerciseRow));
 	return list;
 };
 
-const createAreaBand = (area, data) => {
+const createAreaBand = (area, data, entries) => {
 	const band = createElement('article', 'practice-area');
-	const documented = area.exercises.filter((item) => item.status === 'documented');
-	const inProgress = area.exercises.filter((item) => item.status === 'in-progress');
-	const planned = area.exercises.filter((item) => item.status === 'planned');
+	const mine = entries.filter((entry) => entry.category === area.title);
+	const documented = mine.filter((entry) => entry.status === 'documented');
+	const inProgress = mine.filter((entry) => entry.status === 'in-progress');
+	const planned = mine.filter((entry) => entry.status === 'planned');
 
 	band.append(createElement('h3', '', area.title), createElement('p', 'practice-area__description', area.description));
 
-	// The counts are derived from the lists above, so they can never run ahead of the work.
+	// The counts are derived from the journal index, so they can never run ahead of the work.
 	band.append(createElement('p', 'practice-area__counts', `${documented.length} documented · ${inProgress.length} in progress`));
 
 	const target = repositoryUrl(data, area.path);
 
 	if (target) {
 		band.append(externalLink(target, `Browse ${area.path}/ in the repository`));
-	} else {
-		const pending = createElement('span', 'button-link button-link--pending', 'Repository link coming soon');
-		pending.setAttribute('aria-disabled', 'true');
-		band.append(pending);
 	}
 
 	if (documented.length) {
@@ -137,13 +137,33 @@ const createPracticeLegend = () => {
 	const legend = createElement('p', 'practice-legend');
 	legend.append(
 		createElement('strong', '', 'How to read this: '),
-		'This is ongoing work, not a finished checklist, so it only shows what exists. LeetCode figures are a dated snapshot copied by hand. "Documented" means the solution and write-up are published in the repository. "In progress" means started and not finished. Planned work is listed separately and is never counted.'
+		'This is ongoing work, not a finished checklist, so it only shows what exists. LeetCode figures are a dated snapshot copied by hand. "Documented" means the full write-up is published in the engineering journal. "In progress" means started and not finished. Planned work is listed separately and is never counted.'
 	);
 	return legend;
 };
 
-const renderPractice = (data) => {
-	const parts = [createPracticeLegend(), ...data.areas.map((area) => createAreaBand(area, data))];
+const createJournalLink = (entries) => {
+	// A link to an empty journal helps nobody, so it only appears once there is something to read.
+	if (!entries.some((entry) => entry.status !== 'planned' && entry.article)) {
+		return null;
+	}
+
+	const line = createElement('p', 'practice-journal');
+	const link = createElement('a', 'button-link', 'Open the engineering journal');
+	link.href = 'journal.html';
+	line.append(link);
+	return line;
+};
+
+const renderPractice = (data, entries) => {
+	const parts = [createPracticeLegend()];
+	const journalLink = createJournalLink(entries);
+
+	if (journalLink) {
+		parts.push(journalLink);
+	}
+
+	parts.push(...data.areas.map((area) => createAreaBand(area, data, entries)));
 
 	if (data.leetcode?.username) {
 		parts.push(createLeetcodeBlock(data.leetcode));
@@ -153,7 +173,7 @@ const renderPractice = (data) => {
 	const footer = createElement('p', 'practice-repo');
 
 	if (repo?.url) {
-		footer.append('All solutions live in ', externalLink(repo.url, repo.name), '.');
+		footer.append('Code lives in ', externalLink(repo.url, repo.name), '.');
 	} else {
 		footer.append(`The ${repo?.name ?? 'practice'} repository is not published yet.`);
 	}
@@ -162,19 +182,46 @@ const renderPractice = (data) => {
 	practiceContent.replaceChildren(...parts);
 };
 
+const fetchJson = async (url) => {
+	const response = await fetch(url, { cache: 'no-cache' });
+
+	if (!response.ok) {
+		throw new Error(`Could not load ${url}: ${response.status}`);
+	}
+
+	return response.json();
+};
+
 const loadPractice = async () => {
 	if (!practiceContent) {
 		return;
 	}
 
 	try {
-		const response = await fetch(practiceDataUrl, { cache: 'no-cache' });
+		const data = await fetchJson(practiceDataUrl);
+		let entries = [];
 
-		if (!response.ok) {
-			throw new Error(`Could not load ${practiceDataUrl}: ${response.status}`);
+		try {
+			const index = await fetchJson(journalIndexUrl);
+			// Same rules as the journal page: known category and status, and the first entry wins a duplicate slug.
+			const categories = new Set(data.areas.map((area) => area.title));
+			const statuses = new Set(['documented', 'in-progress', 'planned']);
+			const seen = new Set();
+			entries = (Array.isArray(index.problems) ? index.problems : []).filter((entry) => {
+				const valid = entry && entry.slug && entry.title && categories.has(entry.category) && statuses.has(entry.status) && !seen.has(entry.slug);
+
+				if (valid) {
+					seen.add(entry.slug);
+				}
+
+				return valid;
+			});
+		} catch (error) {
+			// The section still shows the LeetCode snapshot and areas if the journal index is unavailable.
+			console.error(error);
 		}
 
-		renderPractice(await response.json());
+		renderPractice(data, entries);
 	} catch (error) {
 		const status = createElement('p', 'portfolio-status', 'Engineering Fundamentals couldn’t load. Reload the page.');
 		practiceContent.replaceChildren(status);

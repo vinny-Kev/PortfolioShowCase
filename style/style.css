@@ -1685,3 +1685,8 @@ body.portfolio {
   color: var(--bone);
   font-weight: 600;
 }
+
+.practice-journal {
+  margin: 0;
+  padding: 20px 0 8px;
+}

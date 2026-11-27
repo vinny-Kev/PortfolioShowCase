@@ -32,22 +32,19 @@
       "id": "algorithms",
       "title": "Algorithms & Data Structures",
       "description": "C implementations, problem-solving approaches, complexity analysis, and memory safety.",
-      "path": "algorithms/c",
-      "exercises": []
+      "path": "algorithms/c"
     },
     {
       "id": "sql",
       "title": "SQL & Database Engineering",
       "description": "Query design, joins, aggregation, window functions, indexing, transactions, and database behavior.",
-      "path": "sql",
-      "exercises": []
+      "path": "sql"
     },
     {
       "id": "software-design",
       "title": "Software Design",
       "description": "Architecture, design principles, patterns, API design, concurrency, and reliability.",
-      "path": "software-design",
-      "exercises": []
+      "path": "software-design"
     }
   ]
 }
