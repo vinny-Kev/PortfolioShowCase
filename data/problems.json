@@ -1,6 +1,21 @@
 {
   "problems": [
     {
+      "slug": "resumed-nov-2026",
+      "title": "Resumed Nov 2026",
+      "platform": "LeetCode",
+      "category": "Algorithms & Data Structures",
+      "date": "2026-11-28",
+      "status": "in-progress",
+      "article": "resumed-nov-2026.md",
+      "summary": "A plan for resuming practice: batches by pattern (hashing, two pointers, graphs), write-ups only where my reasoning broke, and a target of 40+ solved.",
+      "tags": [
+        "hashing",
+        "two-pointers",
+        "graphs"
+      ]
+    },
+    {
       "slug": "two-sum",
       "title": "Two Sum",
       "platform": "LeetCode",

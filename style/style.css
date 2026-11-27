@@ -995,7 +995,8 @@ h2 {
     top: auto;
     z-index: 10;
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    /* Fundamentals tab hidden: three columns again. When the tab is restored, use repeat(4, minmax(0, 1fr)). */
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 0;
     padding: 6px 0 calc(6px + env(safe-area-inset-bottom));
     background: color-mix(in srgb, var(--graphite) 94%, transparent);
@@ -1008,18 +1009,11 @@ h2 {
     gap: 3px;
     justify-content: center;
     min-height: 48px;
-    font-size: 0.66rem;
-    letter-spacing: 0.01em;
-    text-align: center;
+    font-size: 0.7rem;
   }
 
-  /* "Fundamentals" is the longest label; keep it inside its column on narrow phones. */
-  @media (max-width: 360px) {
-    body.portfolio .site-nav a {
-      font-size: 0.6rem;
-      letter-spacing: 0;
-    }
-  }
+  /* Fundamentals tab hidden: the original 0.7rem labels are back. When the tab is restored, the longer label needs
+     font-size 0.66rem, letter-spacing 0.01em and text-align center here, and 0.6rem with no letter-spacing at <= 360px. */
 
   body.portfolio .site-nav a[aria-current='page'] {
     color: var(--jade-bright);

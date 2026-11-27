@@ -1,10 +1,12 @@
 // On phones the page works like an app: the nav is a bottom tab bar and one section shows at a time.
 // On wider screens the CSS ignores data-tab and the nav links scroll as normal anchors.
-const tabTitles = { initiatives: 'Initiatives', experience: 'Experience', fundamentals: 'Fundamentals', contact: 'Contact' };
-// The Fundamentals section was first drafted as "Practice"; keep that hash working.
-if (location.hash === '#practice') {
-	history.replaceState(null, '', '#fundamentals');
-}
+// Fundamentals tab hidden until the journal has 40+ entries; restore later by adding
+// fundamentals: 'Fundamentals' back into tabTitles (between experience and contact) and re-enabling the block below.
+const tabTitles = { initiatives: 'Initiatives', experience: 'Experience', contact: 'Contact' };
+// The Fundamentals section was first drafted as "Practice"; keep that hash working (disabled while the tab is hidden).
+// if (location.hash === '#practice') {
+// 	history.replaceState(null, '', '#fundamentals');
+// }
 const tabLinks = document.querySelectorAll('.site-nav a');
 const tabTitle = document.querySelector('#app-bar-title');
 const mobileQuery = window.matchMedia('(max-width: 640px)');

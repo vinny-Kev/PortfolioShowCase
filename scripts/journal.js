@@ -16,6 +16,10 @@
 		{ id: 'sql', title: 'SQL & Database Engineering' },
 		{ id: 'software-design', title: 'Software Design' }
 	];
+	// The Fundamentals section is hidden on the main page until the journal has 40+ entries, so "back" goes to the portfolio.
+	// To restore the link to that section, set BACK_HREF to 'main-page.html#fundamentals' and BACK_LABEL to 'Back to Fundamentals'.
+	const BACK_HREF = 'main-page.html';
+	const BACK_LABEL = 'Back to portfolio';
 	const DIFFICULTIES = ['Easy', 'Medium', 'Hard'];
 	const STATUSES = ['documented', 'in-progress', 'planned'];
 	const SLUG = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
@@ -165,16 +169,16 @@
 		document.title = 'Engineering Journal | Kevin Roy Maglaqui';
 		const params = new URLSearchParams(location.search);
 		const header = el('header', 'journal-header');
-		const back = el('a', 'text-link', 'Back to Fundamentals');
-		back.href = 'main-page.html#fundamentals';
+		const back = el('a', 'text-link', BACK_LABEL);
+		back.href = BACK_HREF;
 		header.append(
 			back,
 			el('h1', '', 'Engineering Journal'),
-			el('p', 'journal-header__intro', 'How I arrive at solutions, not only the solutions: what I tried, where my reasoning broke, how I found out, and what I changed. Each entry is written from the work as it happened.')
+			el('p', 'journal-header__intro', 'How I arrive at solutions, not only the solutions: what I tried, where my reasoning broke, how I found out, and what I changed. Each entry is built from real LeetCode submissions, and any analysis written afterwards is labelled as such.')
 		);
 
 		if (!entries.length) {
-			root.replaceChildren(header, message('No entries yet', 'The first articles will appear here when they are written.', 'main-page.html#fundamentals', 'Back to Fundamentals'));
+			root.replaceChildren(header, message('No entries yet', 'The first articles will appear here when they are written.', BACK_HREF, BACK_LABEL));
 			return;
 		}
 
@@ -184,7 +188,9 @@
 		search.name = 'q';
 		search.placeholder = 'Title, tag or topic';
 		search.value = params.get('q') ?? '';
-		const category = select('category', CATEGORIES.map((c) => c.title), params.get('category'));
+		// A category filter only appears once that category has at least one entry.
+		const categoriesWithEntries = CATEGORIES.map((c) => c.title).filter((title) => entries.some((entry) => entry.category === title));
+		const category = select('category', categoriesWithEntries, params.get('category'));
 		const difficulty = select('difficulty', DIFFICULTIES, params.get('difficulty'));
 		const language = select('language', languages, params.get('language'));
 		const clear = el('button', 'journal-clear', 'Clear filters');
@@ -371,7 +377,7 @@
 		} catch (error) {
 			console.error(error);
 			document.title = 'Engineering Journal | Kevin Roy Maglaqui';
-			root.replaceChildren(message('The journal couldn’t load', 'Reload the page. If it keeps happening, the index file may be missing.', 'main-page.html#fundamentals', 'Back to Fundamentals'));
+			root.replaceChildren(message('The journal couldn’t load', 'Reload the page. If it keeps happening, the index file may be missing.', BACK_HREF, BACK_LABEL));
 			return;
 		}
 
