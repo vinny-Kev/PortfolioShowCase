@@ -1,3 +1,108 @@
 {
-  "problems": []
+  "problems": [
+    {
+      "slug": "two-sum",
+      "title": "Two Sum",
+      "platform": "LeetCode",
+      "problemNumber": 1,
+      "url": "https://leetcode.com/problems/two-sum/",
+      "difficulty": "Easy",
+      "category": "Algorithms & Data Structures",
+      "language": "Java",
+      "date": "2025-08-29",
+      "status": "documented",
+      "article": "two-sum.md",
+      "summary": "Three real submissions in 2025: a wrong answer that returned values instead of indices, a brute force that printed every pair, and an accepted HashMap solution.",
+      "tags": [
+        "array",
+        "hash-table"
+      ],
+      "timeComplexity": "O(n)",
+      "spaceComplexity": "O(n)",
+      "attempts": 3
+    },
+    {
+      "slug": "add-two-numbers",
+      "title": "Add Two Numbers",
+      "platform": "LeetCode",
+      "problemNumber": 2,
+      "url": "https://leetcode.com/problems/add-two-numbers/",
+      "difficulty": "Medium",
+      "category": "Algorithms & Data Structures",
+      "language": "Java",
+      "date": "2025-09-06",
+      "status": "documented",
+      "article": "add-two-numbers.md",
+      "summary": "One accepted submission: linked-list traversal with carry propagation and a dummy head node.",
+      "tags": [
+        "linked-list",
+        "math",
+        "recursion"
+      ],
+      "timeComplexity": "O(max(m, n))",
+      "spaceComplexity": "O(max(m, n))",
+      "attempts": 1
+    },
+    {
+      "slug": "reverse-integer",
+      "title": "Reverse Integer",
+      "platform": "LeetCode",
+      "problemNumber": 7,
+      "url": "https://leetcode.com/problems/reverse-integer/",
+      "difficulty": "Medium",
+      "category": "Algorithms & Data Structures",
+      "language": "Java",
+      "date": "2025-03-16",
+      "status": "documented",
+      "article": "reverse-integer.md",
+      "summary": "A wrong answer caused by silent int overflow, then an accepted version using Math.multiplyExact and Math.addExact.",
+      "tags": [
+        "math",
+        "integer-overflow"
+      ],
+      "timeComplexity": "O(log |x|)",
+      "spaceComplexity": "O(1)",
+      "attempts": 2
+    },
+    {
+      "slug": "palindrome-number",
+      "title": "Palindrome Number",
+      "platform": "LeetCode",
+      "problemNumber": 9,
+      "url": "https://leetcode.com/problems/palindrome-number/",
+      "difficulty": "Easy",
+      "category": "Algorithms & Data Structures",
+      "language": "Java",
+      "date": "2025-03-15",
+      "status": "documented",
+      "article": "palindrome-number.md",
+      "summary": "A wrong answer on -121, an accepted string-comparison version, and a repeated submission of identical code with different reported measurements.",
+      "tags": [
+        "math"
+      ],
+      "timeComplexity": "O(log n)",
+      "spaceComplexity": "O(log n)",
+      "attempts": 2
+    },
+    {
+      "slug": "length-of-last-word",
+      "title": "Length of Last Word",
+      "platform": "LeetCode",
+      "problemNumber": 58,
+      "url": "https://leetcode.com/problems/length-of-last-word/",
+      "difficulty": "Easy",
+      "category": "Algorithms & Data Structures",
+      "language": "Java",
+      "date": "2025-03-16",
+      "status": "documented",
+      "article": "length-of-last-word.md",
+      "summary": "One accepted submission using split(\" \") and the length of the last token.",
+      "tags": [
+        "string"
+      ],
+      "timeComplexity": "O(n)",
+      "spaceComplexity": "O(n)",
+      "attempts": 1
+    }
+  ]
 }
