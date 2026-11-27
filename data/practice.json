@@ -1,0 +1,53 @@
+{
+  "leetcode": {
+    "username": "Kevinisity",
+    "profileUrl": "https://leetcode.com/u/Kevinisity/",
+    "verification": "manual",
+    "snapshot": {
+      "asOf": "2026-11-27",
+      "totalSolved": 8,
+      "easy": 5,
+      "medium": 3,
+      "hard": 0,
+      "recent": [
+        {
+          "title": "Fizz Buzz",
+          "url": "https://leetcode.com/problems/fizz-buzz/",
+          "difficulty": "Easy"
+        },
+        {
+          "title": "Product of Array Except Self",
+          "url": "https://leetcode.com/problems/product-of-array-except-self/",
+          "difficulty": "Medium"
+        }
+      ]
+    }
+  },
+  "repository": {
+    "name": "engineering-fundamentals",
+    "url": null
+  },
+  "areas": [
+    {
+      "id": "algorithms",
+      "title": "Algorithms & Data Structures",
+      "description": "C implementations, problem-solving approaches, complexity analysis, and memory safety.",
+      "path": "algorithms/c",
+      "exercises": []
+    },
+    {
+      "id": "sql",
+      "title": "SQL & Database Engineering",
+      "description": "Query design, joins, aggregation, window functions, indexing, transactions, and database behavior.",
+      "path": "sql",
+      "exercises": []
+    },
+    {
+      "id": "software-design",
+      "title": "Software Design",
+      "description": "Architecture, design principles, patterns, API design, concurrency, and reliability.",
+      "path": "software-design",
+      "exercises": []
+    }
+  ]
+}

@@ -995,7 +995,7 @@ h2 {
     top: auto;
     z-index: 10;
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 0;
     padding: 6px 0 calc(6px + env(safe-area-inset-bottom));
     background: color-mix(in srgb, var(--graphite) 94%, transparent);
@@ -1008,7 +1008,17 @@ h2 {
     gap: 3px;
     justify-content: center;
     min-height: 48px;
-    font-size: 0.7rem;
+    font-size: 0.66rem;
+    letter-spacing: 0.01em;
+    text-align: center;
+  }
+
+  /* "Fundamentals" is the longest label; keep it inside its column on narrow phones. */
+  @media (max-width: 360px) {
+    body.portfolio .site-nav a {
+      font-size: 0.6rem;
+      letter-spacing: 0;
+    }
   }
 
   body.portfolio .site-nav a[aria-current='page'] {
@@ -1033,6 +1043,7 @@ h2 {
   }
 
   body[data-tab='experience'] .portfolio-header,
+  body[data-tab='fundamentals'] .portfolio-header,
   body[data-tab='contact'] .portfolio-header {
     position: absolute;
     width: 1px;
@@ -1049,6 +1060,7 @@ h2 {
 
   body[data-tab='initiatives'] #initiatives,
   body[data-tab='experience'] #experience,
+  body[data-tab='fundamentals'] #fundamentals,
   body[data-tab='contact'] #contact {
     display: block;
   }
@@ -1093,6 +1105,7 @@ h2 {
 @media (max-width: 640px) and (prefers-reduced-motion: no-preference) {
   body[data-tab='initiatives'] #initiatives,
   body[data-tab='experience'] #experience,
+  body[data-tab='fundamentals'] #fundamentals,
   body[data-tab='contact'] #contact {
     animation: tab-in 240ms cubic-bezier(0.16, 1, 0.3, 1);
   }
@@ -1513,4 +1526,162 @@ body.portfolio {
   .text-link {
     transition: none;
   }
+}
+
+/* ---------- Engineering Fundamentals ---------- */
+#practice-content {
+  display: grid;
+  border-top: 1px solid var(--seam);
+}
+
+.practice-legend {
+  max-width: var(--measure);
+  margin: 0;
+  padding: 20px 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+.practice-legend strong {
+  color: var(--bone);
+  font-weight: 600;
+}
+
+/* Like the initiatives: full-width bands separated by a hairline, not cards in cards. */
+.practice-area,
+.practice-leetcode {
+  display: grid;
+  gap: 12px;
+  justify-items: start;
+  padding: 32px 0;
+  border-top: 1px solid var(--seam);
+}
+
+.practice-area h3,
+.practice-leetcode h3 {
+  margin: 0;
+  font-size: clamp(1.4rem, 2.6vw, 2rem);
+  font-weight: 800;
+  font-variation-settings: 'wdth' 75;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.practice-area__description {
+  max-width: 62ch;
+  margin: 0;
+  line-height: 1.6;
+}
+
+.practice-area__counts,
+.practice-note,
+.practice-repo {
+  margin: 0;
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 0.85rem;
+}
+
+.practice-area__empty {
+  margin: 0;
+  color: var(--muted);
+}
+
+.practice-area__sub {
+  margin: 8px 0 0;
+  color: var(--jade);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.practice-list {
+  display: grid;
+  gap: 10px;
+  width: 100%;
+  max-width: 62ch;
+  margin: 4px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.practice-row {
+  display: grid;
+  gap: 2px;
+  padding-left: 14px;
+  border-left: 2px solid var(--jade);
+}
+
+.practice-row--in-progress,
+.practice-row--planned {
+  border-left-color: var(--seam);
+}
+
+.practice-row__title {
+  font-weight: 600;
+}
+
+.practice-row__meta {
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.practice-area__planned {
+  max-width: 62ch;
+  color: var(--muted);
+}
+
+.practice-area__planned summary {
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.practice-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 40px;
+  margin: 0;
+}
+
+.practice-stats dt {
+  color: var(--muted);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.practice-stats dd {
+  margin: 2px 0 0;
+  font-family: var(--mono);
+  font-size: 1.6rem;
+  font-weight: 600;
+}
+
+.practice-repo {
+  padding: 24px 0 0;
+  border-top: 1px solid var(--seam);
+}
+
+@media (max-width: 640px) {
+  .practice-area,
+  .practice-leetcode {
+    padding: 24px 0;
+  }
+}
+
+/* Fundamentals intro: a few short paragraphs, the last one set apart. */
+.fundamentals-intro p {
+  margin: 0 0 16px;
+}
+
+.fundamentals-intro p:last-child {
+  margin-bottom: 0;
+}
+
+.fundamentals-intro .fundamentals-intro__statement {
+  margin-top: 24px;
+  color: var(--bone);
+  font-weight: 600;
 }

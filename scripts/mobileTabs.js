@@ -1,6 +1,10 @@
 // On phones the page works like an app: the nav is a bottom tab bar and one section shows at a time.
 // On wider screens the CSS ignores data-tab and the nav links scroll as normal anchors.
-const tabTitles = { initiatives: 'Initiatives', experience: 'Experience', contact: 'Contact' };
+const tabTitles = { initiatives: 'Initiatives', experience: 'Experience', fundamentals: 'Fundamentals', contact: 'Contact' };
+// The Fundamentals section was first drafted as "Practice"; keep that hash working.
+if (location.hash === '#practice') {
+	history.replaceState(null, '', '#fundamentals');
+}
 const tabLinks = document.querySelectorAll('.site-nav a');
 const tabTitle = document.querySelector('#app-bar-title');
 const mobileQuery = window.matchMedia('(max-width: 640px)');
